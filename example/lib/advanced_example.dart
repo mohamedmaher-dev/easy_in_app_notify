@@ -159,7 +159,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, color: color),
@@ -185,7 +185,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: (theme.color ?? Colors.blue).withOpacity(0.1),
+          color: (theme.color ?? Colors.blue).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(theme.radius),
         ),
         child: Icon(

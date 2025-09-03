@@ -58,7 +58,7 @@ class FirebaseHandler {
       if (kDebugMode) {
         print('Firebase Handler initialized (Demo Mode)');
       }
-    } catch (e) {
+    } on Exception catch (e) {
       if (kDebugMode) {
         print('Firebase initialization error: $e');
       }
@@ -66,6 +66,8 @@ class FirebaseHandler {
   }
 
   /// Setup Firebase message handlers for different app states
+  // Uncomment for real Firebase integration:
+  /*
   static void _setupMessageHandlers() {
     // Uncomment for real Firebase integration:
     /*
@@ -83,8 +85,11 @@ class FirebaseHandler {
     });
     */
   }
+  */
 
   /// Handle messages received when app is in foreground
+  // Uncomment for real Firebase integration:
+  /*
   static void _handleForegroundMessage(final dynamic message) {
     // Uncomment for real Firebase integration:
     /*
@@ -102,8 +107,11 @@ class FirebaseHandler {
     }
     */
   }
+  */
 
   /// Handle messages when app is opened from background/terminated state
+  // Uncomment for real Firebase integration:
+  /*
   static void _handleBackgroundMessage(final dynamic message) {
     // Uncomment for real Firebase integration:
     /*
@@ -116,6 +124,7 @@ class FirebaseHandler {
     _handleMessageAction(data);
     */
   }
+  */
 
   /// Route incoming messages to appropriate notification handlers
   static void _routeMessage({
@@ -125,7 +134,6 @@ class FirebaseHandler {
   }) {
     final messageType = data['type'] as String?;
     final priority = data['priority'] as String?;
-    final category = data['category'] as String?;
 
     switch (messageType?.toLowerCase()) {
       case 'chat':

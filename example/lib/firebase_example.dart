@@ -45,6 +45,8 @@ class _FirebaseExamplePageState extends State<FirebaseExamplePage> {
     });
   }
 
+  // Uncomment for real Firebase integration:
+  /*
   Future<void> _setupFirebaseMessaging() async {
     // Uncomment for real Firebase integration:
     /*
@@ -82,6 +84,7 @@ class _FirebaseExamplePageState extends State<FirebaseExamplePage> {
     });
     */
   }
+  */
 
   @override
   Widget build(final BuildContext context) => Scaffold(
@@ -215,7 +218,7 @@ class _FirebaseExamplePageState extends State<FirebaseExamplePage> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, color: color),

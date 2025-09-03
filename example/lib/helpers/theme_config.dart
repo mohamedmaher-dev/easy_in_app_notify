@@ -287,13 +287,11 @@ class ThemeConfig {
   /// Apply device-specific optimizations
   static EasyInAppNotifyTheme optimizeForDevice(
     final EasyInAppNotifyTheme theme,
-  ) {
-    // This is a simplified example - in a real app, you might check:
-    // - Screen size/density
-    // - Platform (iOS/Android)
-    // - Accessibility settings
-    // - User preferences
-
-    return theme; // Return as-is for this example
-  }
+  ) =>
+      // This is a simplified example - in a real app, you might check:
+      // - Screen size/density
+      // - Platform (iOS/Android)
+      // - Accessibility settings
+      // - User preferences
+      theme; // Return as-is for this example
 }
