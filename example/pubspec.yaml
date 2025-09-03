@@ -1,0 +1,23 @@
+name: easy_in_app_notify_example
+description: Example app demonstrating Easy In-App Notify package with Firebase integration.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  easy_in_app_notify:
+    path: ../
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
