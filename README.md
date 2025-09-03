@@ -4,6 +4,11 @@ A beautiful and customizable Flutter package for displaying notifications as in-
 
 Perfect for showing notifications when your app is in the foreground!
 
+## 📷 Screenshots
+
+<img src="https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png" width="300" alt="Easy In-App Notify Example 1">
+<img src="https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png" width="300" alt="Easy In-App Notify Example 2">
+
 ## ✨ Features
 
 - 🎯 **Overlay Notifications** - Non-blocking notifications that appear over your app content
