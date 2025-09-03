@@ -52,9 +52,11 @@ packages:
   easy_in_app_notify:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "5cb857e6b0e4ccc32d2d6ba6e406e6b7ec4c0bcf"
+      url: "https://github.com/mohamedmaher-dev/easy_in_app_notify.git"
+    source: git
     version: "0.0.1"
   fake_async:
     dependency: transitive
