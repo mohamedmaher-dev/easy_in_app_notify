@@ -13,7 +13,7 @@ Perfect for showing Firebase notifications when your app is in the foreground!
 - ⏱️ **Auto-Dismiss** - Configurable duration with visual countdown progress bar
 - 👆 **Swipe to Dismiss** - Users can swipe notifications away manually
 - 🎭 **Smooth Animations** - Slide-in/slide-out transitions with easing curves
-- 🔊 **Sound Support** - Optional notification sounds for audio feedback
+- 🔊 **Sound Support** - Optional notification sounds for audio feedback (Android & iOS only)
 - 🎯 **Material Design** - Follows Material Design principles and theming
 - 📱 **Safe Area Aware** - Respects device safe areas and notches
 - 🌐 **RTL Support** - Full right-to-left language support
@@ -437,6 +437,8 @@ NotificationHelper.showError("Error", "Failed to connect to server.");
 - ✅ macOS
 - ✅ Windows
 - ✅ Linux
+
+> **Note:** Sound notifications are only supported on Android and iOS platforms. On other platforms, notifications will display without sound.
 
 ## 🤝 Contributing
 
