@@ -16,6 +16,7 @@
 library;
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:easy_in_app_notify/consts.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,8 +181,10 @@ class EasyInAppNotify {
     // Create new overlay entry with notification widget
     _entry = OverlayEntry(
       builder: (final context) {
-        // Play system notification sound for audio feedback
-        FlutterRingtonePlayer().playNotification();
+        // Play system notification sound for audio feedback for Android and iOS
+        if (Platform.isAndroid || Platform.isIOS) {
+          FlutterRingtonePlayer().playNotification();
+        }
 
         return _NotifyView(
           content: content,
