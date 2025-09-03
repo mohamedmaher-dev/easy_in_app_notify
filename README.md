@@ -445,7 +445,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 ### Development Setup
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/yourusername/easy_in_app_notify.git`
+2. Clone your fork: `git clone https://github.com/mohamedmaher-dev/easy_in_app_notify.git`
 3. Create a feature branch: `git checkout -b feature/amazing-feature`
 4. Make your changes and add tests
 5. Commit your changes: `git commit -m 'Add amazing feature'`
@@ -454,7 +454,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## 🐛 Issues
 
-If you encounter any issues or have feature requests, please file them on the [GitHub Issues](https://github.com/yourusername/easy_in_app_notify/issues) page.
+If you encounter any issues or have feature requests, please file them on the [GitHub Issues](https://github.com/mohamedmaher-dev/easy_in_app_notify/issues) page.
 
 ## 📄 License
 
