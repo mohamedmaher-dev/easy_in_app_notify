@@ -11,8 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   easy_in_app_notify:
-    git:
-      url: https://github.com/mohamedmaher-dev/easy_in_app_notify.git
 
 dev_dependencies:
   flutter_test:

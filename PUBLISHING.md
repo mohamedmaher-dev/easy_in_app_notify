@@ -19,7 +19,7 @@ dependencies:
 
 ```yaml
 dependencies:
-  easy_in_app_notify: ^0.0.1
+  easy_in_app_notify: # Latest version from pub.dev
 ```
 
 **Option C: Use Path (Development Only):**

@@ -5,6 +5,32 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2024-01-XX
+
+### ✨ Added
+
+- **Screenshots**: Added visual examples to README showcasing notification UI
+- **Documentation**: Enhanced README with side-by-side screenshot layout
+
+### 🔥 Removed
+
+- **Firebase Dependencies**: Removed Firebase-specific code and dependencies
+- **Platform Lock-in**: Eliminated Firebase-only focus for broader compatibility
+
+### 🔧 Changed
+
+- **Package Scope**: Transformed from Firebase-specific to generic notification package
+- **Topics**: Updated package topics from Firebase-focused to general notifications
+- **Examples**: Converted Firebase examples to generic remote notification examples
+- **Code Style**: Improved formatting and consistency across example files
+- **Dependencies**: Updated example to use published package instead of git dependency
+
+### 📖 Documentation
+
+- **README**: Completely updated to be platform-agnostic
+- **CHANGELOG**: Updated use cases to reflect generic notification support
+- **Examples**: Renamed `firebase_example.dart` to `remote_example.dart`
+
 ## [1.0.0] - 2024-01-XX
 
 ### 🎉 First Stable Release
