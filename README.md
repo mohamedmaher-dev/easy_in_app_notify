@@ -25,7 +25,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_in_app_notify: ^0.0.1
+  easy_in_app_notify: ^1.0.0
   firebase_messaging: ^14.7.10 # For Firebase Cloud Messaging
 ```
 
