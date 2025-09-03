@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_in_app_notify/easy_in_app_notify.dart';
-import 'firebase_example.dart';
+import 'remote_example.dart';
 import 'basic_example.dart';
 import 'advanced_example.dart';
 
@@ -66,7 +66,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const Text(
-                    'Firebase Cloud Messaging Integration Examples',
+                    'Remote Notification Integration Examples',
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -98,15 +98,15 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                 ),
                 const SizedBox(height: 12),
                 _buildExampleCard(
-                  title: 'Firebase Integration',
+                  title: 'Remote Integration',
                   description:
-                      'FCM message handling and foreground notifications',
+                      'Remote message handling and foreground notifications',
                   icon: Icons.cloud,
                   color: Colors.orange,
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (final context) => const FirebaseExamplePage(),
+                      builder: (final context) => const RemoteExamplePage(),
                     ),
                   ),
                 ),

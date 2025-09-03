@@ -1,5 +1,5 @@
 name: easy_in_app_notify_example
-description: Example app demonstrating Easy In-App Notify package with Firebase integration.
+description: Example app demonstrating Easy In-App Notify package features.
 version: 1.0.0+1
 publish_to: none
 
@@ -13,8 +13,6 @@ dependencies:
   easy_in_app_notify:
     git:
       url: https://github.com/mohamedmaher-dev/easy_in_app_notify.git
-  firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.10
 
 dev_dependencies:
   flutter_test:

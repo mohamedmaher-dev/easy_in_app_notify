@@ -1,198 +1,221 @@
 # Easy In-App Notify Examples 📱🔥
 
-This directory contains comprehensive examples demonstrating how to use the Easy In-App Notify package with Firebase Cloud Messaging (FCM) integration.
+This directory contains comprehensive examples demonstrating how to use the Easy In-App Notify package for beautiful in-app notifications.
 
 ## 📁 Examples Included
 
 ### 1. **Basic Usage** (`lib/basic_example.dart`)
+
 - Simple notification display
 - Basic initialization
 - Different notification types
+- Success, error, warning, and info notifications
 
-### 2. **Firebase Integration** (`lib/firebase_example.dart`)
-- Complete FCM integration
-- Foreground message handling
-- Background to foreground transition
+### 2. **Remote Integration** (`lib/remote_example.dart`)
+
+- Simulated remote notifications
+- Message routing and handling
+- Different notification categories
+- Integration patterns
 
 ### 3. **Advanced Usage** (`lib/advanced_example.dart`)
+
 - Custom notification types
-- Message routing based on data
 - Complex styling and theming
+- Helper classes and utilities
+- Sequential notifications
 
 ### 4. **Helper Classes** (`lib/helpers/`)
+
 - Notification helper utilities
-- Firebase message handler
 - Theme configurations
+- Reusable notification patterns
 
-## 🚀 Running the Examples
+## 🚀 Quick Start
 
-### Prerequisites
+### Basic Setup
 
-1. **Firebase Setup** (for Firebase examples):
+1. **Install the package**:
+
    ```bash
-   # Install Firebase CLI
-   npm install -g firebase-tools
-   
-   # Login to Firebase
-   firebase login
-   
-   # Create Firebase project or use existing one
+   flutter pub add easy_in_app_notify
    ```
 
-2. **Flutter Setup**:
-   ```bash
-   # Get dependencies
-   flutter pub get
-   
-   # Run the example app
-   flutter run
+2. **Initialize in your app**:
+
+   ```dart
+   // In your main StatefulWidget's initState
+   @override
+   void initState() {
+     super.initState();
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+       EasyInAppNotify.init(context);
+     });
+   }
    ```
 
-### Firebase Configuration
+3. **Show notifications**:
+   ```dart
+   EasyInAppNotify.show(
+     content: EasyInAppNotifyContent(
+       title: "Success!",
+       message: "Your operation completed successfully.",
+       icon: Icons.check_circle,
+     ),
+   );
+   ```
 
-1. **Android Setup**:
-   - Add your `google-services.json` to `android/app/`
-   - Configure `android/app/build.gradle`
+## 📖 Usage Examples
 
-2. **iOS Setup**:
-   - Add your `GoogleService-Info.plist` to `ios/Runner/`
-   - Configure `ios/Runner/Info.plist`
+### 1. **Basic Notification**
 
-## 📱 Example Scenarios
-
-### Basic Notifications
-- Success messages
-- Error alerts  
-- Information updates
-- Warning notifications
-
-### Firebase Integration
-- Chat message notifications
-- Promotional messages
-- System alerts
-- Order updates
-- News notifications
-
-### Advanced Features
-- Custom animations
-- Themed notifications
-- Progress indicators
-- User interactions
-
-## 🎯 Key Learning Points
-
-### 1. **Proper Initialization**
 ```dart
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      EasyInAppNotify.init(context);
-    });
-  }
+EasyInAppNotify.show(
+  content: EasyInAppNotifyContent(
+    title: "Hello!",
+    message: "This is a basic notification.",
+  ),
+);
+```
+
+### 2. **Remote Message Handling**
+
+```dart
+void handleRemoteMessage(Map<String, dynamic> message) {
+  EasyInAppNotify.show(
+    content: EasyInAppNotifyContent(
+      title: message['title'] ?? 'Notification',
+      message: message['body'] ?? '',
+      icon: Icons.notifications,
+      trailingText: 'Now',
+    ),
+    option: EasyInAppNotifyOption(
+      duration: 5,
+      showProgressBar: true,
+      swipeToDismiss: true,
+    ),
+    theme: EasyInAppNotifyTheme(
+      color: Colors.blue,
+      elevation: 8,
+    ),
+  );
 }
 ```
 
-### 2. **Firebase Message Handling**
-```dart
-FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  EasyInAppNotify.show(
-    content: EasyInAppNotifyContent(
-      title: message.notification?.title ?? "New Message",
-      message: message.notification?.body ?? "",
-    ),
-  );
-});
-```
-
 ### 3. **Custom Styling**
+
 ```dart
 EasyInAppNotify.show(
-  content: EasyInAppNotifyContent(/* ... */),
+  content: EasyInAppNotifyContent(
+    title: "Custom Style",
+    message: "This notification has custom styling.",
+    icon: Icons.star,
+  ),
   theme: EasyInAppNotifyTheme(
-    color: Colors.blue,
-    elevation: 8,
-    radius: 12,
+    color: Colors.purple,
+    elevation: 12,
+    cardBorderRadius: 16,
+    iconSize: 32,
   ),
   option: EasyInAppNotifyOption(
-    duration: 5,
+    duration: 8,
     showProgressBar: true,
   ),
 );
 ```
 
-## 🔧 Testing
+## 🎯 Integration Patterns
 
-### Test Firebase Messaging
+### Message Routing
 
-1. **Using Firebase Console**:
-   - Go to Firebase Console → Cloud Messaging
-   - Send test message to your device token
+```dart
+void routeMessage(String type, String title, String body) {
+  switch (type) {
+    case 'chat':
+      NotificationHelper.showChatMessage(
+        senderName: title,
+        message: body,
+      );
+      break;
+    case 'alert':
+      NotificationHelper.showError(title, body);
+      break;
+    default:
+      NotificationHelper.showInfo(title, body);
+  }
+}
+```
 
-2. **Using FCM API**:
+### Helper Usage
+
+```dart
+// Using the NotificationHelper class
+NotificationHelper.showSuccess("Saved!", "Your changes have been saved.");
+NotificationHelper.showError("Error", "Something went wrong.");
+NotificationHelper.showWarning("Warning", "Please check your input.");
+```
+
+## 📱 Running the Examples
+
+1. **Clone or download** this example project
+2. **Navigate** to the example directory:
    ```bash
-   curl -X POST https://fcm.googleapis.com/fcm/send \
-     -H "Authorization: key=YOUR_SERVER_KEY" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "to": "DEVICE_TOKEN",
-       "notification": {
-         "title": "Test Notification",
-         "body": "This is a test message"
-       },
-       "data": {
-         "type": "chat",
-         "userId": "123"
-       }
-     }'
+   cd example
+   ```
+3. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+4. **Run the app**:
+   ```bash
+   flutter run
    ```
 
-## 📝 Code Structure
+## 🎨 Customization
+
+The examples demonstrate various customization options:
+
+- **Colors and Themes**: Different color schemes for different notification types
+- **Icons**: Custom icons for different message categories
+- **Duration**: Variable display times based on importance
+- **Progress Bars**: Visual countdown indicators
+- **Animations**: Smooth slide-in/slide-out transitions
+- **Dismissal**: Swipe gestures and auto-dismiss functionality
+
+## 📁 Project Structure
 
 ```
 example/
 ├── lib/
-│   ├── main.dart              # Main example app
-│   ├── basic_example.dart     # Basic usage examples
-│   ├── firebase_example.dart  # Firebase integration
-│   ├── advanced_example.dart  # Advanced features
+│   ├── main.dart                    # Main app entry point
+│   ├── basic_example.dart           # Basic usage examples
+│   ├── remote_example.dart          # Remote notification integration
+│   ├── advanced_example.dart        # Advanced features
 │   └── helpers/
-│       ├── notification_helper.dart  # Utility functions
-│       ├── firebase_handler.dart     # FCM message handler
-│       └── theme_config.dart         # Theme configurations
-├── android/
-│   └── app/
-│       └── google-services.json     # Firebase config (add your own)
-├── ios/
-│   └── Runner/
-│       └── GoogleService-Info.plist # Firebase config (add your own)
-└── pubspec.yaml
+│       ├── notification_helper.dart # Utility methods
+│       └── theme_config.dart        # Theme configurations
+├── pubspec.yaml                     # Dependencies
+└── README.md                        # This file
 ```
 
-## 🚨 Important Notes
+## 🔧 Integration Tips
 
-1. **Firebase Setup Required**: Most examples require Firebase project setup
-2. **Platform Configuration**: Don't forget to configure both Android and iOS
-3. **Permissions**: Ensure notification permissions are granted
-4. **Testing**: Test on real devices for best results
+1. **Initialization**: Always initialize after MaterialApp is built
+2. **Context**: Use a valid BuildContext from within the MaterialApp widget tree
+3. **Lifecycle**: Handle app state changes appropriately
+4. **Performance**: Avoid showing too many notifications simultaneously
+5. **User Experience**: Consider notification frequency and importance
 
-## 🆘 Troubleshooting
+## 🐛 Troubleshooting
 
-### Common Issues
+1. **Notifications not showing**: Verify initialization is called properly
+2. **Context errors**: Ensure context is from within MaterialApp
+3. **Animation issues**: Check if app is in foreground when showing notifications
 
-1. **Notifications not showing**: Check if `init()` is called correctly
-2. **Firebase not working**: Verify `google-services.json` and `GoogleService-Info.plist`
-3. **Permissions denied**: Request notification permissions in your app
-4. **Overlay not appearing**: Ensure context is from within MaterialApp
+## 📄 License
 
-### Debug Tips
+This example project is licensed under the same license as the main package.
 
-- Use `flutter run --verbose` for detailed logs
-- Check Firebase console for message delivery status
-- Verify device token registration
-- Test with simple notifications first
+## 🤝 Contributing
 
----
-
-Happy coding with Easy In-App Notify! 🚀
+Feel free to submit issues and contribute to improving these examples!

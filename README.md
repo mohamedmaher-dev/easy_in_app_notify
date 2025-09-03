@@ -1,14 +1,13 @@
 # Easy In-App Notify 📱🔥
 
-A beautiful and customizable Flutter package for displaying **Firebase Cloud Messaging (FCM)** notifications as in-app overlays with smooth animations, progress indicators, and intuitive user interactions.
+A beautiful and customizable Flutter package for displaying notifications as in-app overlays with smooth animations, progress indicators, and intuitive user interactions.
 
-Perfect for showing Firebase notifications when your app is in the foreground!
+Perfect for showing notifications when your app is in the foreground!
 
 ## ✨ Features
 
-- 🔥 **Firebase Integration** - Perfect for Firebase Cloud Messaging (FCM) notifications
 - 🎯 **Overlay Notifications** - Non-blocking notifications that appear over your app content
-- 📱 **Foreground Notifications** - Show FCM messages when app is active/foreground
+- 📱 **Foreground Notifications** - Show notifications when app is active/foreground
 - 🎨 **Fully Customizable** - Colors, spacing, dimensions, and visual styling
 - ⏱️ **Auto-Dismiss** - Configurable duration with visual countdown progress bar
 - 👆 **Swipe to Dismiss** - Users can swipe notifications away manually
@@ -25,7 +24,6 @@ Run this command to add the package to your project:
 
 ```bash
 flutter pub add easy_in_app_notify
-flutter pub add firebase_messaging
 ```
 
 Or manually add to your `pubspec.yaml`:
@@ -33,7 +31,6 @@ Or manually add to your `pubspec.yaml`:
 ```yaml
 dependencies:
   easy_in_app_notify: # Latest version from pub.dev
-  firebase_messaging: ^14.7.10 # For Firebase Cloud Messaging
 ```
 
 ## 🚀 Quick Start
@@ -159,116 +156,6 @@ EasyInAppNotify.show(
     margin: 10,
   ),
 );
-```
-
-### Firebase Cloud Messaging Integration
-
-Perfect for handling FCM messages when your app is in the foreground:
-
-```dart
-import 'package:firebase_messaging/firebase_messaging.dart';
-
-class FirebaseNotificationHandler {
-  void setupForegroundMessageHandler() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // Show in-app notification when app is in foreground
-      EasyInAppNotify.show(
-        content: EasyInAppNotifyContent(
-          title: message.notification?.title ?? "New Message",
-          message: message.notification?.body ?? "You have a new message",
-          icon: Icons.notifications,
-          trailingText: "Now",
-        ),
-        option: EasyInAppNotifyOption(
-          duration: 5,
-          showProgressBar: true,
-          swipeToDismiss: true,
-        ),
-        theme: EasyInAppNotifyTheme(
-          color: Colors.blue,
-          elevation: 8,
-        ),
-      );
-    });
-  }
-}
-
-// Usage in your main app
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      EasyInAppNotify.init(context);
-
-      // Setup Firebase foreground message handler
-      FirebaseNotificationHandler().setupForegroundMessageHandler();
-    });
-  }
-}
-```
-
-### Firebase Message Types
-
-Handle different types of Firebase messages:
-
-```dart
-void handleFirebaseMessage(RemoteMessage message) {
-  // Check message data for custom handling
-  String? messageType = message.data['type'];
-
-  switch (messageType) {
-    case 'chat':
-      EasyInAppNotify.show(
-        content: EasyInAppNotifyContent(
-          title: "New Message",
-          message: message.notification?.body ?? "",
-          icon: Icons.chat,
-          trailingText: "Chat",
-        ),
-        theme: EasyInAppNotifyTheme(color: Colors.green),
-      );
-      break;
-
-    case 'promotion':
-      EasyInAppNotify.show(
-        content: EasyInAppNotifyContent(
-          title: message.notification?.title ?? "Special Offer!",
-          message: message.notification?.body ?? "",
-          icon: Icons.local_offer,
-          trailingText: "Limited Time",
-        ),
-        theme: EasyInAppNotifyTheme(color: Colors.orange),
-        option: EasyInAppNotifyOption(duration: 8),
-      );
-      break;
-
-    case 'alert':
-      EasyInAppNotify.show(
-        content: EasyInAppNotifyContent(
-          title: "Important Alert",
-          message: message.notification?.body ?? "",
-          icon: Icons.warning,
-          trailingText: "Urgent",
-        ),
-        theme: EasyInAppNotifyTheme(color: Colors.red),
-        option: EasyInAppNotifyOption(
-          duration: 10,
-          swipeToDismiss: false, // Prevent dismissal for important alerts
-        ),
-      );
-      break;
-
-    default:
-      EasyInAppNotify.show(
-        content: EasyInAppNotifyContent(
-          title: message.notification?.title ?? "Notification",
-          message: message.notification?.body ?? "",
-          icon: Icons.notifications,
-        ),
-      );
-  }
-}
 ```
 
 ### Different Notification Types

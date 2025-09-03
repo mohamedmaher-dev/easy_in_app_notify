@@ -108,7 +108,7 @@ class NotificationHelper {
     }
   }
 
-  /// Show a chat message notification (for Firebase messaging)
+  /// Show a chat message notification (for messaging services)
   static void showChatMessage({
     required final String senderName,
     required final String message,

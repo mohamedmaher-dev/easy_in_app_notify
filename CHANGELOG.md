@@ -9,14 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🎉 First Stable Release
 
-This is the first release of Easy In-App Notify, providing a complete solution for beautiful Firebase Cloud Messaging (FCM) in-app notifications in Flutter applications.
+This is the first release of Easy In-App Notify, providing a complete solution for beautiful in-app notifications in Flutter applications.
 
 ### ✨ Added
 
 #### Core Features
 
-- **Firebase Integration**: Perfect for Firebase Cloud Messaging (FCM) notifications
-- **Foreground Notifications**: Show FCM messages when app is active/foreground
+- **In-App Overlays**: Perfect for any notification system integration
+- **Foreground Notifications**: Show notifications when app is active/foreground
 - **Overlay Notifications**: Non-blocking notifications that appear over app content
 - **Auto-Dismiss**: Configurable duration with automatic dismissal
 - **Manual Dismiss**: Swipe-to-dismiss functionality for user control
@@ -180,11 +180,11 @@ EasyInAppNotifyTheme({
 
 Perfect for displaying:
 
-- 🔥 **Firebase Cloud Messaging** notifications
-- 💬 **Chat messages** from FCM
+- 🔔 **Remote notifications** from any service
+- 💬 **Chat messages** from messaging systems
 - 📢 **Push notifications** when app is foreground
-- 🛍️ **Promotional messages** from Firebase
-- ⚠️ **Alert notifications** via FCM
+- 🛍️ **Promotional messages** from marketing services
+- ⚠️ **Alert notifications** from any backend
 - ✅ Success confirmations
 - ❌ Error messages
 - ℹ️ Information updates

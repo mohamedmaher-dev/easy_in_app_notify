@@ -1,9 +1,9 @@
-/// Easy In-App Notify - A Flutter package for displaying Firebase Cloud Messaging (FCM) notifications as beautiful in-app overlays.
+/// Easy In-App Notify - A Flutter package for displaying notifications as beautiful in-app overlays.
 ///
-/// This library provides a simple, customizable solution for showing Firebase
+/// This library provides a simple, customizable solution for showing
 /// notifications as overlay notifications within Flutter applications when the
-/// app is in the foreground. Perfect for FCM integration. Features include:
-/// - Firebase Cloud Messaging integration
+/// app is in the foreground. Perfect for any notification integration. Features include:
+/// - In-app notification overlays
 /// - Smooth slide-in animations
 /// - Auto-dismiss with visual countdown
 /// - Swipe-to-dismiss functionality
@@ -11,7 +11,7 @@
 /// - Sound notification support
 /// - Material Design compliance
 ///
-/// The package is designed to be lightweight, easy to integrate with Firebase,
+/// The package is designed to be lightweight, easy to integrate,
 /// and follows Flutter best practices for state management and widget composition.
 library;
 
