@@ -21,18 +21,19 @@ Perfect for showing Firebase notifications when your app is in the foreground!
 
 ## 📦 Installation
 
-Add this to your package's `pubspec.yaml` file:
+Run this command to add the package to your project:
+
+```bash
+flutter pub add easy_in_app_notify
+flutter pub add firebase_messaging
+```
+
+Or manually add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  easy_in_app_notify: ^1.0.0
+  easy_in_app_notify: # Latest version from pub.dev
   firebase_messaging: ^14.7.10 # For Firebase Cloud Messaging
-```
-
-Then run:
-
-```bash
-flutter pub get
 ```
 
 ## 🚀 Quick Start
