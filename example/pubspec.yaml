@@ -10,7 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   easy_in_app_notify:
-    path: ../
+    git:
+      url: https://github.com/mohamedmaher-dev/easy_in_app_notify.git
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.10
 
