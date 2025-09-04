@@ -3,6 +3,7 @@ import 'package:easy_in_app_notify/easy_in_app_notify.dart';
 import 'remote_example.dart';
 import 'basic_example.dart';
 import 'advanced_example.dart';
+import 'fcm_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,14 +30,7 @@ class ExampleHomePage extends StatefulWidget {
 }
 
 class _ExampleHomePageState extends State<ExampleHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    // Initialize Easy In-App Notify after MaterialApp is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      EasyInAppNotify.init(context);
-    });
-  }
+  // No initialization needed! EasyInAppNotify works automatically
 
   @override
   Widget build(final BuildContext context) => Scaffold(
@@ -66,7 +60,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const Text(
-                    'Remote Notification Integration Examples',
+                    'Comprehensive Integration Examples',
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -124,6 +118,19 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 12),
+                _buildExampleCard(
+                  title: 'FCM Integration',
+                  description: 'Firebase Cloud Messaging without BuildContext',
+                  icon: Icons.cloud_queue,
+                  color: Colors.blue,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (final context) => const FCMExamplePage(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -143,6 +150,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
           ElevatedButton.icon(
             onPressed: () {
               EasyInAppNotify.show(
+                context,
                 content: const EasyInAppNotifyContent(
                   title: 'Welcome! 👋',
                   message:

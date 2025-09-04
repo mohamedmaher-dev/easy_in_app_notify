@@ -7,8 +7,13 @@ enum NotificationType { success, error, warning, info, loading }
 /// Helper class providing convenient methods for common notification scenarios
 class NotificationHelper {
   /// Show a success notification with green theming
-  static void showSuccess(final String title, final String message) {
+  static void showSuccess(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -22,8 +27,13 @@ class NotificationHelper {
   }
 
   /// Show an error notification with red theming
-  static void showError(final String title, final String message) {
+  static void showError(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -40,8 +50,13 @@ class NotificationHelper {
   }
 
   /// Show a warning notification with orange theming
-  static void showWarning(final String title, final String message) {
+  static void showWarning(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -53,8 +68,13 @@ class NotificationHelper {
   }
 
   /// Show an info notification with blue theming
-  static void showInfo(final String title, final String message) {
+  static void showInfo(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -68,8 +88,13 @@ class NotificationHelper {
   }
 
   /// Show a loading notification that cannot be dismissed by swiping
-  static void showLoading(final String title, final String message) {
+  static void showLoading(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -85,36 +110,39 @@ class NotificationHelper {
 
   /// Show a notification based on the specified type
   static void showTypedNotification(
+    final BuildContext context,
     final NotificationType type,
     final String title,
     final String message,
   ) {
     switch (type) {
       case NotificationType.success:
-        showSuccess(title, message);
+        showSuccess(context, title, message);
         break;
       case NotificationType.error:
-        showError(title, message);
+        showError(context, title, message);
         break;
       case NotificationType.warning:
-        showWarning(title, message);
+        showWarning(context, title, message);
         break;
       case NotificationType.info:
-        showInfo(title, message);
+        showInfo(context, title, message);
         break;
       case NotificationType.loading:
-        showLoading(title, message);
+        showLoading(context, title, message);
         break;
     }
   }
 
   /// Show a chat message notification (for messaging services)
-  static void showChatMessage({
+  static void showChatMessage(
+    final BuildContext context, {
     required final String senderName,
     required final String message,
     final String? timestamp,
   }) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: 'New message from $senderName',
         message: message,
@@ -127,7 +155,8 @@ class NotificationHelper {
   }
 
   /// Show an order update notification (for e-commerce apps)
-  static void showOrderUpdate({
+  static void showOrderUpdate(
+    final BuildContext context, {
     required final String orderId,
     required final String status,
     required final String message,
@@ -161,6 +190,7 @@ class NotificationHelper {
     }
 
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: 'Order Update',
         message: message,
@@ -172,7 +202,8 @@ class NotificationHelper {
   }
 
   /// Show a promotional notification (for marketing messages)
-  static void showPromotion({
+  static void showPromotion(
+    final BuildContext context, {
     required final String title,
     required final String message,
     final String? promoCode,
@@ -184,6 +215,7 @@ class NotificationHelper {
     }
 
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: displayTitle,
         message: message,
@@ -201,12 +233,14 @@ class NotificationHelper {
   }
 
   /// Show a system alert notification (for important system messages)
-  static void showSystemAlert({
+  static void showSystemAlert(
+    final BuildContext context, {
     required final String title,
     required final String message,
     final bool isUrgent = false,
   }) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -225,7 +259,8 @@ class NotificationHelper {
   }
 
   /// Show a custom notification with full control over styling
-  static void showCustom({
+  static void showCustom(
+    final BuildContext context, {
     required final String title,
     required final String message,
     final IconData? icon,
@@ -238,6 +273,7 @@ class NotificationHelper {
     final double? radius,
   }) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -283,8 +319,12 @@ class NotificationHelper {
   }
 
   /// Show a smart notification that automatically determines type from message content
-  static void showSmart(final String title, final String message) {
+  static void showSmart(
+    final BuildContext context,
+    final String title,
+    final String message,
+  ) {
     final type = detectNotificationType(message);
-    showTypedNotification(type, title, message);
+    showTypedNotification(context, type, title, message);
   }
 }

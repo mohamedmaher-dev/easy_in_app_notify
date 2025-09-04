@@ -36,6 +36,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             icon: Icons.check_circle,
             color: Colors.green,
             onPressed: () => NotificationHelper.showSuccess(
+              context,
               'Operation Successful',
               'Your data has been saved successfully.',
             ),
@@ -46,6 +47,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             icon: Icons.error,
             color: Colors.red,
             onPressed: () => NotificationHelper.showError(
+              context,
               'Operation Failed',
               'Unable to save data. Please check your connection.',
             ),
@@ -56,6 +58,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             icon: Icons.hourglass_empty,
             color: Colors.blue,
             onPressed: () => NotificationHelper.showLoading(
+              context,
               'Processing Request',
               'Please wait while we process your data...',
             ),
@@ -69,6 +72,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             description: 'Professional business-style notification',
             theme: ThemeConfig.corporate,
             onPressed: () => _showThemedNotification(
+              context,
               'Corporate Update',
               'Quarterly reports are now available for review.',
               ThemeConfig.corporate,
@@ -79,6 +83,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             description: 'Fun gaming-style notification',
             theme: ThemeConfig.gaming,
             onPressed: () => _showThemedNotification(
+              context,
               'Achievement Unlocked! 🏆',
               'You have reached level 25! Keep going!',
               ThemeConfig.gaming,
@@ -89,6 +94,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
             description: 'Clean minimal-style notification',
             theme: ThemeConfig.minimal,
             onPressed: () => _showThemedNotification(
+              context,
               'Update Available',
               'A new version is ready to install.',
               ThemeConfig.minimal,
@@ -237,7 +243,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
           ),
           const SizedBox(height: 12),
           ElevatedButton.icon(
-            onPressed: () => _showDynamicNotification(),
+            onPressed: () => _showDynamicNotification(context),
             icon: const Icon(Icons.dynamic_form),
             label: const Text('Show Dynamic Notification'),
           ),
@@ -262,7 +268,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
           ),
           const SizedBox(height: 12),
           ElevatedButton.icon(
-            onPressed: () => _showSequentialNotifications(),
+            onPressed: () => _showSequentialNotifications(context),
             icon: const Icon(Icons.queue),
             label: const Text('Start Sequence'),
           ),
@@ -285,7 +291,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
           const Text('Show different notifications based on current time'),
           const SizedBox(height: 12),
           ElevatedButton.icon(
-            onPressed: () => _showTimeBasedNotification(),
+            onPressed: () => _showTimeBasedNotification(context),
             icon: const Icon(Icons.access_time),
             label: const Text('Time-Based Notification'),
           ),
@@ -301,11 +307,13 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
   }
 
   void _showThemedNotification(
+    final BuildContext context,
     final String title,
     final String message,
     final EasyInAppNotifyTheme theme,
   ) {
     EasyInAppNotify.show(
+      context,
       content: EasyInAppNotifyContent(
         title: title,
         message: message,
@@ -315,8 +323,9 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
     );
   }
 
-  void _showDynamicNotification() {
+  void _showDynamicNotification(final BuildContext context) {
     NotificationHelper.showTypedNotification(
+      context,
       _selectedType,
       'Dynamic Notification',
       'This notification was created based on your selection: ${_selectedType.name}',
@@ -324,9 +333,10 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
     _incrementCounter();
   }
 
-  void _showSequentialNotifications() {
+  void _showSequentialNotifications(final BuildContext context) {
     // Show first notification immediately
     NotificationHelper.showInfo(
+      context,
       'Sequence Started',
       'This is the first notification in the sequence.',
     );
@@ -334,24 +344,34 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
 
     // Show second notification after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
-      NotificationHelper.showWarning(
-        'Sequence Continuing',
-        'This is the second notification (previous one was replaced).',
-      );
-      _incrementCounter();
+      if (mounted) {
+        // ignore: use_build_context_synchronously
+        NotificationHelper.showWarning(
+          // ignore: use_build_context_synchronously
+          context,
+          'Sequence Continuing',
+          'This is the second notification (previous one was replaced).',
+        );
+        _incrementCounter();
+      }
     });
 
     // Show third notification after 6 seconds
     Future.delayed(const Duration(seconds: 6), () {
-      NotificationHelper.showSuccess(
-        'Sequence Complete',
-        'This is the final notification in the sequence.',
-      );
-      _incrementCounter();
+      if (mounted) {
+        // ignore: use_build_context_synchronously
+        NotificationHelper.showSuccess(
+          // ignore: use_build_context_synchronously
+          context,
+          'Sequence Complete',
+          'This is the final notification in the sequence.',
+        );
+        _incrementCounter();
+      }
     });
   }
 
-  void _showTimeBasedNotification() {
+  void _showTimeBasedNotification(final BuildContext context) {
     final now = DateTime.now();
     final hour = now.hour;
 
@@ -381,7 +401,7 @@ class _AdvancedExamplePageState extends State<AdvancedExamplePage> {
       type = NotificationType.error;
     }
 
-    NotificationHelper.showTypedNotification(type, title, message);
+    NotificationHelper.showTypedNotification(context, type, title, message);
     _incrementCounter();
   }
 }
