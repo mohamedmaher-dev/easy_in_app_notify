@@ -1,18 +1,177 @@
-/// Easy In-App Notify - A Flutter package for displaying notifications as beautiful in-app overlays.
+/// # Easy In-App Notify 📱✨
 ///
-/// This library provides a simple, customizable solution for showing
-/// notifications as overlay notifications within Flutter applications when the
-/// app is in the foreground. Perfect for any notification integration. Features include:
-/// - In-app notification overlays
-/// - Smooth slide-in animations
-/// - Auto-dismiss with visual countdown
-/// - Swipe-to-dismiss functionality
-/// - Customizable theming and styling
-/// - Sound notification support
-/// - Material Design compliance
+/// A beautiful, lightweight Flutter package for displaying notifications as
+/// stunning in-app overlays. Perfect for showing notifications when your app
+/// is in the foreground!
 ///
-/// The package is designed to be lightweight, easy to integrate,
-/// and follows Flutter best practices for state management and widget composition.
+/// ## ⚡ Super Simple Setup
+/// ```dart
+/// // Show notifications ANYWHERE in your app (with context)
+/// EasyInAppNotify.show(
+///   context,
+///   content: EasyInAppNotifyContent(
+///     title: "Success!",
+///     message: "Your operation completed successfully.",
+///   ),
+/// );
+/// ```
+///
+/// ## ✨ Features
+/// - 🎯 Beautiful overlay notifications that don't block your UI
+/// - ⚡ Zero configuration - just use with any BuildContext
+/// - 🎨 Fully customizable themes, colors, and animations
+/// - 📱 Works on Android, iOS, and all Flutter platforms
+/// - 🔊 Platform-optimized notification sounds (alert on desktop, click on mobile/web)
+/// - 👆 Swipe to dismiss functionality
+/// - ⏰ Auto-dismiss with visual progress indicator
+/// - 🌙 Respects system themes and safe areas
+/// - 🚀 High performance with smooth animations
+///
+/// ## 🎯 Simple Usage
+/// Just call `EasyInAppNotify.show(context, ...)` from anywhere in your app!
+///
+/// ## 🏗️ Using Without Direct Context Access
+///
+/// When you need to show notifications from classes that don't have access to BuildContext
+/// (like service classes, static methods, or background tasks), here are several patterns:
+///
+/// ### 1. **Pass Context as Parameter**
+/// ```dart
+/// class ApiService {
+///   static void handleError(BuildContext context, String error) {
+///     EasyInAppNotify.show(
+///       context,
+///       content: EasyInAppNotifyContent(
+///         title: "API Error",
+///         message: error,
+///       ),
+///     );
+///   }
+/// }
+///
+/// // Usage
+/// ApiService.handleError(context, "Network failed");
+/// ```
+///
+/// ### 2. **Callback Pattern**
+/// ```dart
+/// class DataService {
+///   static Function(String)? onError;
+///
+///   static void fetchData() {
+///     // ... fetch logic
+///     if (error != null) {
+///       onError?.call("Failed to fetch data");
+///     }
+///   }
+/// }
+///
+/// // Setup in your widget
+/// DataService.onError = (message) {
+///   EasyInAppNotify.show(
+///     context,
+///     content: EasyInAppNotifyContent(title: "Error", message: message),
+///   );
+/// };
+/// ```
+///
+/// ### 3. **Navigator Key Pattern**
+/// ```dart
+/// class AppNavigator {
+///   static final GlobalKey<NavigatorState> navigatorKey =
+///       GlobalKey<NavigatorState>();
+///
+///   static void showNotification(String title, String message) {
+///     final context = navigatorKey.currentContext;
+///     if (context != null) {
+///       EasyInAppNotify.show(
+///         context,
+///         content: EasyInAppNotifyContent(title: title, message: message),
+///       );
+///     }
+///   }
+/// }
+///
+/// // In your MaterialApp
+/// MaterialApp(
+///   navigatorKey: AppNavigator.navigatorKey,
+///   home: MyHomePage(),
+/// )
+///
+/// // Usage from anywhere
+/// AppNavigator.showNotification("Success", "Data saved!");
+/// ```
+///
+/// ### 4. **Service Locator Pattern**
+/// ```dart
+/// class NotificationService {
+///   BuildContext? _context;
+///
+///   void setContext(BuildContext context) => _context = context;
+///
+///   void showSuccess(String message) {
+///     if (_context != null) {
+///       EasyInAppNotify.show(
+///         _context!,
+///         content: EasyInAppNotifyContent(title: "Success", message: message),
+///       );
+///     }
+///   }
+/// }
+///
+/// // Register and use
+/// final notificationService = NotificationService();
+/// notificationService.setContext(context);
+/// notificationService.showSuccess("Operation completed!");
+/// ```
+///
+/// ### 5. **Firebase Cloud Messaging (FCM) Integration**
+/// ```dart
+/// class FCMService {
+///   static final GlobalKey<NavigatorState> navigatorKey =
+///       GlobalKey<NavigatorState>();
+///
+///   static void initialize() {
+///     // Handle background messages
+///     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+///
+///     // Handle foreground messages
+///     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+///       _showFCMNotification(message);
+///     });
+///   }
+///
+///   static void _showFCMNotification(RemoteMessage message) {
+///     final context = navigatorKey.currentContext;
+///     if (context != null && message.notification != null) {
+///       EasyInAppNotify.show(
+///         context,
+///         content: EasyInAppNotifyContent(
+///           title: message.notification!.title ?? 'Notification',
+///           message: message.notification!.body ?? '',
+///           icon: Icons.notifications,
+///         ),
+///         theme: EasyInAppNotifyTheme(color: Colors.blue),
+///       );
+///     }
+///   }
+/// }
+///
+/// // Background message handler (top-level function)
+/// @pragma('vm:entry-point')
+/// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+///   await Firebase.initializeApp();
+///   // Handle background notification here
+///   // Note: You cannot show in-app notifications in background
+///   // Consider using local notifications instead
+/// }
+///
+/// // In your MaterialApp
+/// MaterialApp(
+///   navigatorKey: FCMService.navigatorKey,
+///   home: MyHomePage(),
+/// )
+/// ```
 library;
 
 import 'dart:async';
@@ -20,11 +179,12 @@ import 'dart:io';
 
 import 'package:easy_in_app_notify/consts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-// Part files containing the notification system components
+// Core notification system components
 part 'views/easy_in_app_notify_view.dart';
 part 'views/notify_card.dart';
 part 'views/notify_container.dart';
@@ -36,180 +196,218 @@ part 'data/notify_content.dart';
 part 'data/notify_option.dart';
 part 'data/notify_theme.dart';
 
-/// Global controller for displaying in-app notifications as overlays.
+/// # EasyInAppNotify
 ///
-/// This singleton class manages the lifecycle of notification overlays within
-/// a Flutter application. It ensures only one notification is visible at a time
-/// and handles proper cleanup of resources.
+/// The main notification controller for displaying beautiful in-app notifications.
 ///
-/// Usage:
+/// ## 🚀 Quick Start
 /// ```dart
-/// class MyApp extends StatelessWidget {
-///   @override
-///   Widget build(BuildContext context) {
-///     return MaterialApp(
-///       home: MyHomePage(), // StatefulWidget AFTER MaterialApp
-///     );
-///   }
-/// }
-///
-/// class MyHomePage extends StatefulWidget {
-///   @override
-///   _MyHomePageState createState() => _MyHomePageState();
-/// }
-///
-/// class _MyHomePageState extends State<MyHomePage> {
-///   @override
-///   void initState() {
-///     super.initState();
-///     // Initialize AFTER MaterialApp is built
-///     WidgetsBinding.instance.addPostFrameCallback((_) {
-///       EasyInAppNotify.init(context);
-///     });
-///   }
-///
-///   @override
-///   Widget build(BuildContext context) {
-///     return Scaffold(/* your content */);
-///   }
-/// }
-///
-/// // Show a notification anywhere in your app
+/// // Show notifications anywhere in your app
 /// EasyInAppNotify.show(
+///   context,
 ///   content: EasyInAppNotifyContent(
-///     title: "Success!",
-///     message: "Your changes have been saved.",
+///     title: "Hello World!",
+///     message: "Your first notification is ready!",
+///   ),
+/// );
+/// ```
+///
+/// ## 🎨 Advanced Usage
+/// ```dart
+/// EasyInAppNotify.show(
+///   context,
+///   content: EasyInAppNotifyContent(
+///     title: "Download Complete",
+///     message: "Your file has been successfully downloaded.",
+///     icon: Icons.download_done,
+///     trailingText: "Just now",
+///   ),
+///   option: EasyInAppNotifyOption(
+///     duration: 5,
+///     showProgressBar: true,
+///     swipeToDismiss: true,
+///   ),
+///   theme: EasyInAppNotifyTheme(
+///     color: Colors.green,
+///     elevation: 8,
+///     borderRadius: 16,
 ///   ),
 /// );
 /// ```
 class EasyInAppNotify {
-  /// Internal context reference for overlay operations.
-  ///
-  /// This context must be from within the MaterialApp widget tree to ensure
-  /// proper access to the overlay and theme systems.
-  static late BuildContext _context;
+  EasyInAppNotify._(); // Private constructor to prevent instantiation
 
-  /// Initialize the notification service with a proper context.
-  ///
-  /// This method must be called once during app initialization in the
-  /// `initState` method of a StatefulWidget that is AFTER MaterialApp
-  /// in the widget tree (typically the home widget). This ensures proper
-  /// access to the overlay system.
-  ///
-  /// [context] - A BuildContext from within the MaterialApp widget tree
-  ///
-  /// Example:
-  /// ```dart
-  /// class MyApp extends StatelessWidget {
-  ///   @override
-  ///   Widget build(BuildContext context) {
-  ///     return MaterialApp(
-  ///       home: MyHomePage(), // StatefulWidget that calls init
-  ///     );
-  ///   }
-  /// }
-  ///
-  /// class MyHomePage extends StatefulWidget {
-  ///   @override
-  ///   _MyHomePageState createState() => _MyHomePageState();
-  /// }
-  ///
-  /// class _MyHomePageState extends State<MyHomePage> {
-  ///   @override
-  ///   void initState() {
-  ///     super.initState();
-  ///     // Initialize AFTER MaterialApp is built
-  ///     WidgetsBinding.instance.addPostFrameCallback((_) {
-  ///       EasyInAppNotify.init(context);
-  ///     });
-  ///   }
-  ///
-  ///   @override
-  ///   Widget build(BuildContext context) {
-  ///     return Scaffold(/* your content */);
-  ///   }
-  /// }
-  /// ```
-  static void init(final BuildContext context) => _context = context;
+  // ==========================================
+  // Core State Management
+  // ==========================================
 
-  /// Current overlay entry for the active notification.
-  ///
-  /// Null when no notification is currently displayed. Only one notification
-  /// can be shown at a time to prevent UI conflicts and ensure clarity.
-  static OverlayEntry? _entry;
+  /// The current notification overlay entry (null when no notification is shown)
+  static OverlayEntry? _currentNotification;
 
-  /// Display an in-app notification overlay.
+  // ==========================================
+  // Public API
+  // ==========================================
+
+  /// Display a beautiful in-app notification.
   ///
-  /// Creates and shows a new notification with the specified content, styling,
-  /// and behavior options. Automatically dismisses any existing notification
-  /// before showing the new one.
+  /// Shows a notification overlay with the specified content, styling, and behavior.
+  /// Automatically dismisses any existing notification before showing the new one.
   ///
-  /// [content] - Required notification content (title, message, etc.)
-  /// [option] - Optional behavior configuration (duration, interactions)
-  /// [theme] - Optional visual styling configuration (colors, spacing)
+  /// ## Parameters
+  /// - **context**: BuildContext to access the overlay
+  /// - **content**: The notification content (title, message, icon, etc.)
+  /// - **option**: Optional behavior settings (duration, progress bar, etc.)
+  /// - **theme**: Optional visual styling (colors, elevation, etc.)
   ///
-  /// Example:
+  /// ## Examples
+  ///
+  /// ### Simple Notification
   /// ```dart
   /// EasyInAppNotify.show(
+  ///   context,
   ///   content: EasyInAppNotifyContent(
-  ///     title: "Download Complete",
-  ///     message: "Your file has been downloaded successfully.",
-  ///     icon: Icons.download_done,
-  ///     trailingText: "Just now",
-  ///   ),
-  ///   option: EasyInAppNotifyOption(
-  ///     duration: 3,
-  ///     showProgressBar: true,
-  ///   ),
-  ///   theme: EasyInAppNotifyTheme(
-  ///     color: Colors.green,
-  ///     elevation: 8,
+  ///     title: "Success!",
+  ///     message: "Operation completed successfully.",
   ///   ),
   /// );
   /// ```
-  static void show({
+  ///
+  /// ### Rich Notification
+  /// ```dart
+  /// EasyInAppNotify.show(
+  ///   context,
+  ///   content: EasyInAppNotifyContent(
+  ///     title: "New Message",
+  ///     message: "You have received a new message from John.",
+  ///     icon: Icons.message,
+  ///     trailingText: "2m ago",
+  ///   ),
+  ///   option: EasyInAppNotifyOption(
+  ///     duration: 4,
+  ///     showProgressBar: true,
+  ///   ),
+  ///   theme: EasyInAppNotifyTheme(
+  ///     color: Colors.blue,
+  ///     elevation: 6,
+  ///   ),
+  /// );
+  /// ```
+  static void show(
+    final BuildContext context, {
     required final EasyInAppNotifyContent content,
     final EasyInAppNotifyOption? option,
     final EasyInAppNotifyTheme? theme,
   }) {
-    // Get overlay from the initialized context
-    final overlay = Overlay.of(_context);
+    final overlay = _getOverlay(context);
+    if (overlay == null) {
+      _handleMissingOverlay();
+      return;
+    }
 
-    // Hide any existing notification before showing new one
-    if (_entry != null && _entry!.mounted) _hide();
+    // Hide any existing notification
+    hide();
 
-    // Create new overlay entry with notification widget
-    _entry = OverlayEntry(
-      builder: (final context) {
-        // Play system notification sound for audio feedback for Android and iOS
-        if (Platform.isAndroid || Platform.isIOS) {
-          FlutterRingtonePlayer().playNotification();
-        }
-
-        return _NotifyView(
-          content: content,
-          theme:
-              theme ??
-              const EasyInAppNotifyTheme(), // Use default theme if none provided
-          option:
-              option ??
-              const EasyInAppNotifyOption(), // Use default options if none provided
-          onDismissed: () => _hide(), // Clean up when dismissed
-        );
-      },
+    // Create and show the new notification
+    _currentNotification = OverlayEntry(
+      builder: (final context) => _buildNotification(
+        content: content,
+        option: option ?? const EasyInAppNotifyOption(),
+        theme: theme ?? const EasyInAppNotifyTheme(),
+      ),
     );
 
-    // Insert the notification overlay into the widget tree
-    overlay.insert(_entry!);
+    overlay.insert(_currentNotification!);
   }
 
-  /// Hide and clean up the current notification overlay.
+  /// Hide the current notification immediately.
   ///
-  /// Removes the overlay entry from the widget tree and disposes of all
-  /// associated resources. This method is called automatically when
-  /// notifications are dismissed or when a new notification is shown.
-  static void _hide() {
-    _entry!.remove();
-    _entry!.dispose();
+  /// This method is called automatically when:
+  /// - A new notification is shown
+  /// - The user dismisses the notification
+  /// - The auto-dismiss timer expires
+  ///
+  /// You can also call it manually if needed.
+  static void hide() {
+    if (_currentNotification?.mounted == true) {
+      _currentNotification!.remove();
+      _currentNotification!.dispose();
+      _currentNotification = null;
+    }
+  }
+
+  /// Check if a notification is currently being displayed.
+  ///
+  /// Returns `true` if a notification is visible, `false` otherwise.
+  ///
+  /// ## Example
+  /// ```dart
+  /// if (!EasyInAppNotify.isShowing) {
+  ///   EasyInAppNotify.show(content: myContent);
+  /// }
+  /// ```
+  static bool get isShowing => _currentNotification?.mounted == true;
+
+  // ==========================================
+  // Internal Implementation
+  // ==========================================
+
+  /// Get the overlay from the context
+  static OverlayState? _getOverlay(final BuildContext context) {
+    try {
+      // Get overlay from context
+      return Overlay.of(context);
+    } on Exception {
+      return null;
+    }
+  }
+
+  /// Handle the case where overlay is not available
+  static void _handleMissingOverlay() {
+    assert(false, '''
+🚨 EasyInAppNotify: Overlay not found!
+
+Make sure you are calling EasyInAppNotify.show() from a context that has access to an Overlay.
+This typically means calling it from within a Widget that is part of your MaterialApp/WidgetsApp widget tree.
+''');
+  }
+
+  /// Build the notification widget with all necessary functionality
+  static Widget _buildNotification({
+    required final EasyInAppNotifyContent content,
+    required final EasyInAppNotifyOption option,
+    required final EasyInAppNotifyTheme theme,
+  }) {
+    // Play notification sound if supported
+    _playNotificationSound();
+
+    return _NotifyView(
+      content: content,
+      option: option,
+      theme: theme,
+      onDismissed: hide,
+    );
+  }
+
+  /// Play notification sound using Flutter's built-in SystemSound
+  /// Uses platform-appropriate sound types for best compatibility
+  static void _playNotificationSound() {
+    try {
+      if (kIsWeb || Platform.isIOS || Platform.isAndroid) {
+        // Web, Mobile: Use click sound
+        // Note: Web may not play sound but won't crash (yields no behavior per Flutter docs)
+        SystemSound.play(SystemSoundType.click);
+      } else {
+        // Desktop (macOS, Windows, Linux): Use alert sound
+        // Only desktop platforms support proper system alert sounds
+        SystemSound.play(SystemSoundType.alert);
+      }
+    } on Exception catch (e) {
+      // Silently ignore sound errors to prevent crashes
+      // This can happen when:
+      // - Device is in silent mode
+      // - System sounds are disabled
+      // - Platform doesn't support the sound type
+      debugPrint('EasyInAppNotify: Could not play notification sound: $e');
+    }
   }
 }

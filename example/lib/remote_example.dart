@@ -240,10 +240,11 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
       'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
     };
 
-    _routeRemoteMessage(type, title, body, data);
+    _routeRemoteMessage(context, type, title, body, data);
   }
 
   void _routeRemoteMessage(
+    final BuildContext context,
     final String? type,
     final String title,
     final String body,
@@ -251,11 +252,12 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
   ) {
     switch (type) {
       case 'chat':
-        NotificationHelper.showSuccess(title, body);
+        NotificationHelper.showSuccess(context, title, body);
         break;
 
       case 'promotion':
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -269,6 +271,7 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
 
       case 'alert':
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -285,6 +288,7 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
 
       case 'news':
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -297,6 +301,7 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
 
       case 'reminder':
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -310,6 +315,7 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
 
       case 'system':
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -322,6 +328,7 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
 
       default:
         EasyInAppNotify.show(
+          context,
           content: EasyInAppNotifyContent(
             title: title,
             message: body,
@@ -338,12 +345,12 @@ class _RemoteExamplePageState extends State<RemoteExamplePage> {
         title: const Text('Integration Code Example'),
         content: const SingleChildScrollView(
           child: Text('''
-// Initialize EasyInAppNotify
-EasyInAppNotify.init(context);
+// No initialization needed!
 
 // Handle incoming remote notifications
-void handleRemoteMessage(Map<String, dynamic> message) {
+void handleRemoteMessage(BuildContext context, Map<String, dynamic> message) {
   EasyInAppNotify.show(
+    context,
     content: EasyInAppNotifyContent(
       title: message['title'] ?? 'Notification',
       message: message['body'] ?? '',

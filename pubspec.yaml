@@ -1,6 +1,6 @@
 name: easy_in_app_notify
 description: "A beautiful Flutter package for displaying notifications as in-app overlays with smooth animations, progress indicators, and customizable styling."
-version: 1.0.1
+version: 2.0.0
 homepage: https://github.com/mohamedmaher-dev/easy_in_app_notify
 repository: https://github.com/mohamedmaher-dev/easy_in_app_notify
 issue_tracker: https://github.com/mohamedmaher-dev/easy_in_app_notify/issues
@@ -21,7 +21,6 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.5+1
-  flutter_ringtone_player: ^4.0.0+4
 
 dev_dependencies:
   flutter_test:

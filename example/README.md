@@ -25,7 +25,14 @@ This directory contains comprehensive examples demonstrating how to use the Easy
 - Helper classes and utilities
 - Sequential notifications
 
-### 4. **Helper Classes** (`lib/helpers/`)
+### 4. **FCM Integration** (`lib/fcm_example.dart`)
+
+- Firebase Cloud Messaging integration
+- Background message handling patterns
+- Navigator key usage without BuildContext
+- Real-world FCM scenarios
+
+### 5. **Helper Classes** (`lib/helpers/`)
 
 - Notification helper utilities
 - Theme configurations
@@ -41,22 +48,10 @@ This directory contains comprehensive examples demonstrating how to use the Easy
    flutter pub add easy_in_app_notify
    ```
 
-2. **Initialize in your app**:
-
-   ```dart
-   // In your main StatefulWidget's initState
-   @override
-   void initState() {
-     super.initState();
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-       EasyInAppNotify.init(context);
-     });
-   }
-   ```
-
-3. **Show notifications**:
+2. **Show notifications**:
    ```dart
    EasyInAppNotify.show(
+     context, // Pass your BuildContext
      content: EasyInAppNotifyContent(
        title: "Success!",
        message: "Your operation completed successfully.",
@@ -71,6 +66,7 @@ This directory contains comprehensive examples demonstrating how to use the Easy
 
 ```dart
 EasyInAppNotify.show(
+  context,
   content: EasyInAppNotifyContent(
     title: "Hello!",
     message: "This is a basic notification.",
@@ -81,8 +77,10 @@ EasyInAppNotify.show(
 ### 2. **Remote Message Handling**
 
 ```dart
+// No initialization needed!
 void handleRemoteMessage(Map<String, dynamic> message) {
   EasyInAppNotify.show(
+    context,
     content: EasyInAppNotifyContent(
       title: message['title'] ?? 'Notification',
       message: message['body'] ?? '',
@@ -106,6 +104,7 @@ void handleRemoteMessage(Map<String, dynamic> message) {
 
 ```dart
 EasyInAppNotify.show(
+  context,
   content: EasyInAppNotifyContent(
     title: "Custom Style",
     message: "This notification has custom styling.",

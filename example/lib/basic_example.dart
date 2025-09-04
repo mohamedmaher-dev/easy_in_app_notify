@@ -22,28 +22,28 @@ class BasicExamplePage extends StatelessWidget {
             description: 'Green theme for success notifications',
             icon: Icons.check_circle,
             color: Colors.green,
-            onPressed: () => _showSuccessNotification(),
+            onPressed: () => _showSuccessNotification(context),
           ),
           _buildNotificationButton(
             title: 'Error Message',
             description: 'Red theme for error notifications',
             icon: Icons.error,
             color: Colors.red,
-            onPressed: () => _showErrorNotification(),
+            onPressed: () => _showErrorNotification(context),
           ),
           _buildNotificationButton(
             title: 'Warning Message',
             description: 'Orange theme for warning notifications',
             icon: Icons.warning,
             color: Colors.orange,
-            onPressed: () => _showWarningNotification(),
+            onPressed: () => _showWarningNotification(context),
           ),
           _buildNotificationButton(
             title: 'Info Message',
             description: 'Blue theme for informational notifications',
             icon: Icons.info,
             color: Colors.blue,
-            onPressed: () => _showInfoNotification(),
+            onPressed: () => _showInfoNotification(context),
           ),
 
           const SizedBox(height: 24),
@@ -54,28 +54,28 @@ class BasicExamplePage extends StatelessWidget {
             description: 'Notification that stays for 8 seconds',
             icon: Icons.timer,
             color: Colors.purple,
-            onPressed: () => _showCustomDurationNotification(),
+            onPressed: () => _showCustomDurationNotification(context),
           ),
           _buildNotificationButton(
             title: 'No Progress Bar',
             description: 'Notification without countdown progress',
             icon: Icons.notifications_off,
             color: Colors.grey,
-            onPressed: () => _showNoProgressNotification(),
+            onPressed: () => _showNoProgressNotification(context),
           ),
           _buildNotificationButton(
             title: 'No Swipe Dismiss',
             description: 'Notification that cannot be swiped away',
             icon: Icons.lock,
             color: Colors.brown,
-            onPressed: () => _showNoSwipeNotification(),
+            onPressed: () => _showNoSwipeNotification(context),
           ),
           _buildNotificationButton(
             title: 'Custom Styling',
             description: 'Notification with custom elevation and radius',
             icon: Icons.style,
             color: Colors.teal,
-            onPressed: () => _showCustomStyledNotification(),
+            onPressed: () => _showCustomStyledNotification(context),
           ),
 
           const SizedBox(height: 24),
@@ -86,14 +86,14 @@ class BasicExamplePage extends StatelessWidget {
             description: 'Notification with timestamp or action hint',
             icon: Icons.access_time,
             color: Colors.indigo,
-            onPressed: () => _showTrailingTextNotification(),
+            onPressed: () => _showTrailingTextNotification(context),
           ),
           _buildNotificationButton(
             title: 'Long Message',
             description: 'Notification with longer content',
             icon: Icons.text_fields,
             color: Colors.cyan,
-            onPressed: () => _showLongMessageNotification(),
+            onPressed: () => _showLongMessageNotification(context),
           ),
         ],
       ),
@@ -136,8 +136,9 @@ class BasicExamplePage extends StatelessWidget {
     ),
   );
 
-  void _showSuccessNotification() {
+  void _showSuccessNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Success! ✅',
         message: 'Your action was completed successfully.',
@@ -147,8 +148,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showErrorNotification() {
+  void _showErrorNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Error Occurred ❌',
         message: 'Something went wrong. Please try again.',
@@ -158,8 +160,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showWarningNotification() {
+  void _showWarningNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Warning ⚠️',
         message: 'Please check your internet connection.',
@@ -169,8 +172,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showInfoNotification() {
+  void _showInfoNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Information ℹ️',
         message: 'New features are available in settings.',
@@ -180,8 +184,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showCustomDurationNotification() {
+  void _showCustomDurationNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Long Duration',
         message: 'This notification will stay for 8 seconds.',
@@ -194,8 +199,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showNoProgressNotification() {
+  void _showNoProgressNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'No Progress Bar',
         message: 'This notification has no countdown progress.',
@@ -208,8 +214,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showNoSwipeNotification() {
+  void _showNoSwipeNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Cannot Swipe',
         message: 'This notification cannot be dismissed by swiping.',
@@ -222,8 +229,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showCustomStyledNotification() {
+  void _showCustomStyledNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'Custom Style',
         message: 'This notification has custom elevation and radius.',
@@ -240,8 +248,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showTrailingTextNotification() {
+  void _showTrailingTextNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'New Message',
         message: 'You have received a new message from John.',
@@ -252,8 +261,9 @@ class BasicExamplePage extends StatelessWidget {
     );
   }
 
-  void _showLongMessageNotification() {
+  void _showLongMessageNotification(final BuildContext context) {
     EasyInAppNotify.show(
+      context,
       content: const EasyInAppNotifyContent(
         title: 'System Update Available',
         message:
