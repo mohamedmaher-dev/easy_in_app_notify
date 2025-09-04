@@ -5,6 +5,21 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-01-09
+
+### ✨ Added
+
+- Minor improvements and bug fixes
+- Updated documentation
+- Performance enhancements
+
+### 🔧 Changed
+
+- Version bump to 2.2.0
+- Updated dependencies and compatibility
+
+---
+
 ## [2.1.0] - 2025-01-09
 
 ### ✨ Added

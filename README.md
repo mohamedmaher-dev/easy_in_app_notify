@@ -4,7 +4,7 @@ A beautiful and customizable Flutter package for displaying notifications as in-
 
 Perfect for showing notifications when your app is in the foreground!
 
-> **🎉 Version 2.1.0** - Enhanced with **custom widget support**, **callback handling**, **animated blur background effects**, and **improved platform-optimized sounds**! Still zero configuration required.
+> **🎉 Version 2.2.0** - Enhanced with **custom widget support**, **callback handling**, **animated blur background effects**, and **improved platform-optimized sounds**! Still zero configuration required.
 
 ## 📷 Screenshots
 
@@ -19,13 +19,13 @@ Perfect for showing notifications when your app is in the foreground!
 - 🎯 **Overlay Notifications** - Non-blocking notifications that appear over your app content
 - 📱 **Foreground Notifications** - Show notifications when app is active/foreground
 - 🎨 **Fully Customizable** - Colors, spacing, dimensions, and visual styling
-- 🛠️ **Custom Widget Support** _(NEW in v2.1.0)_ - Display completely custom widgets as notifications
-- 📞 **Callback Handling** _(NEW in v2.1.0)_ - Handle tap events and dismissal callbacks
+- 🛠️ **Custom Widget Support** _(Since v2.1.0)_ - Display completely custom widgets as notifications
+- 📞 **Callback Handling** _(Since v2.1.0)_ - Handle tap events and dismissal callbacks
 - ⏱️ **Auto-Dismiss** - Configurable duration with visual countdown progress bar
 - 👆 **Swipe to Dismiss** - Users can swipe notifications away manually
 - 🎭 **Smooth Animations** - Slide-in/slide-out transitions with easing curves
-- 🌫️ **Animated Blur Background** _(NEW in v2.1.0)_ - Beautiful animated backdrop blur effect with smooth fade transitions and semi-transparent overlay for modern iOS-style appearance
-- 🔊 **Platform-Optimized Sounds** _(ENHANCED in v2.1.0)_ - Smart platform detection: alert sound on desktop, click sound on mobile/web (no external dependencies)
+- 🌫️ **Animated Blur Background** _(Since v2.1.0)_ - Beautiful animated backdrop blur effect with smooth fade transitions and semi-transparent overlay for modern iOS-style appearance
+- 🔊 **Platform-Optimized Sounds** _(Enhanced in v2.1.0)_ - Smart platform detection: alert sound on desktop, click sound on mobile/web (no external dependencies)
 - 🎯 **Material Design** - Follows Material Design principles and theming
 - 📱 **Safe Area Aware** - Respects device safe areas and notches
 - 🌐 **RTL Support** - Full right-to-left language support

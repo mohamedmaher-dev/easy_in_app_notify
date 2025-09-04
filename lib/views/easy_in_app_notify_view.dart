@@ -90,19 +90,20 @@ class _NotifyViewtate extends State<_NotifyView> with TickerProviderStateMixin {
     ],
     child: Stack(
       children: [
-        Positioned.fill(
-          child: FadeTransition(
-            opacity: _animationManager.fadeAnimation, // Animated opacity
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: widget.theme.blurColor.withAlpha(
-                  (0.3 * 255).toInt(),
-                ), // dim background
+        if (widget.theme.blurBackground)
+          Positioned.fill(
+            child: FadeTransition(
+              opacity: _animationManager.fadeAnimation, // Animated opacity
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: widget.theme.blurColor.withAlpha(
+                    (0.3 * 255).toInt(),
+                  ), // dim background
+                ),
               ),
             ),
           ),
-        ),
         _NotifyContainer(
           slideAnimation:
               _animationManager.slideAnimation, // Position animation
