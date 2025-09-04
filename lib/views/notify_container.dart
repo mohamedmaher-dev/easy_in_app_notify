@@ -12,6 +12,9 @@ class _NotifyContainer extends StatelessWidget {
   /// Callback function to execute when the notification is dismissed.
   final VoidCallback onDismiss;
 
+  /// Callback function to execute when the notification is tapped.
+  final VoidCallback? onTap;
+
   /// Child widget (typically the notification card) to display.
   final Widget child;
 
@@ -23,6 +26,7 @@ class _NotifyContainer extends StatelessWidget {
     required this.slideAnimation,
     required this.onDismiss,
     required this.child,
+    this.onTap,
   });
 
   @override
@@ -36,20 +40,23 @@ class _NotifyContainer extends StatelessWidget {
       top: theme.margin,
       left: theme.margin,
       right: theme.margin,
-      child: SafeArea(
-        child: SlideTransition(
-          position: slideAnimation, // Apply slide animation
-          child: Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(theme.radius),
-            // Conditionally wrap with Dismissible for swipe-to-dismiss
-            child: option.swipeToDismiss
-                ? Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (_) => onDismiss(), // Handle swipe dismissal
-                    child: child,
-                  )
-                : child, // No swipe interaction when disabled
+      child: GestureDetector(
+        onTap: onTap, // Handle tap events
+        child: SafeArea(
+          child: SlideTransition(
+            position: slideAnimation, // Apply slide animation
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(theme.radius),
+              // Conditionally wrap with Dismissible for swipe-to-dismiss
+              child: option.swipeToDismiss
+                  ? Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (_) => onDismiss(), // Handle swipe dismissal
+                      child: child,
+                    )
+                  : child, // No swipe interaction when disabled
+            ),
           ),
         ),
       ),

@@ -4,7 +4,7 @@ A beautiful and customizable Flutter package for displaying notifications as in-
 
 Perfect for showing notifications when your app is in the foreground!
 
-> **🎉 Version 2.0.0** - Now with **zero configuration**! No more `init()` or `navigatorKey` setup required. Just pass `context` to `show()` and you're ready!
+> **🎉 Version 2.1.0** - Enhanced with **custom widget support**, **callback handling**, **animated blur background effects**, and **improved platform-optimized sounds**! Still zero configuration required.
 
 ## 📷 Screenshots
 
@@ -19,10 +19,13 @@ Perfect for showing notifications when your app is in the foreground!
 - 🎯 **Overlay Notifications** - Non-blocking notifications that appear over your app content
 - 📱 **Foreground Notifications** - Show notifications when app is active/foreground
 - 🎨 **Fully Customizable** - Colors, spacing, dimensions, and visual styling
+- 🛠️ **Custom Widget Support** _(NEW in v2.1.0)_ - Display completely custom widgets as notifications
+- 📞 **Callback Handling** _(NEW in v2.1.0)_ - Handle tap events and dismissal callbacks
 - ⏱️ **Auto-Dismiss** - Configurable duration with visual countdown progress bar
 - 👆 **Swipe to Dismiss** - Users can swipe notifications away manually
 - 🎭 **Smooth Animations** - Slide-in/slide-out transitions with easing curves
-- 🔊 **Platform-Optimized Sounds** - Smart platform detection: alert sound on desktop, click sound on mobile/web (no external dependencies)
+- 🌫️ **Animated Blur Background** _(NEW in v2.1.0)_ - Beautiful animated backdrop blur effect with smooth fade transitions and semi-transparent overlay for modern iOS-style appearance
+- 🔊 **Platform-Optimized Sounds** _(ENHANCED in v2.1.0)_ - Smart platform detection: alert sound on desktop, click sound on mobile/web (no external dependencies)
 - 🎯 **Material Design** - Follows Material Design principles and theming
 - 📱 **Safe Area Aware** - Respects device safe areas and notches
 - 🌐 **RTL Support** - Full right-to-left language support
@@ -194,6 +197,83 @@ EasyInAppNotify.show(
     icon: Icons.info,
   ),
   theme: EasyInAppNotifyTheme(color: Colors.blue),
+);
+```
+
+### ✨ NEW in v2.1.0: Custom Widget Notifications
+
+Display completely custom widgets as notifications:
+
+```dart
+// Custom styled notification with any widget
+EasyInAppNotify.showCustom(
+  context,
+  Container(
+    margin: EdgeInsets.all(16),
+    padding: EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Colors.purple, Colors.pink],
+      ),
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
+      ],
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.star, color: Colors.white, size: 28),
+        SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Achievement Unlocked!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                'You\'ve completed 100 tasks',
+                style: TextStyle(color: Colors.white70),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+```
+
+### 📞 NEW in v2.1.0: Callback Handling
+
+Handle user interactions with notifications:
+
+```dart
+// Notification with tap and dismissal callbacks
+EasyInAppNotify.show(
+  context,
+  content: EasyInAppNotifyContent(
+    title: "New Message",
+    message: "Tap to view conversation",
+    icon: Icons.message,
+  ),
+  onTap: () {
+    // Handle notification tap
+    Navigator.pushNamed(context, '/chat');
+    print('Notification tapped!');
+  },
+  onDismissed: () {
+    // Handle notification dismissal
+    print('Notification was dismissed');
+    // Log analytics, update state, etc.
+  },
+  theme: EasyInAppNotifyTheme(color: Colors.green),
 );
 ```
 
@@ -626,6 +706,173 @@ class AdvancedFCMService {
 }
 ```
 
+## 🛠️ API Reference
+
+### Methods
+
+#### `EasyInAppNotify.show()`
+
+Display a standard notification with customizable content, styling, and behavior.
+
+```dart
+static void show(
+  BuildContext context, {
+  required EasyInAppNotifyContent content,
+  EasyInAppNotifyOption? option,
+  EasyInAppNotifyTheme? theme,
+  VoidCallback? onTap,        // NEW in v2.1.0
+  VoidCallback? onDismissed,  // NEW in v2.1.0
+})
+```
+
+**Parameters:**
+
+- `context`: BuildContext to access the overlay
+- `content`: Notification content (title, message, icon, etc.)
+- `option`: Optional behavior settings (duration, progress bar, etc.)
+- `theme`: Optional visual styling settings
+- `onTap`: Callback executed when notification is tapped _(NEW in v2.1.0)_
+- `onDismissed`: Callback executed when notification is dismissed _(NEW in v2.1.0)_
+
+#### `EasyInAppNotify.showCustom()` _(NEW in v2.1.0)_
+
+Display a completely custom widget as a notification.
+
+**⚠️ Important:** Custom notifications do **NOT** auto-dismiss and must be dismissed manually using `EasyInAppNotify.dismiss()`.
+
+```dart
+static void showCustom(
+  BuildContext context,
+  Widget child,
+)
+```
+
+**Parameters:**
+
+- `context`: BuildContext to access the overlay
+- `child`: Custom widget to display as notification
+
+**Basic Example:**
+
+```dart
+// Show custom notification
+EasyInAppNotify.showCustom(
+  context,
+  Container(
+    margin: EdgeInsets.all(16),
+    padding: EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.purple,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Text(
+      'Custom notification that stays until dismissed',
+      style: TextStyle(color: Colors.white),
+    ),
+  ),
+);
+
+// Later, dismiss it programmatically
+EasyInAppNotify.dismiss();
+```
+
+**Interactive Example:**
+
+```dart
+// Custom notification with buttons
+EasyInAppNotify.showCustom(
+  context,
+  Container(
+    margin: EdgeInsets.all(16),
+    padding: EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Do you want to continue?'),
+        SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                EasyInAppNotify.dismiss(); // Dismiss on button press
+                // Handle "Yes" action
+              },
+              child: Text('Yes'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                EasyInAppNotify.dismiss(); // Dismiss on button press
+                // Handle "No" action
+              },
+              child: Text('No'),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+);
+```
+
+#### `EasyInAppNotify.dismiss()` _(NEW in v2.1.0)_
+
+Programmatically dismiss the current notification and trigger the dismiss callback.
+
+**⭐ Works with both regular and custom notifications!**
+
+```dart
+static void dismiss()
+```
+
+This method triggers the `onDismissed` callback (if provided) and then removes the notification from the screen. Use this when you want to programmatically dismiss a notification and ensure callbacks are executed.
+
+**Examples:**
+
+```dart
+// Regular notification with dismiss callback
+EasyInAppNotify.show(
+  context,
+  content: EasyInAppNotifyContent(title: "Info", message: "Message"),
+  onDismissed: () => print("Notification was dismissed"),
+);
+
+// Later, programmatically dismiss it
+EasyInAppNotify.dismiss(); // This will call the onDismissed callback
+```
+
+```dart
+// Custom notification (requires manual dismissal)
+EasyInAppNotify.showCustom(
+  context,
+  MyCustomNotificationWidget(),
+);
+
+// Must dismiss manually since custom notifications don't auto-dismiss
+EasyInAppNotify.dismiss(); // This will hide the custom notification
+```
+
+#### `EasyInAppNotify.hide()`
+
+Manually hide the currently displayed notification without triggering callbacks.
+
+```dart
+static void hide()
+```
+
+#### `EasyInAppNotify.isShowing`
+
+Check if a notification is currently being displayed.
+
+```dart
+static bool get isShowing
+```
+
 ## 🎛️ Configuration
 
 ### EasyInAppNotifyContent
@@ -698,6 +945,35 @@ EasyInAppNotify.show(
   ),
 );
 ```
+
+### 🌫️ Animated Blur Background Effect _(NEW in v2.1.0)_
+
+All notifications now feature a beautiful animated blur background effect that creates a modern, polished appearance:
+
+- **🎯 Backdrop Blur**: Blurs the background content while keeping it visible
+- **🎬 Smooth Fade Animation**: Blur effect fades in and out with smooth transitions
+- **📱 iOS-Style Design**: Modern appearance similar to iOS notifications
+- **🌑 Semi-Transparent Overlay**: Dark overlay (30% opacity) ensures text readability
+- **✨ Professional Polish**: Adds depth and visual hierarchy to notifications
+- **🔧 Automatic**: No configuration needed - works out of the box
+
+**Animation Features:**
+
+- **300ms fade-in** when notification appears
+- **Synchronized fade-out** when notification dismisses
+- **Smooth curves** using easeInOut animation timing
+- **Perfect coordination** with slide animations
+
+**Visual Benefits:**
+
+- Creates focus on the notification content
+- Maintains visual context of the background
+- Reduces visual noise and distractions
+- Enhances text contrast and readability
+- Provides a premium, modern user experience
+- Adds professional animation polish
+
+The animated blur effect is automatically applied to all notification types (both regular and custom) and works seamlessly across all platforms.
 
 ## 📱 Platform-Specific Behavior
 

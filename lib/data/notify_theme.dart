@@ -42,6 +42,18 @@ class EasyInAppNotifyTheme {
   /// Default is 20 logical pixels.
   final double iconSize;
 
+  /// Whether to blur the background.
+  ///
+  /// If true, the background will be blurred.
+  /// Default is false.
+  final bool blurBackground;
+
+  /// Color of the blur effect.
+  ///
+  /// If true, the background will be blurred.
+  /// Default is Colors.black.
+  final Color blurColor;
+
   /// Creates a new notification theme configuration.
   ///
   /// All parameters are optional and provide sensible defaults for a modern,
@@ -53,5 +65,7 @@ class EasyInAppNotifyTheme {
     this.radius = 10,
     this.elevation = 5,
     this.iconSize = 20,
+    this.blurBackground = true,
+    this.blurColor = Colors.black,
   });
 }

@@ -5,6 +5,195 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-01-09
+
+### ✨ Added
+
+#### New Methods
+
+- **`showCustom()` Method**: Display completely custom widgets as notifications
+  ```dart
+  EasyInAppNotify.showCustom(context, YourCustomWidget());
+  ```
+  - Perfect for complex notification layouts
+  - Full control over notification appearance
+  - Integrates with existing auto-dismiss system
+
+#### Enhanced Callback Support
+
+- **`onDismissed` Callback**: Execute code when notification is dismissed
+  ```dart
+  EasyInAppNotify.show(
+    context,
+    content: content,
+    onDismissed: () => print('Notification dismissed'),
+  );
+  ```
+- **`onTap` Callback**: Handle notification tap events
+  ```dart
+  EasyInAppNotify.show(
+    context,
+    content: content,
+    onTap: () => Navigator.push(context, MyRoute()),
+  );
+  ```
+
+#### Comprehensive Documentation
+
+- **5 Complete Usage Patterns**: Detailed implementations for context-less usage
+  - **Pass Context as Parameter Pattern**: Clean service method design
+  - **Callback Pattern**: Decoupled service notifications with callbacks
+  - **Navigator Key Pattern**: Global notification access throughout the app
+  - **Service Locator Pattern**: Dependency injection compatible design
+  - **Firebase Cloud Messaging (FCM) Integration**: Complete FCM setup with examples
+- **Production-Ready Code Examples**: Copy-paste ready implementations
+- **Real-World Scenarios**: API services, background tasks, FCM integration
+
+### 🔧 Enhanced
+
+#### Improved Sound System
+
+- **Platform-Specific Sound Types**: Optimized for each platform
+  - **Desktop (macOS/Windows/Linux)**: `SystemSoundType.alert` for proper notification sounds
+  - **Mobile (iOS/Android)**: `SystemSoundType.click` for brief interaction feedback
+  - **Web**: `SystemSoundType.click` with graceful fallback when unsupported
+- **Enhanced Error Handling**: Better handling of silent mode and disabled system sounds
+- **Comprehensive Platform Support**: Consistent behavior across all Flutter platforms
+- **Debug Information**: Improved error logging for troubleshooting sound issues
+
+#### Better Error Handling
+
+- **Context-Aware Error Messages**: Clear guidance when overlay is not available
+- **Improved Debugging**: Better error messages for common integration issues
+- **Graceful Fallbacks**: Notifications continue to work even when sounds fail
+
+#### Enhanced Visual Design
+
+- **Animated Blur Background Effect**: Beautiful backdrop blur with smooth fade transitions
+  - Modern iOS-style appearance with `BackdropFilter` and `FadeTransition`
+  - 300ms fade-in animation when notification appears
+  - Synchronized fade-out when notification dismisses
+  - Smooth `easeInOut` animation curves for professional polish
+  - Creates depth and visual hierarchy
+  - Maintains background context while focusing attention on notification
+  - Automatic full-screen coverage with coordinated animations
+
+#### Documentation Improvements
+
+- **Complete API Documentation**: All methods include comprehensive examples
+- **Integration Guides**: Step-by-step guides for complex scenarios
+- **Platform Compatibility Notes**: Clear documentation of platform-specific behaviors
+- **Error Troubleshooting**: Common issues and their solutions
+
+### 🎯 Code Examples
+
+#### Custom Widget Notifications
+
+```dart
+// Display any custom widget as a notification
+EasyInAppNotify.showCustom(
+  context,
+  Container(
+    margin: EdgeInsets.all(16),
+    padding: EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.red,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.error, color: Colors.white),
+        SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            'Custom styled error notification',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+```
+
+#### Enhanced Callbacks
+
+```dart
+// Handle notification interactions
+EasyInAppNotify.show(
+  context,
+  content: EasyInAppNotifyContent(
+    title: "New Message",
+    message: "Tap to view conversation",
+    icon: Icons.message,
+  ),
+  onTap: () {
+    // Navigate to chat screen
+    Navigator.pushNamed(context, '/chat');
+  },
+  onDismissed: () {
+    // Log dismissal for analytics
+    analytics.logEvent('notification_dismissed');
+  },
+);
+```
+
+#### FCM Integration (Complete Setup)
+
+```dart
+class FCMService {
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  static void initialize() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      _showFCMNotification(message);
+    });
+  }
+
+  static void _showFCMNotification(RemoteMessage message) {
+    final context = navigatorKey.currentContext;
+    if (context != null && message.notification != null) {
+      EasyInAppNotify.show(
+        context,
+        content: EasyInAppNotifyContent(
+          title: message.notification!.title ?? 'Notification',
+          message: message.notification!.body ?? '',
+          icon: Icons.notifications,
+        ),
+        theme: EasyInAppNotifyTheme(color: Colors.blue),
+        onTap: () {
+          // Handle FCM notification tap
+          final data = message.data;
+          if (data['route'] != null) {
+            navigatorKey.currentState?.pushNamed(data['route']);
+          }
+        },
+      );
+    }
+  }
+}
+```
+
+### 🔄 Migration from v2.0.x
+
+No breaking changes! All existing v2.0.x code continues to work unchanged.
+
+**Optional Enhancements:**
+
+- Add `onTap` and `onDismissed` callbacks where needed
+- Use `showCustom()` for completely custom notification designs
+- Review sound behavior on your target platforms
+
+### 📱 Platform Support
+
+- ✅ Android (with optimized click sound)
+- ✅ iOS (with optimized click sound)
+- ✅ Web (graceful sound fallback)
+- ✅ macOS (with proper alert sound)
+- ✅ Windows (with proper alert sound)
+- ✅ Linux (with proper alert sound)
+
 ## [2.0.0] - 2025-01-09
 
 ### 🚨 BREAKING CHANGES
