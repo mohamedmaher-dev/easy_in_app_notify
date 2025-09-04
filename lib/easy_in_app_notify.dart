@@ -176,6 +176,7 @@ library;
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:easy_in_app_notify/consts.dart';
 import 'package:flutter/cupertino.dart';
@@ -244,6 +245,16 @@ class EasyInAppNotify {
   /// The current notification overlay entry (null when no notification is shown)
   static OverlayEntry? _currentNotification;
 
+  /// The current notification's animation dismiss callback (null when no notification is shown)
+  /// This triggers the smooth animations before hiding the notification
+  static VoidCallback? _currentDismissCallback;
+
+  /// Internal method to set the animation dismiss callback
+  /// Called by _NotifyView to connect the animation manager's dismiss method
+  static void _setDismissCallback(final VoidCallback? callback) {
+    _currentDismissCallback = callback;
+  }
+
   // ==========================================
   // Public API
   // ==========================================
@@ -258,6 +269,8 @@ class EasyInAppNotify {
   /// - **content**: The notification content (title, message, icon, etc.)
   /// - **option**: Optional behavior settings (duration, progress bar, etc.)
   /// - **theme**: Optional visual styling (colors, elevation, etc.)
+  /// - **onTap**: Optional callback executed when notification is tapped
+  /// - **onDismissed**: Optional callback executed when notification is dismissed
   ///
   /// ## Examples
   ///
@@ -292,11 +305,33 @@ class EasyInAppNotify {
   ///   ),
   /// );
   /// ```
+  ///
+  /// ### With Callbacks
+  /// ```dart
+  /// EasyInAppNotify.show(
+  ///   context,
+  ///   content: EasyInAppNotifyContent(
+  ///     title: "New Message",
+  ///     message: "Tap to view conversation",
+  ///     icon: Icons.message,
+  ///   ),
+  ///   onTap: () {
+  ///     Navigator.pushNamed(context, '/chat');
+  ///     print('Notification tapped!');
+  ///   },
+  ///   onDismissed: () {
+  ///     print('Notification was dismissed');
+  ///     // Log analytics, update state, etc.
+  ///   },
+  /// );
+  /// ```
   static void show(
     final BuildContext context, {
     required final EasyInAppNotifyContent content,
     final EasyInAppNotifyOption? option,
     final EasyInAppNotifyTheme? theme,
+    final VoidCallback? onTap,
+    final VoidCallback? onDismissed,
   }) {
     final overlay = _getOverlay(context);
     if (overlay == null) {
@@ -307,32 +342,167 @@ class EasyInAppNotify {
     // Hide any existing notification
     hide();
 
+    // Note: _currentDismissCallback will be set by the _NotifyView
+    // to the animation manager's dismiss method
+
     // Create and show the new notification
     _currentNotification = OverlayEntry(
       builder: (final context) => _buildNotification(
         content: content,
         option: option ?? const EasyInAppNotifyOption(),
         theme: theme ?? const EasyInAppNotifyTheme(),
+        onDismissed: onDismissed,
+        onTap: onTap,
       ),
     );
 
     overlay.insert(_currentNotification!);
   }
 
+  /// Display a completely custom widget as a notification.
+  ///
+  /// Shows any custom widget as an overlay notification. Unlike regular notifications,
+  /// custom notifications do NOT auto-dismiss and must be dismissed manually using
+  /// `EasyInAppNotify.dismiss()` or `EasyInAppNotify.hide()`.
+  ///
+  /// ## Parameters
+  /// - **context**: BuildContext to access the overlay
+  /// - **child**: Custom widget to display as the notification
+  ///
+  /// ## Important Notes
+  /// - Custom notifications do **not** auto-dismiss
+  /// - No built-in timer, progress bar, or swipe-to-dismiss functionality
+  /// - Must be dismissed manually using `EasyInAppNotify.dismiss()`
+  /// - Full control over appearance and behavior
+  ///
+  /// ## Examples
+  ///
+  /// ### Basic Custom Notification
+  /// ```dart
+  /// // Show custom notification
+  /// EasyInAppNotify.showCustom(
+  ///   context,
+  ///   Container(
+  ///     margin: EdgeInsets.all(16),
+  ///     padding: EdgeInsets.all(20),
+  ///     decoration: BoxDecoration(
+  ///       color: Colors.purple,
+  ///       borderRadius: BorderRadius.circular(12),
+  ///     ),
+  ///     child: Text(
+  ///       'Custom notification that stays until dismissed',
+  ///       style: TextStyle(color: Colors.white),
+  ///     ),
+  ///   ),
+  /// );
+  ///
+  /// // Later, dismiss it programmatically
+  /// EasyInAppNotify.dismiss(); // or EasyInAppNotify.hide()
+  /// ```
+  ///
+  /// ### Interactive Custom Notification
+  /// ```dart
+  /// EasyInAppNotify.showCustom(
+  ///   context,
+  ///   Container(
+  ///     margin: EdgeInsets.all(16),
+  ///     padding: EdgeInsets.all(16),
+  ///     decoration: BoxDecoration(
+  ///       color: Colors.white,
+  ///       borderRadius: BorderRadius.circular(12),
+  ///       boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+  ///     ),
+  ///     child: Column(
+  ///       mainAxisSize: MainAxisSize.min,
+  ///       children: [
+  ///         Text('Do you want to continue?'),
+  ///         SizedBox(height: 12),
+  ///         Row(
+  ///           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  ///           children: [
+  ///             ElevatedButton(
+  ///               onPressed: () {
+  ///                 EasyInAppNotify.dismiss(); // Dismiss on button press
+  ///                 // Handle "Yes" action
+  ///               },
+  ///               child: Text('Yes'),
+  ///             ),
+  ///             ElevatedButton(
+  ///               onPressed: () {
+  ///                 EasyInAppNotify.dismiss(); // Dismiss on button press
+  ///                 // Handle "No" action
+  ///               },
+  ///               child: Text('No'),
+  ///             ),
+  ///           ],
+  ///         ),
+  ///       ],
+  ///     ),
+  ///   ),
+  /// );
+  /// ```
+  static void showCustom(final BuildContext context, final Widget child) {
+    final overlay = _getOverlay(context);
+    if (overlay == null) {
+      _handleMissingOverlay();
+      return;
+    }
+
+    // Hide any existing notification
+    hide();
+
+    // Create and show the new notification
+    _currentNotification = OverlayEntry(builder: (final context) => child);
+
+    // Set up dismiss callback to just hide the notification
+    _setDismissCallback(hide);
+
+    overlay.insert(_currentNotification!);
+  }
+
+  /// Dismiss the current notification and trigger the dismiss callback.
+  ///
+  /// This method triggers the `onDismissed` callback (if provided) and then
+  /// removes the notification from the screen. Use this when you want to
+  /// programmatically dismiss a notification and ensure callbacks are executed.
+  ///
+  /// ## Example
+  /// ```dart
+  /// // Show notification with dismiss callback
+  /// EasyInAppNotify.show(
+  ///   context,
+  ///   content: EasyInAppNotifyContent(title: "Info", message: "Message"),
+  ///   onDismissed: () => print("Notification was dismissed"),
+  /// );
+  ///
+  /// // Later, programmatically dismiss it
+  /// EasyInAppNotify.dismiss(); // This will call the onDismissed callback
+  /// ```
+  static void dismiss() {
+    if (isShowing) {
+      // Trigger the animation manager's dismiss method which will handle animations
+      // and then call the user's callback + hide() after animations complete
+      _currentDismissCallback?.call();
+    }
+  }
+
   /// Hide the current notification immediately.
   ///
-  /// This method is called automatically when:
+  /// This method removes the notification without triggering the dismiss callback.
+  /// It's called automatically when:
   /// - A new notification is shown
-  /// - The user dismisses the notification
-  /// - The auto-dismiss timer expires
+  /// - The user dismisses the notification (after callback is triggered)
+  /// - The auto-dismiss timer expires (after callback is triggered)
   ///
-  /// You can also call it manually if needed.
+  /// For programmatic dismissal that triggers callbacks, use `dismiss()` instead.
   static void hide() {
     if (_currentNotification?.mounted == true) {
       _currentNotification!.remove();
       _currentNotification!.dispose();
       _currentNotification = null;
     }
+    // Clear the dismiss callback
+    _currentDismissCallback = null;
   }
 
   /// Check if a notification is currently being displayed.
@@ -376,6 +546,8 @@ This typically means calling it from within a Widget that is part of your Materi
     required final EasyInAppNotifyContent content,
     required final EasyInAppNotifyOption option,
     required final EasyInAppNotifyTheme theme,
+    final VoidCallback? onDismissed,
+    final VoidCallback? onTap,
   }) {
     // Play notification sound if supported
     _playNotificationSound();
@@ -384,7 +556,11 @@ This typically means calling it from within a Widget that is part of your Materi
       content: content,
       option: option,
       theme: theme,
-      onDismissed: hide,
+      onDismissed: () {
+        // Only call user's callback - _NotifyView will handle hide() after animations
+        onDismissed?.call();
+      },
+      onTap: onTap,
     );
   }
 

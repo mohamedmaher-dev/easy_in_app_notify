@@ -21,11 +21,17 @@ class _AnimManger {
   /// Animation controller for the progress bar countdown.
   late final AnimationController _progressController;
 
+  /// Animation controller for the backdrop fade effect.
+  late final AnimationController _fadeController;
+
   /// Slide transition animation that moves the notification from top.
   late final Animation<Offset> _offsetAnimation;
 
   /// Progress animation that fills the progress bar over time.
   late final Animation<double> _progressAnimation;
+
+  /// Fade animation for the backdrop blur effect.
+  late final Animation<double> _fadeAnimation;
 
   /// Timer that automatically dismisses the notification after duration.
   late final Timer _dismissTimer;
@@ -45,9 +51,10 @@ class _AnimManger {
 
   /// Initializes all animation controllers and their respective animations.
   ///
-  /// Sets up two main animations:
+  /// Sets up three main animations:
   /// 1. Slide animation for smooth entry/exit transitions
   /// 2. Progress animation for the countdown progress bar
+  /// 3. Fade animation for the backdrop blur effect
   void _initializeAnimations() {
     // Slide animation controller - handles smooth entry and exit
     _slideController = AnimationController(
@@ -61,6 +68,12 @@ class _AnimManger {
       duration: Duration(seconds: duration),
     );
 
+    // Fade animation controller - handles backdrop blur fade in/out
+    _fadeController = AnimationController(
+      vsync: vsync,
+      duration: const Duration(milliseconds: 300),
+    );
+
     // Slide transition animation - moves notification from above screen
     _offsetAnimation = Tween<Offset>(
       begin: const Offset(0, -1), // Start above screen
@@ -71,15 +84,28 @@ class _AnimManger {
     _progressAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _progressController, curve: Curves.linear),
     );
+
+    // Fade animation for backdrop blur - smooth opacity transition
+    _fadeAnimation =
+        Tween<double>(
+          begin: 0.0, // Start transparent
+          end: 1.0, // End fully visible
+        ).animate(
+          CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+        );
   }
 
   /// Starts all animations and sets up the auto-dismiss timer.
   ///
   /// This method coordinates the start of the notification display sequence:
+  /// - Fades in the backdrop blur effect
   /// - Slides the notification into view
   /// - Begins the progress countdown
   /// - Sets up automatic dismissal after the specified duration
   void _startAnimations() {
+    // Start fade-in animation for backdrop blur effect
+    _fadeController.forward();
+
     // Start slide-in animation to bring notification into view
     _slideController.forward();
 
@@ -90,13 +116,19 @@ class _AnimManger {
     _dismissTimer = Timer(Duration(seconds: duration), dismiss);
   }
 
-  /// Dismisses the notification with a smooth slide-out animation.
+  /// Dismisses the notification with smooth slide-out and fade-out animations.
   ///
   /// Can be called manually (e.g., user swipe) or automatically by timer.
   /// Prevents multiple dismiss operations if already animating.
   Future<void> dismiss() async {
-    if (_slideController.isAnimating) return;
-    await _slideController.reverse();
+    if (_slideController.isAnimating || _fadeController.isAnimating) return;
+
+    // Start both reverse animations simultaneously
+    final slideReverse = _slideController.reverse();
+    final fadeReverse = _fadeController.reverse();
+
+    // Wait for both animations to complete
+    await Future.wait([slideReverse, fadeReverse]);
     onDismiss();
   }
 
@@ -107,6 +139,7 @@ class _AnimManger {
   void dispose() {
     _slideController.dispose();
     _progressController.dispose();
+    _fadeController.dispose();
     _dismissTimer.cancel();
   }
 
@@ -115,4 +148,7 @@ class _AnimManger {
 
   /// Gets the progress animation for the countdown progress bar.
   Animation<double> get progressAnimation => _progressAnimation;
+
+  /// Gets the fade animation for the backdrop blur effect.
+  Animation<double> get fadeAnimation => _fadeAnimation;
 }

@@ -26,18 +26,25 @@ class EasyInAppNotifyContent {
   /// Optional trailing text to display on the right side of the notification.
   ///
   /// This is typically used for timestamps, additional context, or action hints
-  /// like "Tap to view" or "2m ago".
+  /// like "Tap to view" or "2m ago". Converted to Text widget internally.
   final String? trailingText;
+
+  /// Optional trailing widget to display on the right side of the notification.
+  ///
+  /// This provides more flexibility than [trailingText] for custom trailing content.
+  /// If both [trailingText] and [trailing] are provided, [trailing] takes precedence.
+  final Widget? trailing;
 
   /// Creates a new notification content instance.
   ///
   /// [title] and [message] are required and will be the primary content
-  /// displayed to users. [icon] and [trailingText] are optional and can
-  /// be used to enhance the notification with visual and contextual information.
+  /// displayed to users. [icon], [trailingText], and [trailing] are optional.
+  /// If both [trailingText] and [trailing] are provided, [trailing] takes precedence.
   const EasyInAppNotifyContent({
     required this.title,
     required this.message,
     this.icon,
     this.trailingText,
+    this.trailing,
   });
 }

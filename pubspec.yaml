@@ -1,6 +1,6 @@
 name: easy_in_app_notify
 description: "A beautiful Flutter package for displaying notifications as in-app overlays with smooth animations, progress indicators, and customizable styling."
-version: 2.0.0
+version: 2.1.0
 homepage: https://github.com/mohamedmaher-dev/easy_in_app_notify
 repository: https://github.com/mohamedmaher-dev/easy_in_app_notify
 issue_tracker: https://github.com/mohamedmaher-dev/easy_in_app_notify/issues
@@ -11,7 +11,7 @@ topics:
   - in-app
   - overlay
   - animations
-  - material-design
+  - blur
 
 environment:
   sdk: ^3.9.0

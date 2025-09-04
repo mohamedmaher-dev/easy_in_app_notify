@@ -4,7 +4,8 @@ part of '../easy_in_app_notify.dart';
 ///
 /// This StatefulWidget serves as the main container for a notification,
 /// managing its lifecycle, animations, and state. It coordinates between
-/// the content, theming, options, and animation systems.
+/// the content, theming, options, and animation systems. Features a
+/// animated blur background that fades in and out smoothly.
 class _NotifyView extends StatefulWidget {
   /// Notification content including title, message, icon, and trailing text.
   final EasyInAppNotifyContent content;
@@ -21,6 +22,12 @@ class _NotifyView extends StatefulWidget {
   /// clean up the overlay entry from the widget tree.
   final VoidCallback onDismissed;
 
+  /// Callback function executed when the notification is tapped.
+  ///
+  /// This is called when the notification is tapped and is used to
+  /// handle the tap event.
+  final VoidCallback? onTap;
+
   /// Creates a new notification view widget.
   ///
   /// All parameters are required as they define the complete notification
@@ -30,6 +37,7 @@ class _NotifyView extends StatefulWidget {
     required this.onDismissed,
     required this.option,
     required this.theme,
+    required this.onTap,
   });
 
   @override
@@ -52,8 +60,17 @@ class _NotifyViewtate extends State<_NotifyView> with TickerProviderStateMixin {
     _animationManager = _AnimManger(
       vsync: this, // Provides ticker for animations
       duration: widget.option.duration, // Auto-dismiss duration
-      onDismiss: widget.onDismissed, // Cleanup callback
+      onDismiss: () {
+        // Call user's callback first
+        widget.onDismissed();
+        // Then call static hide to clean up the overlay
+        EasyInAppNotify.hide();
+      },
     );
+
+    // Set the static dismiss callback to the animation manager's dismiss method
+    // This allows EasyInAppNotify.dismiss() to trigger animations
+    EasyInAppNotify._setDismissCallback(_animationManager.dismiss);
   }
 
   @override
@@ -71,13 +88,32 @@ class _NotifyViewtate extends State<_NotifyView> with TickerProviderStateMixin {
       Provider.value(value: widget.theme), // Visual styling configuration
       Provider.value(value: widget.option), // Behavior configuration
     ],
-    child: _NotifyContainer(
-      slideAnimation: _animationManager.slideAnimation, // Position animation
-      onDismiss: _animationManager.dismiss, // Manual dismiss handler
-      child: _NotifyCard(
-        progressAnimation:
-            _animationManager.progressAnimation, // Progress animation
-      ),
+    child: Stack(
+      children: [
+        Positioned.fill(
+          child: FadeTransition(
+            opacity: _animationManager.fadeAnimation, // Animated opacity
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                color: widget.theme.blurColor.withAlpha(
+                  (0.3 * 255).toInt(),
+                ), // dim background
+              ),
+            ),
+          ),
+        ),
+        _NotifyContainer(
+          slideAnimation:
+              _animationManager.slideAnimation, // Position animation
+          onDismiss: _animationManager.dismiss, // Manual dismiss handler
+          onTap: widget.onTap, // Pass tap callback to container
+          child: _NotifyCard(
+            progressAnimation:
+                _animationManager.progressAnimation, // Progress animation
+          ),
+        ),
+      ],
     ),
   );
 }
