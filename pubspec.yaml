@@ -1,5 +1,5 @@
 name: easy_in_app_notify
-description: "A beautiful Flutter package for displaying notifications as in-app overlays with smooth animations, progress indicators, and customizable styling. Features centralized auto-dismiss, universal dismiss support, and enhanced API design."
+description: "Beautiful Flutter in-app notifications with smooth animations, auto-dismiss, progress bars, and customizable styling."
 version: 2.3.0
 homepage: https://github.com/mohamedmaher-dev/easy_in_app_notify
 repository: https://github.com/mohamedmaher-dev/easy_in_app_notify
