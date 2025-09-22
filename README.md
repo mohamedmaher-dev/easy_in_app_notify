@@ -15,6 +15,7 @@ Transform your app's user experience with stunning notifications that slide, fad
 - [🚀 Quick Start](#-quick-start)
   - [Installation](#installation)
   - [Basic Setup](#basic-setup)
+  - [Integration with Other Packages](#integration-with-other-packages)
   - [Show Your First Notification](#show-your-first-notification)
 - [🎨 Feature Showcase](#-feature-showcase)
   - [Different Notification Types](#different-notification-types)
@@ -157,6 +158,75 @@ EasyInAppNotify.showSuccess(
 ```
 
 That's it! 🎉
+
+### Integration with Other Packages
+
+If you're using other packages that also require a `builder` in `MaterialApp` (like `flutter_easyloading`, `bot_toast`, etc.), you can chain the builders together:
+
+#### With EasyLoading
+
+```dart
+import 'package:easy_in_app_notify/easy_in_app_notify.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      builder: (context, child) {
+        // Chain multiple builders
+        child = EasyLoading.init()(context, child);
+        child = EasyInAppNotify.init()(context, child);
+        return child;
+      },
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+#### Alternative Nested Approach
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          return EasyInAppNotify.init()(context, child);
+        },
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+#### With Multiple Packages
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      builder: (context, child) {
+        // Add as many builders as needed
+        child = EasyLoading.init()(context, child);
+        child = BotToastInit()(context, child);
+        child = EasyInAppNotify.init()(context, child);
+        return child;
+      },
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+> **💡 Tip**: The order matters! Place `EasyInAppNotify.init()` last to ensure notifications appear on top of other overlays.
 
 ## 🎨 Feature Showcase
 
