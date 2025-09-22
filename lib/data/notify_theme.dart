@@ -2,8 +2,22 @@ part of '../easy_in_app_notify.dart';
 
 /// Visual styling configuration for notification appearance.
 ///
-/// This class controls all aspects of how the notification looks, including
-/// colors, spacing, dimensions, and visual effects.
+/// This class provides comprehensive theming options for customizing the visual
+/// presentation of notifications. It supports both standard and custom widget
+/// notifications with consistent styling capabilities.
+///
+/// Enhanced in v2.3.0 with improved documentation and clarity for developers.
+///
+/// Example:
+/// ```dart
+/// EasyInAppNotifyTheme(
+///   color: Colors.blue,
+///   margin: 16.0,
+///   radius: 12.0,
+///   blurBackground: true,
+///   elevation: 8.0,
+/// )
+/// ```
 class EasyInAppNotifyTheme {
   /// Primary accent color for the notification theme.
   ///
@@ -42,22 +56,30 @@ class EasyInAppNotifyTheme {
   /// Default is 20 logical pixels.
   final double iconSize;
 
-  /// Whether to blur the background.
+  /// Whether to enable animated background blur effect.
   ///
-  /// If true, the background will be blurred.
-  /// Default is false.
+  /// When enabled, creates a beautiful iOS-style backdrop blur effect that
+  /// fades in smoothly with the notification. This enhances visual focus
+  /// and creates depth in the interface.
+  ///
+  /// Default is true for modern appearance.
   final bool blurBackground;
 
-  /// Color of the blur effect.
+  /// Color overlay for the blur effect background.
   ///
-  /// If true, the background will be blurred.
-  /// Default is Colors.black.
+  /// Applied as a semi-transparent overlay on top of the blurred background
+  /// to create the desired visual effect. Typically a dark color with low opacity.
+  ///
+  /// Default is Colors.black with automatic opacity applied.
   final Color blurColor;
 
   /// Creates a new notification theme configuration.
   ///
   /// All parameters are optional and provide sensible defaults for a modern,
-  /// clean notification appearance that works well with Material Design.
+  /// clean notification appearance that works well with Material Design principles.
+  ///
+  /// The defaults are optimized for v2.3.0's enhanced visual system and
+  /// universal widget support.
   const EasyInAppNotifyTheme({
     this.color,
     this.margin = 5,

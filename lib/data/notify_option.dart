@@ -8,8 +8,8 @@ class EasyInAppNotifyOption {
   /// Duration in seconds that the notification should remain visible.
   ///
   /// After this time elapses, the notification will automatically dismiss itself.
-  /// Default is 5 seconds. Set to a higher value for notifications that require
-  /// more reading time or contain important information.
+  /// Default is 5 seconds. Must be greater than 0. Set to a higher value for
+  /// notifications that require more reading time or contain important information.
   final int duration;
 
   /// Whether to show a progress bar indicating time remaining.
@@ -29,9 +29,11 @@ class EasyInAppNotifyOption {
   ///
   /// All parameters are optional and will use sensible defaults if not provided.
   /// The defaults provide a good user experience for most notification types.
+  ///
+  /// [duration] must be greater than 0 to ensure notifications auto-dismiss.
   const EasyInAppNotifyOption({
     this.duration = 5,
     this.showProgressBar = true,
     this.swipeToDismiss = true,
-  });
+  }) : assert(duration > 0, 'Duration must be greater than 0 seconds');
 }
