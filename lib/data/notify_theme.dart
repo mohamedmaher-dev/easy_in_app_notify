@@ -73,6 +73,24 @@ class EasyInAppNotifyTheme {
   /// Default is Colors.black with automatic opacity applied.
   final Color blurColor;
 
+  /// Whether to show a progress bar indicating time remaining.
+  ///
+  /// When enabled, displays a linear progress indicator at the bottom of the
+  /// notification that visually shows how much time is left before auto-dismiss.
+  /// This is a visual element, making it part of the theming system.
+  ///
+  /// Default is true.
+  final bool showProgressBar;
+
+  /// Whether users can swipe the notification to dismiss it manually.
+  ///
+  /// When enabled, users can swipe the notification horizontally to dismiss it
+  /// before the auto-dismiss timer expires. This affects the visual interaction
+  /// behavior and gesture handling.
+  ///
+  /// Default is true.
+  final bool swipeToDismiss;
+
   /// Creates a new notification theme configuration.
   ///
   /// All parameters are optional and provide sensible defaults for a modern,
@@ -89,5 +107,7 @@ class EasyInAppNotifyTheme {
     this.iconSize = 20,
     this.blurBackground = true,
     this.blurColor = Colors.black,
+    this.showProgressBar = true,
+    this.swipeToDismiss = true,
   });
 }

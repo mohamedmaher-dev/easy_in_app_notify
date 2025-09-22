@@ -35,8 +35,8 @@ class _NotifyCard extends StatelessWidget {
         // Always show the main notification content
         _NotificationContent(content: content, theme: theme),
 
-        // Conditionally show progress bar based on options
-        if (EasyInAppNotify._currentOption.showProgressBar)
+        // Conditionally show progress bar based on theme settings
+        if (theme.showProgressBar)
           _NotifyProgress(animation: progressAnimation, theme: theme),
       ],
     ),

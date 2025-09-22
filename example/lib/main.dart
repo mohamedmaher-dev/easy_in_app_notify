@@ -82,50 +82,30 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           // Demonstrate v2.3.0 features:
-          // - Custom Card widget notification
+          // - EasyInAppView with theme-based configuration
+          // - showProgressBar and swipeToDismiss moved to theme
           // - Centralized auto-dismiss system
           // - Duration validation (must be > 0)
           // - Universal dismiss support
           EasyInAppNotify.show(
             context,
-            view: Card(
-              margin: const EdgeInsets.all(16),
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 32,
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'v2.3.0 Demo Notification',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Auto-dismiss in 3 seconds',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    const Text(
-                      'Universal dismiss support ✨',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  ],
-                ),
+            view: EasyInAppView(
+              onTap: () => debugPrint('📱 Notification tapped'),
+              content: EasyInAppNotifyContent(
+                title: 'v2.3.0 Demo Notification',
+                message: 'Showing new theme-based configuration!',
+                icon: Icons.check_circle,
+              ),
+              theme: EasyInAppNotifyTheme(
+                color: Colors.green,
+                showProgressBar: false, // Now in theme!
+                swipeToDismiss: true, // Now in theme!
+                blurBackground: true,
+                radius: 12.0,
               ),
             ),
             option: const EasyInAppNotifyOption(
               duration: 3, // Duration validation: must be > 0
-              showProgressBar: false,
-              swipeToDismiss: true,
             ),
             onDismissed: () {
               debugPrint('📱 Notification dismissed via centralized system');

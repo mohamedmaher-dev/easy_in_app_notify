@@ -62,7 +62,7 @@ class _NotifyContainer extends StatelessWidget {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(theme.radius),
               // Conditionally wrap with Dismissible for swipe-to-dismiss
-              child: EasyInAppNotify._currentOption.swipeToDismiss
+              child: theme.swipeToDismiss
                   ? Dismissible(
                       key: UniqueKey(),
                       onDismissed: (_) => onDismiss(), // Handle swipe dismissal

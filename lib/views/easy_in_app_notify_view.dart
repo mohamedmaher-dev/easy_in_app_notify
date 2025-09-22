@@ -89,6 +89,7 @@ class _NotifyViewtate extends State<EasyInAppView>
         onDismiss: _animationManager.dismiss,
         progressAnimation: _animationManager.progressAnimation,
         content: widget.content,
+        onTap: widget.onTap, // Forward onTap callback
       ),
     ],
   );

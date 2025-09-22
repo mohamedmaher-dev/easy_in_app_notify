@@ -20,10 +20,10 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
 
 <div align="center">
   
-| Standard Notification | Custom Widget Notification |
-|:---:|:---:|
-| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) |
-| Built-in notification with progress bar | Custom Card widget with icons |
+| Standard Notification | Custom Widget | v2.3.0 Features |
+|:---:|:---:|:---:|
+| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.0 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
+| Built-in notification with progress bar | Custom Card widget with icons | Latest features demonstration |
 
 </div>
 
@@ -88,9 +88,9 @@ import 'package:easy_in_app_notify/easy_in_app_notify.dart';
 // Show a simple notification
 EasyInAppNotify.show(
   context,
-  view: EasyInAppViewView(
-  content: EasyInAppNotifyContent(
-    title: "Success!",
+  view: EasyInAppView(
+    content: EasyInAppNotifyContent(
+      title: "Success!",
       message: "Your action was completed successfully.",
     ),
   ),
@@ -165,23 +165,21 @@ EasyInAppNotifyContent(
 
 ### EasyInAppNotifyOption
 
-Control notification behavior and timing:
+Control notification timing and auto-dismiss behavior:
 
 ```dart
 EasyInAppNotifyOption(
   duration: 5,              // Auto-dismiss duration (must be > 0)
-  showProgressBar: true,    // Show countdown progress bar
-  swipeToDismiss: true,     // Enable swipe gestures
 )
 ```
 
-| Property          | Type   | Description                                    | Default |
-| ----------------- | ------ | ---------------------------------------------- | ------- |
-| `duration`        | `int`  | Auto-dismiss duration in seconds (must be > 0) | `5`     |
-| `showProgressBar` | `bool` | Display countdown progress bar                 | `true`  |
-| `swipeToDismiss`  | `bool` | Enable swipe-to-dismiss gestures               | `true`  |
+| Property   | Type  | Description                                    | Default |
+| ---------- | ----- | ---------------------------------------------- | ------- |
+| `duration` | `int` | Auto-dismiss duration in seconds (must be > 0) | `5`     |
 
 > **⚠️ Important:** In v2.3.0, `duration` must be greater than 0. Use `duration: 1` or higher.
+>
+> **📝 Note:** `showProgressBar` and `swipeToDismiss` have been moved to `EasyInAppNotifyTheme` for better organization.
 
 ### EasyInAppNotifyTheme
 
@@ -189,24 +187,28 @@ Customize visual appearance and styling:
 
 ```dart
 EasyInAppNotifyTheme(
-  color: Colors.blue,       // Primary accent color
-  margin: 16.0,            // Margin from screen edges
-  radius: 12.0,            // Border radius
-  elevation: 8.0,          // Shadow elevation
-  blurBackground: true,    // Enable blur effect
+  color: Colors.blue,         // Primary accent color
+  margin: 16.0,              // Margin from screen edges
+  radius: 12.0,              // Border radius
+  elevation: 8.0,            // Shadow elevation
+  blurBackground: true,      // Enable blur effect
+  showProgressBar: true,     // Show countdown progress bar
+  swipeToDismiss: true,      // Enable swipe gestures
 )
 ```
 
-| Property         | Type     | Description              | Default             |
-| ---------------- | -------- | ------------------------ | ------------------- |
-| `color`          | `Color?` | Primary accent color     | App's primary color |
-| `margin`         | `double` | Margin from screen edges | `5.0`               |
-| `padding`        | `double` | Internal padding         | `10.0`              |
-| `radius`         | `double` | Border radius            | `10.0`              |
-| `elevation`      | `double` | Shadow elevation         | `5.0`               |
-| `iconSize`       | `double` | Icon size                | `20.0`              |
-| `blurBackground` | `bool`   | Enable blur effect       | `true`              |
-| `blurColor`      | `Color`  | Blur overlay color       | `Colors.black`      |
+| Property          | Type     | Description                      | Default             |
+| ----------------- | -------- | -------------------------------- | ------------------- |
+| `color`           | `Color?` | Primary accent color             | App's primary color |
+| `margin`          | `double` | Margin from screen edges         | `5.0`               |
+| `padding`         | `double` | Internal padding                 | `10.0`              |
+| `radius`          | `double` | Border radius                    | `10.0`              |
+| `elevation`       | `double` | Shadow elevation                 | `5.0`               |
+| `iconSize`        | `double` | Icon size                        | `20.0`              |
+| `blurBackground`  | `bool`   | Enable blur effect               | `true`              |
+| `blurColor`       | `Color`  | Blur overlay color               | `Colors.black`      |
+| `showProgressBar` | `bool`   | Display countdown progress bar   | `true`              |
+| `swipeToDismiss`  | `bool`   | Enable swipe-to-dismiss gestures | `true`              |
 
 ---
 
@@ -217,11 +219,15 @@ EasyInAppNotifyTheme(
 ```dart
 EasyInAppNotify.show(
   context,
-  view: EasyInAppViewView(
+  view: EasyInAppView(
   content: EasyInAppNotifyContent(
       title: "New Message",
       message: "You have received a new message",
       icon: Icons.message,
+  ),
+  theme: EasyInAppNotifyTheme(
+      showProgressBar: true, // Now in theme
+      swipeToDismiss: true,  // Now in theme
     ),
     onTap: () {
       // Handle notification tap
@@ -229,8 +235,7 @@ EasyInAppNotify.show(
     },
   ),
   option: EasyInAppNotifyOption(
-    duration: 6,
-    showProgressBar: true,
+    duration: 6, // Only timing in options
   ),
   onDismissed: () {
     // Handle dismissal
@@ -244,7 +249,7 @@ EasyInAppNotify.show(
 ```dart
 EasyInAppNotify.show(
   context,
-  view: EasyInAppViewView(
+  view: EasyInAppView(
   content: EasyInAppNotifyContent(
       title: "Premium Feature",
       message: "Unlock advanced features with Premium",
@@ -257,11 +262,12 @@ EasyInAppNotify.show(
       elevation: 12.0,
       blurBackground: true,
       blurColor: Colors.orange,
+      showProgressBar: false, // Visual elements in theme
+      swipeToDismiss: true,   // Gesture handling in theme
     ),
   ),
   option: EasyInAppNotifyOption(
-    duration: 4,
-    showProgressBar: false,
+    duration: 4, // Only timing configuration
   ),
 );
 ```
@@ -351,7 +357,7 @@ class NotificationService {
     EasyInAppNotify.show(
       context,
       view: EasyInAppViewView(
-        content: EasyInAppNotifyContent(
+      content: EasyInAppNotifyContent(
           title: "Success",
           message: message,
           icon: Icons.check_circle,
@@ -436,10 +442,10 @@ class MyApp extends StatelessWidget {
         builder: (context) {
           // Register notification callback
           ApiService.setNotificationCallback(() {
-            EasyInAppNotify.show(
-              context,
+      EasyInAppNotify.show(
+        context,
               view: EasyInAppViewView(
-                content: EasyInAppNotifyContent(
+        content: EasyInAppNotifyContent(
                   title: "Data Loaded",
                   message: "Successfully fetched latest data",
                 ),
@@ -511,7 +517,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey, // Register global key
-      home: MyHomePage(),
+  home: MyHomePage(),
     );
   }
 }
@@ -585,7 +591,7 @@ class NotificationService implements INotificationService {
 
   @override
   void showCustom(Widget widget) {
-    EasyInAppNotify.show(
+      EasyInAppNotify.show(
       _context,
       view: widget,
       option: EasyInAppNotifyOption(duration: 4),
@@ -608,8 +614,8 @@ class ServiceLocator {
 
 // Usage
 class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+@override
+Widget build(BuildContext context) {
     // Register service with current context
     ServiceLocator.register<INotificationService>(
       NotificationService(context),
@@ -628,7 +634,7 @@ class BusinessLogicWidget extends StatelessWidget {
       onPressed: () {
         // Use service without direct context access
         final notificationService = ServiceLocator.get<INotificationService>();
-        notificationService.showSuccess("Operation completed!");
+notificationService.showSuccess("Operation completed!");
       },
       child: Text("Process Data"),
     );
@@ -662,7 +668,7 @@ class NotificationProvider extends ChangeNotifier {
       EasyInAppNotify.show(
         _context!,
         view: customView ?? EasyInAppViewView(
-          content: EasyInAppNotifyContent(
+        content: EasyInAppNotifyContent(
             title: title,
             message: message,
           ),
@@ -729,7 +735,7 @@ class NotificationNotifier extends StateNotifier<void> {
       EasyInAppNotify.show(
         _context!,
         view: EasyInAppViewView(
-          content: EasyInAppNotifyContent(
+        content: EasyInAppNotifyContent(
             title: "Success",
             message: message,
             icon: Icons.check,
@@ -766,7 +772,7 @@ class NotificationNotifier extends StateNotifier<void> {
    ```dart
    try {
      EasyInAppNotify.show(context, view: widget);
-   } catch (e) {
+    } catch (e) {
      // Fallback to console logging or other notification method
      print('Failed to show notification: $e');
    }
@@ -781,9 +787,11 @@ class NotificationNotifier extends StateNotifier<void> {
 
      void dispose() {
        _context = null;
-     }
+   }
    }
    ```
+
+````
 
 ---
 
@@ -800,7 +808,7 @@ static void show(
   EasyInAppNotifyOption option = const EasyInAppNotifyOption(),
   VoidCallback? onDismissed,
 })
-```
+````
 
 Displays a notification with the specified widget and options.
 
