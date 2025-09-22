@@ -6,7 +6,7 @@ part of '../easy_in_app_notify.dart';
 /// managing its lifecycle, animations, and state. It coordinates between
 /// the content, theming, options, and animation systems. Features a
 /// animated blur background that fades in and out smoothly.
-class EasyInAppViewView extends StatefulWidget {
+class EasyInAppView extends StatefulWidget {
   final EasyInAppNotifyContent content;
 
   /// Visual theming configuration for colors, spacing, and appearance.
@@ -17,7 +17,7 @@ class EasyInAppViewView extends StatefulWidget {
 
   /// All parameters are required as they define the complete notification
   /// experience including content, behavior, appearance, and lifecycle.
-  const EasyInAppViewView({
+  const EasyInAppView({
     super.key,
     required this.content,
     this.theme = const EasyInAppNotifyTheme(),
@@ -25,7 +25,7 @@ class EasyInAppViewView extends StatefulWidget {
   });
 
   @override
-  State<EasyInAppViewView> createState() => _NotifyViewtate();
+  State<EasyInAppView> createState() => _NotifyViewtate();
 }
 
 /// State class for the notification view widget.
@@ -33,7 +33,7 @@ class EasyInAppViewView extends StatefulWidget {
 /// Manages the animation lifecycle and provides ticker support for smooth
 /// animations. Uses Provider pattern to distribute configuration data
 /// to child widgets efficiently.
-class _NotifyViewtate extends State<EasyInAppViewView>
+class _NotifyViewtate extends State<EasyInAppView>
     with TickerProviderStateMixin {
   /// Animation manager that handles all timing and animation coordination.
   late final _AnimManger _animationManager;
