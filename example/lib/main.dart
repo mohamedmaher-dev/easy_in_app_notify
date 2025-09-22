@@ -1,219 +1,121 @@
-import 'package:flutter/material.dart';
+/// Example app demonstrating Easy In-App Notify v2.3.0 features
+///
+/// This example showcases:
+/// - Custom widget notifications using Card
+/// - Centralized auto-dismiss system
+/// - Duration validation (must be > 0)
+/// - Universal dismiss support
+///
+/// Version: 2.3.0
+/// Features: Centralized Auto-Dismiss, Universal Dismiss Support, Duration Validation
+library;
+
 import 'package:easy_in_app_notify/easy_in_app_notify.dart';
-import 'remote_example.dart';
-import 'basic_example.dart';
-import 'advanced_example.dart';
-import 'fcm_example.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-/// Main example app demonstrating Easy In-App Notify package
+/// Main application widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(final BuildContext context) => MaterialApp(
-    title: 'Easy In-App Notify Examples',
-    theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-    home: const ExampleHomePage(),
-  );
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Easy In-App Notify Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Easy In-App Notify v2.3.0'),
+    );
+  }
 }
 
-/// Home page showing different example categories
-class ExampleHomePage extends StatefulWidget {
-  const ExampleHomePage({super.key});
+/// Demo page showcasing Easy In-App Notify v2.3.0 features
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
 
   @override
-  State<ExampleHomePage> createState() => _ExampleHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _ExampleHomePageState extends State<ExampleHomePage> {
-  // No initialization needed! EasyInAppNotify works automatically
-
+class _MyHomePageState extends State<MyHomePage> {
   @override
-  Widget build(final BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Easy In-App Notify Examples'),
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  const Icon(
-                    Icons.notifications_active,
-                    size: 48,
-                    color: Colors.blue,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Easy In-App Notify',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Text(
-                    'Comprehensive Integration Examples',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Quick Demo
-          _buildQuickDemo(),
-          const SizedBox(height: 24),
-
-          // Example Categories
-          Expanded(
-            child: ListView(
-              children: [
-                _buildExampleCard(
-                  title: 'Basic Examples',
-                  description:
-                      'Simple notifications with different types and styling',
-                  icon: Icons.star,
-                  color: Colors.green,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (final context) => const BasicExamplePage(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                _buildExampleCard(
-                  title: 'Remote Integration',
-                  description:
-                      'Remote message handling and foreground notifications',
-                  icon: Icons.cloud,
-                  color: Colors.orange,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (final context) => const RemoteExamplePage(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                _buildExampleCard(
-                  title: 'Advanced Features',
-                  description:
-                      'Custom themes, animations, and complex scenarios',
-                  icon: Icons.settings,
-                  color: Colors.purple,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (final context) => const AdvancedExamplePage(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                _buildExampleCard(
-                  title: 'FCM Integration',
-                  description: 'Firebase Cloud Messaging without BuildContext',
-                  icon: Icons.cloud_queue,
-                  color: Colors.blue,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (final context) => const FCMExamplePage(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
       ),
-    ),
-  );
-
-  Widget _buildQuickDemo() => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('Quick Demo', style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 12),
-          ElevatedButton.icon(
-            onPressed: () {
-              EasyInAppNotify.show(
-                context,
-                content: const EasyInAppNotifyContent(
-                  title: 'Welcome! 👋',
-                  message:
-                      'This is your first Easy In-App Notify notification!',
-                  icon: Icons.celebration,
-                  trailingText: 'Demo',
-                ),
-                theme: const EasyInAppNotifyTheme(
-                  color: Colors.blue,
-                  elevation: 8,
-                ),
-              );
-            },
-            icon: const Icon(Icons.play_arrow),
-            label: const Text('Show Demo Notification'),
-          ),
-        ],
-      ),
-    ),
-  );
-
-  Widget _buildExampleCard({
-    required final String title,
-    required final String description,
-    required final IconData icon,
-    required final Color color,
-    required final VoidCallback onTap,
-  }) => Card(
-    child: InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(icon, color: color, size: 32),
+      body: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '📱 Easy In-App Notify Demo',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
-                  ),
-                ],
-              ),
+            SizedBox(height: 16),
+            Text(
+              'Tap the button below to show a custom notification',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
-            const Icon(Icons.arrow_forward_ios, size: 16),
+            SizedBox(height: 8),
+            Text(
+              '✨ Features v2.3.0:',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            Text(
+              '• Centralized Auto-Dismiss\n• Universal Dismiss Support\n• Duration Validation',
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
-    ),
-  );
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Demonstrate v2.3.0 features:
+          // - EasyInAppView with theme-based configuration
+          // - showProgressBar and swipeToDismiss moved to theme
+          // - Centralized auto-dismiss system
+          // - Duration validation (must be > 0)
+          // - Universal dismiss support
+          EasyInAppNotify.show(
+            context,
+            view: EasyInAppView(
+              onTap: () => debugPrint('📱 Notification tapped'),
+              content: EasyInAppNotifyContent(
+                title: 'v2.3.0 Demo Notification',
+                message: 'Showing new theme-based configuration!',
+                icon: Icons.check_circle,
+              ),
+              theme: EasyInAppNotifyTheme(
+                color: Colors.green,
+                showProgressBar: false, // Now in theme!
+                swipeToDismiss: true, // Now in theme!
+                blurBackground: true,
+                radius: 12.0,
+              ),
+            ),
+            option: const EasyInAppNotifyOption(
+              duration: 3, // Duration validation: must be > 0
+            ),
+            onDismissed: () {
+              debugPrint('📱 Notification dismissed via centralized system');
+            },
+          );
+        },
+        tooltip: 'Show v2.3.0 Demo',
+        label: const Text('Show Notification'),
+        icon: const Icon(Icons.notifications_active),
+      ),
+    );
+  }
 }

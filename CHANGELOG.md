@@ -5,6 +5,66 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-09-22
+
+### ✨ Added
+
+#### Enhanced Architecture
+
+- **Centralized Auto-Dismiss System**: Universal timer management for all notification types
+- **Universal Dismiss Support**: `EasyInAppNotify.dismiss()` now works with any widget type (Card, Container, custom widgets, etc.)
+- **Duration Validation**: Added assertion to ensure duration > 0 for reliable auto-dismiss behavior
+- **Enhanced Code Organization**: Refactored main class with logical method grouping and comprehensive documentation
+
+#### Developer Experience Improvements
+
+- **Comprehensive Documentation**: Added detailed class and method documentation with examples
+- **Better Error Messages**: Improved assertion messages for clearer debugging
+- **Code Comments**: Enhanced inline comments explaining complex logic and design decisions
+- **Structured Codebase**: Organized imports, methods, and functionality into logical sections
+
+### 🔧 Changed
+
+#### API Improvements
+
+- **Simplified Architecture**: Removed CustomViewWrapper complexity while maintaining functionality
+- **Unified Timer Management**: All notifications now use the same centralized auto-dismiss system
+- **Better Method Organization**: Grouped related functionality for improved maintainability
+- **Enhanced Type Safety**: Improved parameter validation and error handling
+
+#### Performance Optimizations
+
+- **Memory Management**: Improved timer cleanup and resource management
+- **Reduced Complexity**: Simplified internal architecture while preserving all features
+- **Better Separation of Concerns**: Clear separation between public API and internal implementation
+
+### 🛠️ Technical Details
+
+#### Refactored Components
+
+- **EasyInAppNotify Class**: Complete reorganization with logical method sections
+- **Timer Management**: Centralized auto-dismiss logic for consistency across all notification types
+- **Documentation**: Added comprehensive examples and usage patterns
+- **Code Quality**: Improved readability and maintainability throughout
+
+#### Breaking Changes
+
+- **Duration Requirement**: `EasyInAppNotifyOption(duration: 0)` now throws assertion error
+  - **Migration**: Use `duration: 1` or higher for auto-dismiss notifications
+  - **Reason**: Ensures consistent behavior and prevents notifications that never dismiss
+
+### 📋 Migration Guide
+
+```dart
+// ❌ Old (will now fail)
+EasyInAppNotifyOption(duration: 0)
+
+// ✅ New (minimum duration)
+EasyInAppNotifyOption(duration: 1)
+```
+
+---
+
 ## [2.2.0] - 2025-01-09
 
 ### ✨ Added

@@ -6,14 +6,15 @@ part of '../easy_in_app_notify.dart';
 /// background color. The icon helps users quickly identify the notification
 /// type or category.
 class _NotificationIcon extends StatelessWidget {
+  final EasyInAppNotifyTheme theme;
+  final EasyInAppNotifyContent content;
+
   /// Creates a new notification icon widget.
-  const _NotificationIcon();
+  const _NotificationIcon({required this.theme, required this.content});
 
   @override
   Widget build(final BuildContext context) {
     // Get content data and theming from Provider context
-    final content = Provider.of<EasyInAppNotifyContent>(context);
-    final theme = Provider.of<EasyInAppNotifyTheme>(context);
 
     // Create subtle background color using primary color with transparency
     final primaryBackgroundColor = Theme.of(

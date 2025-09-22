@@ -33,8 +33,7 @@ class _AnimManger {
   /// Fade animation for the backdrop blur effect.
   late final Animation<double> _fadeAnimation;
 
-  /// Timer that automatically dismisses the notification after duration.
-  late final Timer _dismissTimer;
+  /// Auto-dismiss timer is now handled centrally in EasyInAppNotify class
 
   /// Creates and initializes a new animation manager.
   ///
@@ -112,8 +111,7 @@ class _AnimManger {
     // Start progress animation to show countdown to user
     _progressController.forward();
 
-    // Set auto-dismiss timer to hide notification when duration expires
-    _dismissTimer = Timer(Duration(seconds: duration), dismiss);
+    // Auto-dismiss timer is now handled centrally in EasyInAppNotify class
   }
 
   /// Dismisses the notification with smooth slide-out and fade-out animations.
@@ -140,7 +138,7 @@ class _AnimManger {
     _slideController.dispose();
     _progressController.dispose();
     _fadeController.dispose();
-    _dismissTimer.cancel();
+    // Auto-dismiss timer disposal is now handled centrally in EasyInAppNotify class
   }
 
   /// Gets the slide animation for positioning the notification.
