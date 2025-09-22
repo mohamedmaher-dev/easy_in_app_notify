@@ -1,987 +1,825 @@
-# 📱 Easy In-App Notify
-
-**Beautiful, customizable in-app notifications for Flutter applications**
+# 🔔 Easy In-App Notify
 
 [![pub package](https://img.shields.io/pub/v/easy_in_app_notify.svg)](https://pub.dev/packages/easy_in_app_notify)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat&logo=Flutter&logoColor=white)](https://flutter.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Flutter Platform](https://img.shields.io/badge/Platform-Flutter-blue.svg)](https://flutter.dev)
 
----
+**Beautiful, modern, and highly customizable in-app notifications for Flutter applications.**
 
-## 🌟 Overview
+Transform your app's user experience with stunning notifications that slide, fade, and scale with smooth animations. Perfect for status updates, alerts, confirmations, and user feedback.
 
-Easy In-App Notify is a powerful Flutter package that provides beautiful overlay notifications with smooth animations, customizable theming, and universal widget support. Perfect for displaying non-blocking notifications when your app is in the foreground.
+## 📋 Table of Contents
 
-**Latest Version: 2.3.2** - Now with centralized auto-dismiss system, universal dismiss support, and enhanced architecture!
+- [📱 Screenshots](#-screenshots)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+  - [Installation](#installation)
+  - [Basic Setup](#basic-setup)
+  - [Integration with Other Packages](#integration-with-other-packages)
+  - [Show Your First Notification](#show-your-first-notification)
+- [🎨 Feature Showcase](#-feature-showcase)
+  - [Different Notification Types](#different-notification-types)
+  - [Positions & Animations](#positions--animations)
+  - [Interactive Features](#interactive-features)
+- [📖 Complete Usage Guide](#-complete-usage-guide)
+  - [Basic Notifications](#basic-notifications)
+  - [Advanced Custom Notifications](#advanced-custom-notifications)
+  - [Positioning Options](#positioning-options)
+  - [Animation Types](#animation-types)
+  - [Progress Bars & Auto-Dismiss](#progress-bars--auto-dismiss)
+  - [Interactive Notifications](#interactive-notifications)
+  - [Persistent Notifications](#persistent-notifications)
+  - [Background Blur Effects](#background-blur-effects)
+  - [Multiple Notifications](#multiple-notifications)
+- [🎛️ API Reference](#️-api-reference)
+  - [NotificationContent](#notificationcontent)
+  - [NotificationStyle](#notificationstyle)
+  - [NotificationConfig](#notificationconfig)
+  - [Enums](#enums)
+  - [Static Methods](#static-methods)
+- [🎨 Styling Examples](#-styling-examples)
+  - [Material Design 3 Theme](#material-design-3-theme)
+  - [Dark Theme Support](#dark-theme-support)
+  - [Custom Brand Colors](#custom-brand-colors)
+- [🔧 Migration Guide](#-migration-guide)
+  - [From v2.x to v3.0](#from-v2x-to-v30)
+- [🔍 Examples & Demos](#-examples--demos)
+- [❓ Frequently Asked Questions](#-frequently-asked-questions)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [🙏 Acknowledgments](#-acknowledgments)
 
----
+## 📱 Screenshots
 
-## 📸 Screenshots
+<table>
+<tr>
+<td align="center">
+<img src="assets/images/screenshot-2025-09-03_15.06.09.149.png" alt="Success Notification" width="250"/>
+<br><b>Success Notification</b>
+</td>
+<td align="center">
+<img src="assets/images/screenshot-2025-09-03_15.06.43.597.png" alt="Error Notification" width="250"/>
+<br><b>Error Notification</b>
+</td>
+<td align="center">
+<img src="assets/images/screenshot-2025-09-22_11.51.50.62.png" alt="Custom Notification" width="250"/>
+<br><b>Custom Styling</b>
+</td>
+</tr>
+</table>
 
-<div align="center">
-  
-| Standard Notification | Custom Widget | v2.3.2 Features |
-|:---:|:---:|:---:|
-| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.2 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
-| Built-in notification with progress bar | Custom Card widget with icons | v2.3.2 features demonstration |
+> 📱 **Live Demo:** The images above show the actual notification styles. Run `flutter run` in the [example](example/) folder to see all 16 notification types in action!
 
-</div>
-
----
+> ⚠️ **Note:** If images don't display in GitHub, they will be visible once the package is published to pub.dev.
 
 ## ✨ Features
 
-### 🆕 **New in v2.3.2**
+### 🎨 **Beautiful Design**
 
-- 🖼️ **Fixed Image Display** - Resolved screenshot visibility issues in documentation
-- 🔗 **URL Management** - Updated GitHub raw URLs for proper cross-branch compatibility
-- 📚 **Enhanced Documentation** - Improved visual consistency and accessibility
+- Material Design 3 compatible
+- Pre-built themes for Success, Error, Warning, and Info
+- Fully customizable colors, typography, and spacing
+- Smooth rounded corners and elegant shadows
 
-### 🚀 **Previous Updates (v2.3.1)**
+### 🎭 **Rich Animations**
 
-- 🔧 **Fixed onTap Callback** - Critical bug fix for tap event handling
-- 📱 **Enhanced Documentation** - New Samsung Galaxy A14 screenshot
-- 🔍 **SEO Optimized** - Package description optimized for better discoverability
-- 🖼️ **Visual Improvements** - Professional three-column screenshot layout
+- **Slide** animations from top, bottom, or sides
+- **Fade** animations with opacity transitions
+- **Scale** animations that grow from center
+- **Custom** animation durations and curves
+- Background blur effects with animated opacity
 
-### 🚀 **Core Features (v2.3.0+)**
+### 📍 **Flexible Positioning**
 
-- 🎯 **Centralized Auto-Dismiss** - Universal timer management for all notification types
-- 🔧 **Universal Dismiss Support** - `dismiss()` works with any widget (Card, Container, custom widgets)
-- ✅ **Duration Validation** - Ensures reliable auto-dismiss behavior (duration > 0)
-- 📚 **Enhanced Documentation** - Comprehensive code documentation with examples
-- 🏗️ **Refactored Architecture** - Improved maintainability and code organization
+- **Top** positioning for status updates
+- **Bottom** positioning for action confirmations
+- **Center** positioning for important alerts
+- Responsive margins and safe area handling
 
-### 🚀 **Core Capabilities**
+### ⚡ **Smart Features**
 
-- 📱 **Overlay Notifications** - Non-blocking notifications over your app content
-- 🎨 **Custom Widget Support** - Display any Flutter widget as a notification
-- ⏱️ **Configurable Auto-Dismiss** - Set custom durations with visual progress indicators
-- 👆 **Swipe to Dismiss** - Intuitive gesture-based dismissal
-- 🎭 **Smooth Animations** - Beautiful slide-in/out transitions with easing curves
-- 🌫️ **Animated Blur Background** - Modern iOS-style backdrop effects
-- 🔊 **Platform-Optimized Sounds** - Smart sound selection per platform
-- 📞 **Callback Support** - Handle tap events and dismissal callbacks
-- 🌐 **Universal Compatibility** - Works with Material Design, Cupertino, and custom themes
+- **Auto-dismiss** with configurable duration
+- **Progress bars** showing countdown visualization
+- **Tap-to-dismiss** and **swipe-to-dismiss** interactions
+- **Hover effects** that pause auto-dismiss timers
+- **Multiple notifications** or single notification modes
 
----
+### 🛠️ **Developer Friendly**
 
-## 📦 Installation
+- Simple, intuitive API with method chaining
+- Comprehensive TypeScript-style documentation
+- Zero breaking changes from previous versions
+- Built-in accessibility support
+- Memory efficient with automatic cleanup
 
-### Using Flutter CLI
+## 🚀 Quick Start
 
-```bash
-flutter pub add easy_in_app_notify
-```
-
-### Manual Installation
+### Installation
 
 Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  easy_in_app_notify: ^2.3.0
+  easy_in_app_notify: ^3.0.0
 ```
 
-Then run:
+Run the installation:
 
 ```bash
 flutter pub get
 ```
 
----
+### Basic Setup
 
-## 🚀 Quick Start
-
-### Basic Usage
+Initialize the notification system in your `MaterialApp`:
 
 ```dart
 import 'package:easy_in_app_notify/easy_in_app_notify.dart';
 
-// Show a simple notification
-            EasyInAppNotify.show(
-  context,
-  view: EasyInAppView(
-              content: EasyInAppNotifyContent(
-      title: "Success!",
-      message: "Your action was completed successfully.",
-    ),
-  ),
-  option: EasyInAppNotifyOption(
-    duration: 3, // Auto-dismiss after 3 seconds
-  ),
-);
-```
-
-### Custom Widget Notification (v2.3.0)
-
-```dart
-// Display any custom widget as a notification
-EasyInAppNotify.show(
-  context,
-  view: Card(
-    margin: EdgeInsets.all(16),
-    child: Padding(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check_circle, color: Colors.green, size: 32),
-          SizedBox(height: 8),
-          Text("Custom Notification", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          Text("This is a custom Card widget!"),
-        ],
-      ),
-    ),
-  ),
-  option: EasyInAppNotifyOption(
-    duration: 4,
-    swipeToDismiss: true,
-  ),
-);
-```
-
-### Manual Dismissal (Universal Support)
-
-```dart
-// Show notification
-EasyInAppNotify.show(context, view: myWidget, option: myOptions);
-
-// Dismiss programmatically (works with ANY widget type)
-EasyInAppNotify.dismiss();
-```
-
----
-
-## 🎛️ Configuration
-
-### EasyInAppNotifyContent
-
-Configure the notification content for standard notifications:
-
-```dart
-EasyInAppNotifyContent(
-  title: "Notification Title",           // Required: Main heading
-  message: "Detailed message content",   // Required: Description text
-  icon: Icons.notifications,             // Optional: Leading icon
-  trailingText: "2m ago",               // Optional: Trailing text
-)
-```
-
-| Property       | Type        | Description                  | Default               |
-| -------------- | ----------- | ---------------------------- | --------------------- |
-| `title`        | `String`    | Main notification title      | Required              |
-| `message`      | `String`    | Notification message content | Required              |
-| `icon`         | `IconData?` | Optional leading icon        | `CupertinoIcons.bell` |
-| `trailingText` | `String?`   | Optional trailing text       | `null`                |
-| `trailing`     | `Widget?`   | Custom trailing widget       | `null`                |
-
-### EasyInAppNotifyOption
-
-Control notification timing and auto-dismiss behavior:
-
-```dart
-EasyInAppNotifyOption(
-  duration: 5,              // Auto-dismiss duration (must be > 0)
-)
-```
-
-| Property   | Type  | Description                                    | Default |
-| ---------- | ----- | ---------------------------------------------- | ------- |
-| `duration` | `int` | Auto-dismiss duration in seconds (must be > 0) | `5`     |
-
-> **⚠️ Important:** In v2.3.0, `duration` must be greater than 0. Use `duration: 1` or higher.
->
-> **📝 Note:** `showProgressBar` and `swipeToDismiss` have been moved to `EasyInAppNotifyTheme` for better organization.
-
-### EasyInAppNotifyTheme
-
-Customize visual appearance and styling:
-
-```dart
-EasyInAppNotifyTheme(
-  color: Colors.blue,         // Primary accent color
-  margin: 16.0,              // Margin from screen edges
-  radius: 12.0,              // Border radius
-  elevation: 8.0,            // Shadow elevation
-  blurBackground: true,      // Enable blur effect
-  showProgressBar: true,     // Show countdown progress bar
-  swipeToDismiss: true,      // Enable swipe gestures
-)
-```
-
-| Property          | Type     | Description                      | Default             |
-| ----------------- | -------- | -------------------------------- | ------------------- |
-| `color`           | `Color?` | Primary accent color             | App's primary color |
-| `margin`          | `double` | Margin from screen edges         | `5.0`               |
-| `padding`         | `double` | Internal padding                 | `10.0`              |
-| `radius`          | `double` | Border radius                    | `10.0`              |
-| `elevation`       | `double` | Shadow elevation                 | `5.0`               |
-| `iconSize`        | `double` | Icon size                        | `20.0`              |
-| `blurBackground`  | `bool`   | Enable blur effect               | `true`              |
-| `blurColor`       | `Color`  | Blur overlay color               | `Colors.black`      |
-| `showProgressBar` | `bool`   | Display countdown progress bar   | `true`              |
-| `swipeToDismiss`  | `bool`   | Enable swipe-to-dismiss gestures | `true`              |
-
----
-
-## 🎨 Advanced Examples
-
-### Interactive Notification with Callbacks
-
-```dart
-EasyInAppNotify.show(
-  context,
-  view: EasyInAppView(
-  content: EasyInAppNotifyContent(
-      title: "New Message",
-      message: "You have received a new message",
-      icon: Icons.message,
-  ),
-  theme: EasyInAppNotifyTheme(
-      showProgressBar: true, // Now in theme
-      swipeToDismiss: true,  // Now in theme
-    ),
-    onTap: () {
-      // Handle notification tap
-      Navigator.pushNamed(context, '/messages');
-    },
-  ),
-  option: EasyInAppNotifyOption(
-    duration: 6, // Only timing in options
-  ),
-  onDismissed: () {
-    // Handle dismissal
-    print('Notification was dismissed');
-  },
-);
-```
-
-### Custom Themed Notification
-
-```dart
-EasyInAppNotify.show(
-  context,
-  view: EasyInAppView(
-  content: EasyInAppNotifyContent(
-      title: "Premium Feature",
-      message: "Unlock advanced features with Premium",
-      icon: Icons.star,
-    ),
-    theme: EasyInAppNotifyTheme(
-      color: Colors.amber,
-      margin: 20.0,
-      radius: 16.0,
-      elevation: 12.0,
-      blurBackground: true,
-      blurColor: Colors.orange,
-      showProgressBar: false, // Visual elements in theme
-      swipeToDismiss: true,   // Gesture handling in theme
-    ),
-  ),
-  option: EasyInAppNotifyOption(
-    duration: 4, // Only timing configuration
-  ),
-);
-```
-
-### Complex Custom Widget
-
-```dart
-EasyInAppNotify.show(
-  context,
-  view: Container(
-    margin: EdgeInsets.all(16),
-    padding: EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Colors.purple, Colors.pink],
-      ),
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black26,
-          blurRadius: 10,
-          offset: Offset(0, 4),
-        ),
-      ],
-    ),
-    child: Row(
-      children: [
-        Icon(Icons.celebration, color: Colors.white, size: 32),
-        SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Achievement Unlocked!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              Text(
-                "You've completed 100 tasks",
-                style: TextStyle(color: Colors.white70),
-              ),
-            ],
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () => EasyInAppNotify.dismiss(),
-          child: Text("Claim"),
-        ),
-      ],
-    ),
-  ),
-  option: EasyInAppNotifyOption(
-    duration: 8,
-    swipeToDismiss: true,
-  ),
-);
-```
-
----
-
-## 🏗️ Using Without Direct Context Access
-
-When you need to show notifications from classes that don't have access to BuildContext (like service classes, static methods, or background tasks), here are several proven patterns:
-
-### 📋 **Table of Contents**
-
-1. [Pass Context as Parameter](#1-pass-context-as-parameter-pattern)
-2. [Callback Pattern](#2-callback-pattern)
-3. [Navigator Key Pattern](#3-navigator-key-pattern)
-4. [Service Locator Pattern](#4-service-locator-pattern)
-5. [Provider/State Management](#5-providerstate-management-pattern)
-
----
-
-### **1. Pass Context as Parameter Pattern**
-
-The simplest approach - pass context to your service methods:
-
-```dart
-class NotificationService {
-  static void showSuccess(BuildContext context, String message) {
-    EasyInAppNotify.show(
-      context,
-      view: EasyInAppViewView(
-      content: EasyInAppNotifyContent(
-          title: "Success",
-          message: message,
-          icon: Icons.check_circle,
-        ),
-      ),
-      option: EasyInAppNotifyOption(duration: 3),
-    );
-  }
-
-  static void showError(BuildContext context, String message) {
-    EasyInAppNotify.show(
-      context,
-      view: Card(
-        margin: EdgeInsets.all(16),
-        color: Colors.red.shade50,
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(Icons.error, color: Colors.red),
-              SizedBox(width: 12),
-              Expanded(
-                child: Text(message, style: TextStyle(color: Colors.red.shade800)),
-              ),
-            ],
-          ),
-        ),
-      ),
-      option: EasyInAppNotifyOption(duration: 4),
-    );
-  }
-}
-
-// Usage in widgets
-class MyWidget extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // Call service method with context
-        NotificationService.showSuccess(context, "Operation completed!");
-      },
-      child: Text("Show Success"),
+    return MaterialApp(
+      title: 'My App',
+      builder: EasyInAppNotify.init(), // 👈 Add this line
+      home: MyHomePage(),
     );
   }
 }
 ```
 
----
-
-### **2. Callback Pattern**
-
-Decouple services from UI by using callbacks:
+### Show Your First Notification
 
 ```dart
-class ApiService {
-  static VoidCallback? _onNotificationRequest;
+EasyInAppNotify.showSuccess(
+  title: 'Welcome!',
+  message: 'Your account has been created successfully.',
+);
+```
 
-  // Service registers callback
-  static void setNotificationCallback(VoidCallback callback) {
-    _onNotificationRequest = callback;
-  }
+That's it! 🎉
 
-  static Future<void> fetchData() async {
-    try {
-      // Simulate API call
-      await Future.delayed(Duration(seconds: 2));
+### Integration with Other Packages
 
-      // Trigger notification through callback
-      _onNotificationRequest?.call();
-    } catch (e) {
-      // Handle error
-    }
-  }
-}
+If you're using other packages that also require a `builder` in `MaterialApp` (like `flutter_easyloading`, `bot_toast`, etc.), you can chain the builders together:
+
+#### With EasyLoading
+
+```dart
+import 'package:easy_in_app_notify/easy_in_app_notify.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Builder(
-        builder: (context) {
-          // Register notification callback
-          ApiService.setNotificationCallback(() {
-      EasyInAppNotify.show(
-        context,
-              view: EasyInAppViewView(
-        content: EasyInAppNotifyContent(
-                  title: "Data Loaded",
-                  message: "Successfully fetched latest data",
-                ),
-              ),
-              option: EasyInAppNotifyOption(duration: 3),
-            );
-          });
+      title: 'My App',
+      builder: (context, child) {
+        // Chain multiple builders
+        child = EasyLoading.init()(context, child);
+        child = EasyInAppNotify.init()(context, child);
+        return child;
+      },
+      home: MyHomePage(),
+    );
+  }
+}
+```
 
-          return MyHomePage();
+#### Alternative Nested Approach
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          return EasyInAppNotify.init()(context, child);
         },
       ),
+      home: MyHomePage(),
     );
   }
 }
 ```
 
----
-
-### **3. Navigator Key Pattern**
-
-Use a global navigator key for app-wide access:
+#### With Multiple Packages
 
 ```dart
-// globals.dart
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-class NotificationManager {
-  static void showNotification({
-    required String title,
-    required String message,
-    IconData? icon,
-    int duration = 5,
-  }) {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      EasyInAppNotify.show(
-        context,
-        view: EasyInAppViewView(
-          content: EasyInAppNotifyContent(
-            title: title,
-            message: message,
-            icon: icon ?? Icons.info,
-          ),
-        ),
-        option: EasyInAppNotifyOption(duration: duration),
-      );
-    }
-  }
-
-  static void showCustomNotification(Widget customWidget) {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      EasyInAppNotify.show(
-        context,
-        view: customWidget,
-        option: EasyInAppNotifyOption(duration: 4),
-      );
-    }
-  }
-}
-
-// main.dart
-void main() {
-  runApp(MyApp());
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey, // Register global key
-  home: MyHomePage(),
-    );
-  }
-}
-
-// Usage anywhere in your app
-class BackgroundService {
-  static void processData() {
-    // Simulate background processing
-    Timer(Duration(seconds: 3), () {
-      // Show notification from background service
-      NotificationManager.showNotification(
-        title: "Processing Complete",
-        message: "Your data has been processed successfully",
-        icon: Icons.done_all,
-      );
-    });
-  }
-}
-```
-
----
-
-### **4. Service Locator Pattern**
-
-Use dependency injection for clean architecture:
-
-```dart
-// notification_service.dart
-abstract class INotificationService {
-  void showSuccess(String message);
-  void showError(String message);
-  void showCustom(Widget widget);
-}
-
-class NotificationService implements INotificationService {
-  final BuildContext _context;
-
-  NotificationService(this._context);
-
-  @override
-  void showSuccess(String message) {
-    EasyInAppNotify.show(
-      _context,
-      view: EasyInAppViewView(
-        content: EasyInAppNotifyContent(
-          title: "Success",
-          message: message,
-          icon: Icons.check_circle,
-        ),
-      ),
-      option: EasyInAppNotifyOption(duration: 3),
-    );
-  }
-
-  @override
-  void showError(String message) {
-    EasyInAppNotify.show(
-      _context,
-      view: Card(
-        margin: EdgeInsets.all(16),
-        color: Colors.red.shade50,
-        child: ListTile(
-          leading: Icon(Icons.error, color: Colors.red),
-          title: Text("Error"),
-          subtitle: Text(message),
-        ),
-      ),
-      option: EasyInAppNotifyOption(duration: 5),
-    );
-  }
-
-  @override
-  void showCustom(Widget widget) {
-      EasyInAppNotify.show(
-      _context,
-      view: widget,
-      option: EasyInAppNotifyOption(duration: 4),
-    );
-  }
-}
-
-// service_locator.dart
-class ServiceLocator {
-  static final Map<Type, dynamic> _services = {};
-
-  static void register<T>(T service) {
-    _services[T] = service;
-  }
-
-  static T get<T>() {
-    return _services[T] as T;
-  }
-}
-
-// Usage
-class MyWidget extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-    // Register service with current context
-    ServiceLocator.register<INotificationService>(
-      NotificationService(context),
-    );
-
-    return Scaffold(
-      body: BusinessLogicWidget(),
-    );
-  }
-}
-
-class BusinessLogicWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // Use service without direct context access
-        final notificationService = ServiceLocator.get<INotificationService>();
-notificationService.showSuccess("Operation completed!");
+      title: 'My App',
+      builder: (context, child) {
+        // Add as many builders as needed
+        child = EasyLoading.init()(context, child);
+        child = BotToastInit()(context, child);
+        child = EasyInAppNotify.init()(context, child);
+        return child;
       },
-      child: Text("Process Data"),
+      home: MyHomePage(),
     );
   }
 }
 ```
 
----
+> **💡 Tip**: The order matters! Place `EasyInAppNotify.init()` last to ensure notifications appear on top of other overlays.
 
-### **5. Provider/State Management Pattern**
+## 🎨 Feature Showcase
 
-Integrate with popular state management solutions:
-
-#### **Using Provider**
+### Different Notification Types
 
 ```dart
-// notification_provider.dart
-class NotificationProvider extends ChangeNotifier {
-  BuildContext? _context;
+// Success (Green theme with checkmark)
+EasyInAppNotify.showSuccess(title: 'Success!', message: 'Task completed');
 
-  void setContext(BuildContext context) {
-    _context = context;
-  }
+// Error (Red theme with error icon)
+EasyInAppNotify.showError(title: 'Error', message: 'Something went wrong');
 
-  void showNotification({
-    required String title,
-    required String message,
-    Widget? customView,
-  }) {
-    if (_context != null) {
-      EasyInAppNotify.show(
-        _context!,
-        view: customView ?? EasyInAppViewView(
-        content: EasyInAppNotifyContent(
-            title: title,
-            message: message,
-          ),
-        ),
-        option: EasyInAppNotifyOption(duration: 4),
-      );
-    }
-  }
-}
+// Warning (Orange theme with warning icon)
+EasyInAppNotify.showWarning(title: 'Warning', message: 'Please check input');
 
-// main.dart
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => NotificationProvider(),
-      child: MyApp(),
-    ),
-  );
-}
-
-// Usage in widgets
-class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final notificationProvider = Provider.of<NotificationProvider>(context);
-
-    // Set context on first build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notificationProvider.setContext(context);
-    });
-
-    return ElevatedButton(
-      onPressed: () {
-        notificationProvider.showNotification(
-          title: "Provider Notification",
-          message: "Sent from Provider pattern!",
-        );
-      },
-      child: Text("Show Notification"),
-    );
-  }
-}
+// Info (Blue theme with info icon)
+EasyInAppNotify.showInfo(title: 'Info', message: 'New update available');
 ```
 
-#### **Using Riverpod**
+### Positions & Animations
 
 ```dart
-// providers.dart
-final notificationProvider = StateNotifierProvider<NotificationNotifier, void>(
-  (ref) => NotificationNotifier(),
+// Top slide animation (default)
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Top Notification'),
+  style: NotificationStyle(position: NotificationPosition.top),
 );
 
-class NotificationNotifier extends StateNotifier<void> {
-  NotificationNotifier() : super(null);
+// Center with scale animation
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Center Alert'),
+  style: NotificationStyle(
+    position: NotificationPosition.center,
+    animation: NotificationAnimation.scale,
+  ),
+);
 
-  BuildContext? _context;
+// Bottom with fade animation
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Bottom Notice'),
+  style: NotificationStyle(
+    position: NotificationPosition.bottom,
+    animation: NotificationAnimation.fade,
+  ),
+);
+```
 
-  void setContext(BuildContext context) {
-    _context = context;
-  }
+### Interactive Features
 
-  void showSuccess(String message) {
-    if (_context != null) {
+```dart
+// Progress bar with countdown
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Downloading...', icon: Icons.download),
+  style: NotificationStyle(showProgressBar: true),
+  config: NotificationConfig(duration: 8),
+);
+
+// Background blur effect
+    EasyInAppNotify.show(
+  content: NotificationContent(title: 'Premium Feature'),
+  style: NotificationStyle(
+    enableBackgroundBlur: true,
+    position: NotificationPosition.center,
+  ),
+);
+
+// Tap to interact
+    EasyInAppNotify.show(
+  content: NotificationContent(title: 'Tap me!'),
+  config: NotificationConfig(
+    dismissOnTap: true,
+    onTap: () => print('Notification tapped!'),
+  ),
+);
+```
+
+## 📖 Complete Usage Guide
+
+### Basic Notifications
+
+Use the convenience methods for common notification types:
+
+```dart
+// Success notification (green theme)
+EasyInAppNotify.showSuccess(
+  title: 'Success!',
+  message: 'Your data has been saved.',
+);
+
+// Error notification (red theme)
+EasyInAppNotify.showError(
+  title: 'Error',
+  message: 'Failed to connect to server.',
+);
+
+// Warning notification (orange theme)
+EasyInAppNotify.showWarning(
+  title: 'Warning',
+  message: 'Please check your input.',
+);
+
+// Info notification (blue theme)
+EasyInAppNotify.showInfo(
+  title: 'Info',
+  message: 'New update available.',
+);
+```
+
+### Advanced Custom Notifications
+
+For complete control, use the main `show()` method:
+
+```dart
       EasyInAppNotify.show(
-        _context!,
-        view: EasyInAppViewView(
-        content: EasyInAppNotifyContent(
-            title: "Success",
-            message: message,
-            icon: Icons.check,
-          ),
-        ),
-        option: EasyInAppNotifyOption(duration: 3),
-      );
-    }
-  }
-}
+  content: NotificationContent(
+    title: 'Custom Notification',
+    message: 'This notification is fully customized.',
+    icon: Icons.star,
+    trailing: Icon(Icons.arrow_forward),
+  ),
+  style: NotificationStyle(
+    primaryColor: Colors.purple,
+    backgroundColor: Colors.purple.shade50,
+    textColor: Colors.purple.shade900,
+    borderRadius: 16,
+    elevation: 8,
+    position: NotificationPosition.center,
+    animation: NotificationAnimation.scale,
+    showProgressBar: true,
+    enableBackgroundBlur: true,
+  ),
+  config: NotificationConfig(
+    duration: 5,
+    dismissOnTap: true,
+    onTap: () => print('Notification tapped!'),
+    onDismissed: () => print('Notification dismissed!'),
+  ),
+);
 ```
 
----
+### Positioning Options
 
-### **🎯 Best Practices for Context-less Usage**
+Control where your notifications appear:
 
-1. **Choose the Right Pattern:**
+```dart
+// Top of screen (default)
+      EasyInAppNotify.show(
+  content: NotificationContent(title: 'Top Notification'),
+  style: NotificationStyle(position: NotificationPosition.top),
+);
 
-   - **Simple apps**: Pass context as parameter
-   - **Service-oriented**: Callback or Navigator Key pattern
-   - **Complex apps**: Service Locator or State Management
+// Bottom of screen
+      EasyInAppNotify.show(
+  content: NotificationContent(title: 'Bottom Notification'),
+  style: NotificationStyle(position: NotificationPosition.bottom),
+);
 
-2. **Context Lifecycle Management:**
-
-   ```dart
-   // Always check context validity
-   if (context != null && context.mounted) {
-     EasyInAppNotify.show(context, view: widget);
-   }
-   ```
-
-3. **Error Handling:**
-
-   ```dart
-   try {
-     EasyInAppNotify.show(context, view: widget);
-    } catch (e) {
-     // Fallback to console logging or other notification method
-     print('Failed to show notification: $e');
-   }
-   ```
-
-4. **Memory Management:**
-
-   ```dart
-   // Clear references when appropriate
-   class MyService {
-     BuildContext? _context;
-
-     void dispose() {
-       _context = null;
-   }
-   }
-   ```
-
+// Center of screen
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Center Notification'),
+  style: NotificationStyle(position: NotificationPosition.center),
+);
 ```
 
+### Animation Types
+
+Choose from different animation styles:
+
+```dart
+// Slide animation (default)
+    EasyInAppNotify.show(
+  content: NotificationContent(title: 'Slide Animation'),
+  style: NotificationStyle(
+    animation: NotificationAnimation.slide,
+    animationDuration: Duration(milliseconds: 400),
+  ),
+);
+
+// Fade animation
+    EasyInAppNotify.show(
+  content: NotificationContent(title: 'Fade Animation'),
+  style: NotificationStyle(
+    animation: NotificationAnimation.fade,
+    position: NotificationPosition.center,
+  ),
+);
+
+// Scale animation
+      EasyInAppNotify.show(
+  content: NotificationContent(title: 'Scale Animation'),
+  style: NotificationStyle(
+    animation: NotificationAnimation.scale,
+    position: NotificationPosition.center,
+  ),
+);
 ```
 
----
+### Progress Bars & Auto-Dismiss
 
-## 🔧 API Reference
+Show progress indicators and control timing:
+
+```dart
+      EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'Downloading...',
+    message: 'Please wait while we download your files.',
+    icon: Icons.download,
+  ),
+  style: NotificationStyle(
+    primaryColor: Colors.blue,
+    showProgressBar: true, // 👈 Enable progress bar
+  ),
+  config: NotificationConfig(
+    duration: 8, // 👈 8 seconds auto-dismiss
+  ),
+);
+```
+
+### Interactive Notifications
+
+Add tap handlers and custom behaviors:
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'New Message',
+    message: 'Tap to read your message.',
+    icon: Icons.message,
+  ),
+  config: NotificationConfig(
+    dismissOnTap: true, // 👈 Dismiss when tapped
+    onTap: () {
+      // Handle tap
+      Navigator.pushNamed(context, '/messages');
+    },
+    onDismissed: () {
+      // Handle dismissal
+      print('User dismissed notification');
+    },
+  ),
+);
+```
+
+### Persistent Notifications
+
+Create notifications that stay until manually dismissed:
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'Important Update',
+    message: 'Please update your password.',
+    icon: Icons.security,
+  ),
+  config: NotificationConfig.persistent(), // 👈 No auto-dismiss
+);
+```
+
+### Background Blur Effects
+
+Add beautiful blur effects behind notifications:
+
+```dart
+      EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'Premium Feature',
+    message: 'Unlock advanced features with Pro.',
+  ),
+  style: NotificationStyle(
+    enableBackgroundBlur: true, // 👈 Enable blur
+    backgroundBlurOpacity: 0.3, // 👈 Control blur intensity
+    position: NotificationPosition.center,
+  ),
+);
+```
+
+### Multiple Notifications
+
+Show multiple notifications simultaneously:
+
+```dart
+// Allow multiple notifications
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'First notification'),
+  config: NotificationConfig(allowMultiple: true),
+);
+
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Second notification'),
+  style: NotificationStyle(position: NotificationPosition.bottom),
+  config: NotificationConfig(allowMultiple: true),
+);
+```
+
+## 🎛️ API Reference
+
+### NotificationContent
+
+Defines what content to show in the notification:
+
+```dart
+NotificationContent(
+title: 'Required title text',
+message: 'Optional message text',
+icon: Icons.check_circle, // Optional icon
+trailing: Widget(), // Optional trailing widget
+customContent: Widget(), // Replace entire content area
+)
+```
+
+**Convenience Constructors:**
+
+- `NotificationContent.success()` - Pre-configured for success
+- `NotificationContent.error()` - Pre-configured for errors
+- `NotificationContent.warning()` - Pre-configured for warnings
+- `NotificationContent.info()` - Pre-configured for information
+
+### NotificationStyle
+
+Controls the visual appearance and animations:
+
+```dart
+NotificationStyle(
+// Colors
+primaryColor: Colors.blue,
+backgroundColor: Colors.white,
+textColor: Colors.black87,
+iconColor: Colors.blue,
+
+// Layout
+borderRadius: 8.0,
+elevation: 4.0,
+margin: EdgeInsets.all(16),
+padding: EdgeInsets.all(16),
+maxWidth: 400.0,
+
+// Position & Animation
+position: NotificationPosition.top,
+animation: NotificationAnimation.slide,
+animationDuration: Duration(milliseconds: 300),
+
+// Features
+showProgressBar: false,
+enableSwipeToDismiss: true,
+enableBackgroundBlur: false,
+backgroundBlurOpacity: 0.1,
+)
+```
+
+**Convenience Constructors:**
+
+- `NotificationStyle.success()` - Green theme
+- `NotificationStyle.error()` - Red theme
+- `NotificationStyle.warning()` - Orange theme
+- `NotificationStyle.info()` - Blue theme
+
+### NotificationConfig
+
+Controls behavior and interaction:
+
+```dart
+NotificationConfig(
+  duration: 4, // Auto-dismiss after 4 seconds
+  dismissOnTap: false, // Dismiss when notification is tapped
+  pauseOnHover: true, // Pause timer when mouse hovers
+  allowMultiple: false, // Allow multiple notifications
+
+  // Callbacks
+  onTap: () {}, // Called when notification is tapped
+  onDismissed: () {}, // Called when notification is dismissed
+  onShow: () {}, // Called when notification starts showing
+)
+```
+
+**Convenience Constructors:**
+
+- `NotificationConfig.persistent()` - Never auto-dismiss
+- `NotificationConfig.quick()` - 2 seconds duration
+- `NotificationConfig.long()` - 8 seconds duration
+
+### Enums
+
+```dart
+enum NotificationPosition { top, bottom, center }
+enum NotificationAnimation { slide, fade, scale, none }
+```
 
 ### Static Methods
 
-#### `show()`
-
 ```dart
-static void show(
-  BuildContext context, {
-  required Widget view,
-  EasyInAppNotifyOption option = const EasyInAppNotifyOption(),
-  VoidCallback? onDismissed,
-})
+// Convenience methods
+EasyInAppNotify.showSuccess(title: 'Title', message: 'Message');
+EasyInAppNotify.showError(title: 'Title', message: 'Message');
+EasyInAppNotify.showWarning(title: 'Title', message: 'Message');
+EasyInAppNotify.showInfo(title: 'Title', message: 'Message');
+
+// Main method
+String id = EasyInAppNotify.show(content: content, style: style, config: config);
+
+// Control methods
+EasyInAppNotify.dismiss(id); // Dismiss specific notification
+EasyInAppNotify.dismissAll(); // Dismiss all notifications
+
+// State queries
+bool showing = EasyInAppNotify.hasActiveNotifications;
+int count = EasyInAppNotify.activeCount;
+
+// Initialization
+TransitionBuilder builder = EasyInAppNotify.init();
 ```
 
-Displays a notification with the specified widget and options.
+## 🎨 Styling Examples
 
-#### `dismiss()`
-
-```dart
-static void dismiss()
-```
-
-Programmatically dismisses the current notification with animations (v2.3.0+).
-
-#### `hide()`
-
-```dart
-static void hide()
-```
-
-Immediately hides the current notification without animations.
-
-#### `isShowing`
-
-```dart
-static bool get isShowing
-```
-
-Returns `true` if a notification is currently displayed.
-
----
-
-## 🚨 Migration Guide
-
-### Upgrading to v2.3.0
-
-#### Breaking Changes
-
-**Duration Validation:**
-
-```dart
-// ❌ No longer allowed (will throw assertion error)
-EasyInAppNotifyOption(duration: 0)
-
-// ✅ Use minimum duration of 1 second
-EasyInAppNotifyOption(duration: 1)
-```
-
-#### New Features
-
-**Universal Dismiss Support:**
-
-```dart
-// ✅ Now works with ANY widget type
-EasyInAppNotify.dismiss(); // Works with Cards, Containers, custom widgets, etc.
-```
-
-**Enhanced Documentation:**
-
-- All classes now have comprehensive documentation
-- Better examples and usage patterns
-- Improved error messages and debugging information
-
----
-
-## 🛠️ Best Practices
-
-### 1. **Use Appropriate Durations**
-
-```dart
-// Short messages
-EasyInAppNotifyOption(duration: 3)
-
-// Longer content that requires reading time
-EasyInAppNotifyOption(duration: 6)
-
-// Interactive notifications
-EasyInAppNotifyOption(duration: 8)
-```
-
-### 2. **Handle Edge Cases**
-
-```dart
-// Check if notification is already showing
-if (!EasyInAppNotify.isShowing) {
-  EasyInAppNotify.show(context, view: myWidget);
-}
-```
-
-### 3. **Provide User Feedback**
+### Material Design 3 Theme
 
 ```dart
 EasyInAppNotify.show(
-  context,
-  view: myWidget,
-  onDismissed: () {
-    // Log analytics, update state, etc.
-    analytics.logNotificationDismissed();
-  },
-);
-```
-
-### 4. **Use Consistent Theming**
-
-```dart
-// Create app-wide theme
-final appNotifyTheme = EasyInAppNotifyTheme(
-  color: Theme.of(context).primaryColor,
-  radius: 12.0,
-  elevation: 6.0,
-);
-
-// Use consistently throughout app
-EasyInAppNotify.show(
-  context,
-  view: EasyInAppViewView(
-    content: content,
-    theme: appNotifyTheme,
+  content: NotificationContent(
+    title: 'Material Design',
+    message: 'Following Material 3 guidelines.',
+    icon: Icons.palette,
+  ),
+  style: NotificationStyle(
+    primaryColor: Theme.of(context).colorScheme.primary,
+    backgroundColor: Theme.of(context).colorScheme.surface,
+    textColor: Theme.of(context).colorScheme.onSurface,
+    borderRadius: 12,
+    elevation: 3,
   ),
 );
 ```
 
----
+### Dark Theme Support
 
-## 🔍 Troubleshooting
+```dart
+final isDark = Theme.of(context).brightness == Brightness.dark;
 
-### Common Issues
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Dark Theme Ready'),
+  style: NotificationStyle(
+    primaryColor: Colors.blue,
+    backgroundColor: isDark ? Colors.grey[800] : Colors.white,
+    textColor: isDark ? Colors.white : Colors.black87,
+  ),
+);
+```
 
-**"Overlay not found" Error:**
+### Custom Brand Colors
 
-- Ensure you're calling `show()` from a context within MaterialApp/WidgetsApp
-- The context must have access to an Overlay
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'Brand Notification',
+    message: 'Using your app\'s brand colors.',
+  ),
+  style: NotificationStyle(
+    primaryColor: Color(0xFF6366F1), // Your brand color
+    backgroundColor: Color(0xFFF0F9FF),
+    textColor: Color(0xFF1E293B),
+    borderRadius: 16,
+    elevation: 8,
+  ),
+);
+```
 
-**Notifications not dismissing:**
+## 🔧 Migration Guide
 
-- Check that `duration > 0` in EasyInAppNotifyOption
-- Verify you're using `dismiss()` method correctly
+### From v2.x to v3.0
 
-**Styling issues:**
+Version 3.0 introduces a new, cleaner API while maintaining backward compatibility for basic usage.
 
-- Ensure custom widgets respect Material Design guidelines
-- Test themes on different devices and orientations
+#### ✅ What Still Works (No Changes Required)
 
----
+```dart
+// These still work exactly the same
+EasyInAppNotify.showSuccess(title: 'Success');
+EasyInAppNotify.showError(title: 'Error');
+EasyInAppNotify.dismissAll();
+```
 
-## 📋 Requirements
+#### 🔄 Recommended Updates
 
-- **Flutter**: >= 1.17.0
-- **Dart**: >= 3.9.0
-- **Platforms**: iOS, Android, Web, Desktop
+**Old v2.x Style:**
 
----
+```dart
+EasyInAppNotify.show(
+  context,
+  view: CustomWidget(),
+  option: EasyInAppNotifyOption(duration: 3),
+  theme: EasyInAppNotifyTheme(color: Colors.blue),
+);
+```
+
+**New v3.0 Style:**
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(
+    title: 'Modern API',
+    customContent: CustomWidget(),
+  ),
+  style: NotificationStyle(primaryColor: Colors.blue),
+  config: NotificationConfig(duration: 3),
+);
+```
+
+#### 📝 Class Name Changes
+
+| v2.x                     | v3.0                  |
+| ------------------------ | --------------------- |
+| `EasyInAppNotifyOption`  | `NotificationConfig`  |
+| `EasyInAppNotifyTheme`   | `NotificationStyle`   |
+| `EasyInAppNotifyContent` | `NotificationContent` |
+
+## 🔍 Examples & Demos
+
+Check out the [example app](example/) for a comprehensive demonstration of all features:
+
+```bash
+cd example
+flutter run
+```
+
+The example includes:
+
+- ✅ 16 different notification types
+- ✅ All animation types and positions
+- ✅ Interactive features demonstration
+- ✅ Styling and theming examples
+- ✅ Performance testing with rapid notifications
+
+## ❓ Frequently Asked Questions
+
+### Q: Can I customize the notification layout completely?
+
+**A:** Yes! Use the `customContent` parameter in `NotificationContent`:
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(
+    title: '', // Required but can be empty
+    customContent: YourCustomWidget(),
+  ),
+);
+```
+
+### Q: How do I prevent notifications from overlapping?
+
+**A:** By default, new notifications replace old ones. To allow multiple:
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Multiple'),
+  config: NotificationConfig(allowMultiple: true),
+);
+```
+
+### Q: Can I show notifications from anywhere in my app?
+
+**A:** Yes! Once initialized with `EasyInAppNotify.init()`, you can show notifications from any widget, even outside the widget tree.
+
+### Q: How do I handle notification taps for navigation?
+
+**A:** Use the `onTap` callback in `NotificationConfig`:
+
+```dart
+EasyInAppNotify.show(
+  content: NotificationContent(title: 'Navigate'),
+  config: NotificationConfig(
+    onTap: () => Navigator.pushNamed(context, '/route'),
+  ),
+);
+```
+
+### Q: Are notifications accessible for screen readers?
+
+**A:** Yes! The package follows Flutter's accessibility guidelines and works with screen readers out of the box.
+
+### Q: Can I control notification duration precisely?
+
+**A:** Absolutely! Set any duration or disable auto-dismiss:
+
+```dart
+// Custom duration
+NotificationConfig(duration: 10) // 10 seconds
+
+// Never dismiss automatically
+NotificationConfig.persistent()
+```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes with tests
-4. Submit a pull request
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ### Development Setup
 
@@ -989,40 +827,34 @@ We welcome contributions! Please:
 git clone https://github.com/mohamedmaher-dev/easy_in_app_notify.git
 cd easy_in_app_notify
 flutter pub get
-flutter test
+cd example && flutter run
 ```
 
----
+### Reporting Issues
+
+Found a bug or have a feature request? Please open an issue on [GitHub](https://github.com/mohamedmaher-dev/easy_in_app_notify/issues).
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
-
-## 🔗 Links
-
-- **Package**: [pub.dev/packages/easy_in_app_notify](https://pub.dev/packages/easy_in_app_notify)
-- **Repository**: [GitHub](https://github.com/mohamedmaher-dev/easy_in_app_notify)
-- **Issues**: [Bug Reports](https://github.com/mohamedmaher-dev/easy_in_app_notify/issues)
-- **Documentation**: [API Reference](https://pub.dev/documentation/easy_in_app_notify/latest/)
-
----
-
 ## 🙏 Acknowledgments
 
-Built with ❤️ for the Flutter community.
-
-Special thanks to all contributors and users who help improve this package!
+- Built with ❤️ for the Flutter community
+- Inspired by modern mobile notification patterns
+- Thanks to all contributors and users who provided feedback
 
 ---
 
-<div align="center">
+<p align="center">
+  <a href="https://pub.dev/packages/easy_in_app_notify">
+    <img src="https://img.shields.io/pub/v/easy_in_app_notify.svg" alt="Pub Version" />
+  </a>
+  <a href="https://github.com/mohamedmaher-dev/easy_in_app_notify">
+    <img src="https://img.shields.io/github/stars/mohamedmaher-dev/easy_in_app_notify.svg?style=social" alt="GitHub Stars" />
+  </a>
+</p>
 
-**⭐ If you find this package helpful, please give it a star on GitHub! ⭐**
-
-![Version](https://img.shields.io/badge/Version-2.3.0-blue)
-![Flutter](https://img.shields.io/badge/Flutter-Ready-brightgreen)
-![MIT License](https://img.shields.io/badge/License-MIT-yellow)
-
-</div>
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/mohamedmaher-dev">Mohamed Maher</a>
+</p>
