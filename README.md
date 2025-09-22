@@ -22,7 +22,7 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
   
 | Standard Notification | Custom Widget | v2.3.0 Features |
 |:---:|:---:|:---:|
-| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.0 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
+| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.0 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
 | Built-in notification with progress bar | Custom Card widget with icons | Latest features demonstration |
 
 </div>
