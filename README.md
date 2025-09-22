@@ -8,6 +8,46 @@
 
 Transform your app's user experience with stunning notifications that slide, fade, and scale with smooth animations. Perfect for status updates, alerts, confirmations, and user feedback.
 
+## 📋 Table of Contents
+
+- [📱 Screenshots](#-screenshots)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+  - [Installation](#installation)
+  - [Basic Setup](#basic-setup)
+  - [Show Your First Notification](#show-your-first-notification)
+- [🎨 Feature Showcase](#-feature-showcase)
+  - [Different Notification Types](#different-notification-types)
+  - [Positions & Animations](#positions--animations)
+  - [Interactive Features](#interactive-features)
+- [📖 Complete Usage Guide](#-complete-usage-guide)
+  - [Basic Notifications](#basic-notifications)
+  - [Advanced Custom Notifications](#advanced-custom-notifications)
+  - [Positioning Options](#positioning-options)
+  - [Animation Types](#animation-types)
+  - [Progress Bars & Auto-Dismiss](#progress-bars--auto-dismiss)
+  - [Interactive Notifications](#interactive-notifications)
+  - [Persistent Notifications](#persistent-notifications)
+  - [Background Blur Effects](#background-blur-effects)
+  - [Multiple Notifications](#multiple-notifications)
+- [🎛️ API Reference](#️-api-reference)
+  - [NotificationContent](#notificationcontent)
+  - [NotificationStyle](#notificationstyle)
+  - [NotificationConfig](#notificationconfig)
+  - [Enums](#enums)
+  - [Static Methods](#static-methods)
+- [🎨 Styling Examples](#-styling-examples)
+  - [Material Design 3 Theme](#material-design-3-theme)
+  - [Dark Theme Support](#dark-theme-support)
+  - [Custom Brand Colors](#custom-brand-colors)
+- [🔧 Migration Guide](#-migration-guide)
+  - [From v2.x to v3.0](#from-v2x-to-v30)
+- [🔍 Examples & Demos](#-examples--demos)
+- [❓ Frequently Asked Questions](#-frequently-asked-questions)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [🙏 Acknowledgments](#-acknowledgments)
+
 ## 📱 Screenshots
 
 <table>
