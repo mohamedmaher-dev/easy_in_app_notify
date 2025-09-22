@@ -12,7 +12,7 @@
 
 Easy In-App Notify is a powerful Flutter package that provides beautiful overlay notifications with smooth animations, customizable theming, and universal widget support. Perfect for displaying non-blocking notifications when your app is in the foreground.
 
-**Latest Version: 2.3.0** - Now with centralized auto-dismiss system, universal dismiss support, and enhanced architecture!
+**Latest Version: 2.3.1** - Now with centralized auto-dismiss system, universal dismiss support, and enhanced architecture!
 
 ---
 
@@ -23,7 +23,7 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
 | Standard Notification | Custom Widget | v2.3.0 Features |
 |:---:|:---:|:---:|
 | ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.0 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/test/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
-| Built-in notification with progress bar | Custom Card widget with icons | Latest features demonstration |
+| Built-in notification with progress bar | Custom Card widget with icons | v2.3.1 features demonstration |
 
 </div>
 
@@ -31,7 +31,14 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
 
 ## ✨ Features
 
-### 🆕 **New in v2.3.0**
+### 🆕 **New in v2.3.1**
+
+- 🔧 **Fixed onTap Callback** - Critical bug fix for tap event handling
+- 📱 **Enhanced Documentation** - New Samsung Galaxy A14 screenshot
+- 🔍 **SEO Optimized** - Package description optimized for better discoverability
+- 🖼️ **Visual Improvements** - Professional three-column screenshot layout
+
+### 🚀 **Core Features (v2.3.0+)**
 
 - 🎯 **Centralized Auto-Dismiss** - Universal timer management for all notification types
 - 🔧 **Universal Dismiss Support** - `dismiss()` works with any widget (Card, Container, custom widgets)
@@ -86,10 +93,10 @@ flutter pub get
 import 'package:easy_in_app_notify/easy_in_app_notify.dart';
 
 // Show a simple notification
-EasyInAppNotify.show(
+            EasyInAppNotify.show(
   context,
   view: EasyInAppView(
-    content: EasyInAppNotifyContent(
+              content: EasyInAppNotifyContent(
       title: "Success!",
       message: "Your action was completed successfully.",
     ),
@@ -791,7 +798,9 @@ class NotificationNotifier extends StateNotifier<void> {
    }
    ```
 
-````
+```
+
+```
 
 ---
 
@@ -808,7 +817,7 @@ static void show(
   EasyInAppNotifyOption option = const EasyInAppNotifyOption(),
   VoidCallback? onDismissed,
 })
-````
+```
 
 Displays a notification with the specified widget and options.
 

@@ -5,6 +5,27 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2025-09-22
+
+### 🔧 Fixed
+
+- **onTap Callback**: Fixed critical issue where `onTap` callback was not being properly forwarded from `EasyInAppView` to `_NotifyContainer`
+- **Screenshot Display**: Updated GitHub raw URLs to point to correct branch for proper image display in documentation
+
+### 📚 Improved
+
+- **Package Description**: Optimized package description for search engines (reduced to 118 characters within recommended 60-180 range)
+- **Documentation**: Enhanced README with new Samsung Galaxy A14 screenshot showcasing v2.3.1 features
+- **Visual Layout**: Updated to professional three-column screenshot layout in README
+
+### 🏗️ Technical Details
+
+- **Property Migration**: Completed migration of `showProgressBar` and `swipeToDismiss` from `EasyInAppNotifyOption` to `EasyInAppNotifyTheme`
+- **Example Updates**: Updated example app to demonstrate new theme configuration structure
+- **URL Management**: Fixed screenshot URLs to ensure proper display across different Git branches
+
+---
+
 ## [2.3.0] - 2025-09-22
 
 ### ✨ Added

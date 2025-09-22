@@ -1,6 +1,6 @@
 name: easy_in_app_notify
 description: "Beautiful Flutter in-app notifications with smooth animations, auto-dismiss, progress bars, and customizable styling."
-version: 2.3.0
+version: 2.3.1
 homepage: https://github.com/mohamedmaher-dev/easy_in_app_notify
 repository: https://github.com/mohamedmaher-dev/easy_in_app_notify
 issue_tracker: https://github.com/mohamedmaher-dev/easy_in_app_notify/issues
