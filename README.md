@@ -12,7 +12,7 @@
 
 Easy In-App Notify is a powerful Flutter package that provides beautiful overlay notifications with smooth animations, customizable theming, and universal widget support. Perfect for displaying non-blocking notifications when your app is in the foreground.
 
-**Latest Version: 2.3.1** - Now with centralized auto-dismiss system, universal dismiss support, and enhanced architecture!
+**Latest Version: 2.3.2** - Now with centralized auto-dismiss system, universal dismiss support, and enhanced architecture!
 
 ---
 
@@ -20,10 +20,10 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
 
 <div align="center">
   
-| Standard Notification | Custom Widget | v2.3.1 Features |
+| Standard Notification | Custom Widget | v2.3.2 Features |
 |:---:|:---:|:---:|
-| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.1 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
-| Built-in notification with progress bar | Custom Card widget with icons | v2.3.1 features demonstration |
+| ![Standard Notification](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.09.149.png) | ![Custom Widget](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-03_15.06.43.597.png) | ![v2.3.2 Demo](https://raw.githubusercontent.com/mohamedmaher-dev/easy_in_app_notify/master/assets/images/screenshot-2025-09-22_11.51.50.62.png) |
+| Built-in notification with progress bar | Custom Card widget with icons | v2.3.2 features demonstration |
 
 </div>
 
@@ -31,7 +31,13 @@ Easy In-App Notify is a powerful Flutter package that provides beautiful overlay
 
 ## ✨ Features
 
-### 🆕 **New in v2.3.1**
+### 🆕 **New in v2.3.2**
+
+- 🖼️ **Fixed Image Display** - Resolved screenshot visibility issues in documentation
+- 🔗 **URL Management** - Updated GitHub raw URLs for proper cross-branch compatibility
+- 📚 **Enhanced Documentation** - Improved visual consistency and accessibility
+
+### 🚀 **Previous Updates (v2.3.1)**
 
 - 🔧 **Fixed onTap Callback** - Critical bug fix for tap event handling
 - 📱 **Enhanced Documentation** - New Samsung Galaxy A14 screenshot

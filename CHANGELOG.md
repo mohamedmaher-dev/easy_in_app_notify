@@ -5,6 +5,20 @@ All notable changes to the Easy In-App Notify package will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.2] - 2025-09-22
+
+### 🔧 Fixed
+
+- **Documentation Images**: Fixed screenshot display issues by updating GitHub raw URLs to point to correct master branch
+- **Version Consistency**: Updated all documentation references to reflect v2.3.2
+
+### 📚 Improved
+
+- **README Layout**: Enhanced visual consistency across all documentation
+- **Image Accessibility**: Ensured all screenshots are properly accessible from GitHub raw URLs
+
+---
+
 ## [2.3.1] - 2025-09-22
 
 ### 🔧 Fixed
