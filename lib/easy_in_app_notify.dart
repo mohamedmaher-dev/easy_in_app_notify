@@ -66,6 +66,7 @@ export 'src/models/notification_content.dart';
 export 'src/models/notification_style.dart'
     hide NotificationPosition, NotificationAnimation;
 export 'src/models/notification_config.dart';
+export 'src/models/notification_data.dart' hide NotificationData;
 
 // Public enums
 export 'src/models/notification_style.dart'
