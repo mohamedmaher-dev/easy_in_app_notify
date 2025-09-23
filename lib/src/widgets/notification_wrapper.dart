@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../controllers/notification_animation_controller.dart';
+import '../easy_in_app_notify.dart';
 import '../models/notification_content.dart';
 import '../models/notification_style.dart';
 import '../models/notification_config.dart';
@@ -23,6 +24,9 @@ class NotificationWrapper extends StatefulWidget {
   /// Callback executed when the notification should be dismissed.
   final VoidCallback onDismiss;
 
+  /// The unique identifier for this notification.
+  final String notificationId;
+
   /// Creates a new notification wrapper.
   const NotificationWrapper({
     super.key,
@@ -30,6 +34,7 @@ class NotificationWrapper extends StatefulWidget {
     required this.style,
     required this.config,
     required this.onDismiss,
+    required this.notificationId,
   });
 
   @override
@@ -49,6 +54,12 @@ class _NotificationWrapperState extends State<NotificationWrapper>
       style: widget.style,
       autoDismissDuration: widget.config.duration,
       onComplete: widget.onDismiss,
+    );
+
+    // Register the dismiss callback so the main system can trigger exit animations
+    EasyInAppNotify.registerDismissCallback(
+      widget.notificationId,
+      () => _animationController.dismiss(),
     );
 
     // Execute onShow callback
@@ -96,42 +107,65 @@ class _NotificationWrapperState extends State<NotificationWrapper>
   );
 
   /// Builds the main notification content with positioning and animations.
-  Widget _buildNotificationContent() => Positioned(
-    top: widget.style.position == NotificationPosition.top
-        ? widget.style.margin.top
-        : null,
-    bottom: widget.style.position == NotificationPosition.bottom
-        ? widget.style.margin.bottom
-        : null,
-    left: widget.style.margin.left,
-    right: widget.style.margin.right,
-    child: SafeArea(child: _buildAnimatedNotification()),
-  );
+  Widget _buildNotificationContent() {
+    // Handle center position differently
+    if (widget.style.position == NotificationPosition.center) {
+      return Center(
+        child: Padding(
+          padding: widget.style.margin,
+          child: _buildAnimatedNotification(),
+        ),
+      );
+    }
+
+    // Handle top and bottom positions
+    return Positioned(
+      top: widget.style.position == NotificationPosition.top
+          ? widget.style.margin.top
+          : null,
+      bottom: widget.style.position == NotificationPosition.bottom
+          ? widget.style.margin.bottom
+          : null,
+      left: widget.style.margin.left,
+      right: widget.style.margin.right,
+      child: SafeArea(child: _buildAnimatedNotification()),
+    );
+  }
 
   /// Builds the notification with appropriate animation.
   Widget _buildAnimatedNotification() {
     final Widget child = _buildInteractiveNotification();
 
-    // Apply animation based on type
-    switch (widget.style.animation) {
-      case NotificationAnimation.slide:
-        return SlideTransition(
-          position: _animationController.slideAnimation,
-          child: child,
-        );
-      case NotificationAnimation.fade:
-        return FadeTransition(
-          opacity: _animationController.fadeAnimation,
-          child: child,
-        );
-      case NotificationAnimation.scale:
-        return ScaleTransition(
-          scale: _animationController.scaleAnimation,
-          child: child,
-        );
-      case NotificationAnimation.none:
-        return child;
-    }
+    // Apply animation based on type - use AnimatedBuilder to rebuild on state changes
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        _animationController.mainAnimation,
+        _animationController.isExiting
+            ? _animationController.exitAnimation
+            : _animationController.mainAnimation,
+      ]),
+      builder: (final context, _) {
+        switch (widget.style.animation) {
+          case NotificationAnimation.slide:
+            return SlideTransition(
+              position: _animationController.currentSlideAnimation,
+              child: child,
+            );
+          case NotificationAnimation.fade:
+            return FadeTransition(
+              opacity: _animationController.currentFadeAnimation,
+              child: child,
+            );
+          case NotificationAnimation.scale:
+            return ScaleTransition(
+              scale: _animationController.currentScaleAnimation,
+              child: child,
+            );
+          case NotificationAnimation.none:
+            return child;
+        }
+      },
+    );
   }
 
   /// Builds the notification with interaction handlers.

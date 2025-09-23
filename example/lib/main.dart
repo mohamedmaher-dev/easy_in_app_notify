@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Easy In-App Notify v3.0.0'),
+      home: const MyHomePage(title: 'Easy In-App Notify v3.1.0'),
       builder: EasyInAppNotify.init(), // Initialize the notification system
     );
   }
@@ -285,9 +285,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Notification methods
   void _showSuccessNotification() {
-    EasyInAppNotify.showSuccess(
-      title: 'Success!',
-      message: 'Your operation completed successfully.',
+    EasyInAppNotify.show(
+      content: const NotificationContent(
+        title: 'Success!',
+        message: 'Your operation completed successfully.',
+        icon: Icons.check_circle,
+      ),
+      style: const NotificationStyle(primaryColor: Colors.green),
     );
   }
 

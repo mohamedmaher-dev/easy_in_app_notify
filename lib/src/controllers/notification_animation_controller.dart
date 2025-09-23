@@ -35,6 +35,11 @@ class NotificationAnimationController {
   late final Animation<double> _progressAnimation;
   late final Animation<double> _backgroundAnimation;
 
+  // Exit animations
+  late final Animation<Offset> _exitSlideAnimation;
+  late final Animation<double> _exitScaleAnimation;
+  late final Animation<double> _exitFadeAnimation;
+
   // State
   bool _isDisposed = false;
   bool _isExiting = false;
@@ -118,6 +123,22 @@ class NotificationAnimationController {
       begin: 0.0,
       end: style.backgroundBlurOpacity,
     ).animate(_entranceAnimation);
+
+    // Exit animations
+    _exitSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: _getSlideBeginOffset(),
+    ).animate(_exitAnimation);
+
+    _exitScaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.8,
+    ).animate(_exitAnimation);
+
+    _exitFadeAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(_exitAnimation);
   }
 
   /// Gets the initial slide offset based on notification position.
@@ -223,22 +244,34 @@ class NotificationAnimationController {
       case NotificationAnimation.slide:
         return _entranceAnimation;
       case NotificationAnimation.fade:
-        return _fadeAnimation;
+        return currentFadeAnimation;
       case NotificationAnimation.scale:
-        return _scaleAnimation;
+        return currentScaleAnimation;
       case NotificationAnimation.none:
         return const AlwaysStoppedAnimation(1.0);
     }
   }
 
   /// Slide animation for slide-type notifications.
-  Animation<Offset> get slideAnimation => _slideAnimation;
+  Animation<Offset> get slideAnimation => currentSlideAnimation;
 
   /// Scale animation for scale-type notifications.
-  Animation<double> get scaleAnimation => _scaleAnimation;
+  Animation<double> get scaleAnimation => currentScaleAnimation;
 
   /// Fade animation for fade-type notifications.
-  Animation<double> get fadeAnimation => _fadeAnimation;
+  Animation<double> get fadeAnimation => currentFadeAnimation;
+
+  /// Current slide animation that handles both entrance and exit states.
+  Animation<Offset> get currentSlideAnimation =>
+      _isExiting ? _exitSlideAnimation : _slideAnimation;
+
+  /// Current scale animation that handles both entrance and exit states.
+  Animation<double> get currentScaleAnimation =>
+      _isExiting ? _exitScaleAnimation : _scaleAnimation;
+
+  /// Current fade animation that handles both entrance and exit states.
+  Animation<double> get currentFadeAnimation =>
+      _isExiting ? _exitFadeAnimation : _fadeAnimation;
 
   /// Progress animation for progress bar.
   Animation<double> get progressAnimation => _progressAnimation;

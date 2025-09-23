@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'models/notification_data.dart';
 import 'package:flutter/material.dart';
 import 'models/notification_content.dart';
 import 'models/notification_style.dart';
 import 'models/notification_config.dart';
 import 'widgets/notification_wrapper.dart';
+part 'widgets/notification_overlay.dart';
 
 /// Main API class for displaying in-app notifications.
 ///
@@ -48,8 +50,31 @@ class EasyInAppNotify {
   static final ValueNotifier<List<String>> _activeNotifications =
       ValueNotifier<List<String>>([]);
   static final Map<String, Timer> _autoDismissTimers = {};
-  static final Map<String, _NotificationData> _notificationRegistry = {};
+  static final Map<String, NotificationData> _notificationRegistry = {};
+  static final Map<String, VoidCallback> _dismissCallbacks = {};
   static int _notificationCounter = 0;
+
+  /// Dismisses existing notifications when allowMultiple is false.
+  ///
+  /// This method handles the dismissal of currently active notifications
+  /// and schedules cleanup of their registry entries after a delay to
+  /// prevent race conditions.
+  static void _dismissExistingNotifications() {
+    // Only dismiss from the active list, but keep the registry intact
+    // until the widgets are actually removed
+    final oldNotifications = List<String>.from(_activeNotifications.value);
+    for (final oldId in oldNotifications) {
+      _autoDismissTimers.remove(oldId)?.cancel();
+    }
+    _activeNotifications.value = [];
+
+    // Clean up old registry entries after a short delay to allow widgets to finish
+    Future.delayed(const Duration(milliseconds: 100), () {
+      for (final oldId in oldNotifications) {
+        _notificationRegistry.remove(oldId);
+      }
+    });
+  }
 
   /// Shows a notification with the specified content, style, and configuration.
   ///
@@ -84,7 +109,7 @@ class EasyInAppNotify {
     final notificationId = 'notification_${++_notificationCounter}';
 
     // Store notification data in registry FIRST
-    _notificationRegistry[notificationId] = _NotificationData(
+    _notificationRegistry[notificationId] = NotificationData(
       content: content,
       style: style,
       config: config,
@@ -92,20 +117,7 @@ class EasyInAppNotify {
 
     // Check if multiple notifications are allowed
     if (!config.allowMultiple && _activeNotifications.value.isNotEmpty) {
-      // Only dismiss from the active list, but keep the registry intact
-      // until the widgets are actually removed
-      final oldNotifications = List<String>.from(_activeNotifications.value);
-      for (final oldId in oldNotifications) {
-        _autoDismissTimers.remove(oldId)?.cancel();
-      }
-      _activeNotifications.value = [];
-
-      // Clean up old registry entries after a short delay to allow widgets to finish
-      Future.delayed(const Duration(milliseconds: 100), () {
-        for (final oldId in oldNotifications) {
-          _notificationRegistry.remove(oldId);
-        }
-      });
+      _dismissExistingNotifications();
     }
 
     // Add to active notifications
@@ -132,7 +144,7 @@ class EasyInAppNotify {
     required final String title,
     final String? message,
     final NotificationConfig? config,
-  }) => show(
+  }) => EasyInAppNotify.show(
     content: NotificationContent.success(title: title, message: message),
     style: const NotificationStyle.success(),
     config: config ?? const NotificationConfig(),
@@ -154,7 +166,7 @@ class EasyInAppNotify {
     required final String title,
     final String? message,
     final NotificationConfig? config,
-  }) => show(
+  }) => EasyInAppNotify.show(
     content: NotificationContent.error(title: title, message: message),
     style: const NotificationStyle.error(),
     config: config ?? const NotificationConfig(),
@@ -176,7 +188,7 @@ class EasyInAppNotify {
     required final String title,
     final String? message,
     final NotificationConfig? config,
-  }) => show(
+  }) => EasyInAppNotify.show(
     content: NotificationContent.warning(title: title, message: message),
     style: const NotificationStyle.warning(),
     config: config ?? const NotificationConfig(),
@@ -198,10 +210,21 @@ class EasyInAppNotify {
     required final String title,
     final String? message,
     final NotificationConfig? config,
-  }) => show(
+  }) => EasyInAppNotify.show(
     content: NotificationContent.info(title: title, message: message),
     config: config ?? const NotificationConfig(),
   );
+
+  /// Registers a dismiss callback for a notification.
+  ///
+  /// This is used internally by the notification wrapper to register
+  /// its animation controller's dismiss method.
+  static void registerDismissCallback(
+    final String notificationId,
+    final VoidCallback callback,
+  ) {
+    _dismissCallbacks[notificationId] = callback;
+  }
 
   /// Dismisses a specific notification by its ID.
   ///
@@ -215,11 +238,24 @@ class EasyInAppNotify {
   /// EasyInAppNotify.dismiss(id);
   /// ```
   static void dismiss(final String notificationId) {
+    // First try to trigger the animation controller's dismiss method
+    final dismissCallback = _dismissCallbacks[notificationId];
+    if (dismissCallback != null) {
+      dismissCallback();
+    } else {
+      // Fallback: immediate removal without animation
+      _removeDismissedNotification(notificationId);
+    }
+  }
+
+  /// Internal method to remove a notification after animation completes.
+  static void _removeDismissedNotification(final String notificationId) {
     final currentNotifications = List<String>.from(_activeNotifications.value);
     if (currentNotifications.remove(notificationId)) {
       _activeNotifications.value = currentNotifications;
       _autoDismissTimers.remove(notificationId)?.cancel();
       _notificationRegistry.remove(notificationId);
+      _dismissCallbacks.remove(notificationId);
     }
   }
 
@@ -234,12 +270,10 @@ class EasyInAppNotify {
   /// EasyInAppNotify.dismissAll();
   /// ```
   static void dismissAll() {
-    for (final timer in _autoDismissTimers.values) {
-      timer.cancel();
+    final notificationIds = List<String>.from(_activeNotifications.value);
+    for (final notificationId in notificationIds) {
+      dismiss(notificationId);
     }
-    _autoDismissTimers.clear();
-    _notificationRegistry.clear();
-    _activeNotifications.value = [];
   }
 
   /// Returns the number of currently active notifications.
@@ -300,98 +334,4 @@ class EasyInAppNotify {
           ),
         ],
       );
-}
-
-/// Internal data class to store notification configuration.
-class _NotificationData {
-  final NotificationContent content;
-  final NotificationStyle style;
-  final NotificationConfig config;
-
-  const _NotificationData({
-    required this.content,
-    required this.style,
-    required this.config,
-  });
-}
-
-/// Internal widget that manages individual notification overlays.
-///
-/// This widget is used internally by the notification system and should
-/// not be used directly by consumers of the package.
-class _NotificationOverlay extends StatefulWidget {
-  final String notificationId;
-
-  const _NotificationOverlay({super.key, required this.notificationId});
-
-  @override
-  State<_NotificationOverlay> createState() => _NotificationOverlayState();
-}
-
-class _NotificationOverlayState extends State<_NotificationOverlay> {
-  NotificationContent? _content;
-  NotificationStyle? _style;
-  NotificationConfig? _config;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadNotificationData();
-  }
-
-  void _loadNotificationData() {
-    // Get notification data from registry
-    final notificationData =
-        EasyInAppNotify._notificationRegistry[widget.notificationId];
-    if (notificationData != null) {
-      setState(() {
-        _content = notificationData.content;
-        _style = notificationData.style;
-        _config = notificationData.config;
-      });
-    } else {
-      // If data is not available yet, try again after a short delay
-      Future.delayed(const Duration(milliseconds: 50), () {
-        if (mounted) {
-          final retryData =
-              EasyInAppNotify._notificationRegistry[widget.notificationId];
-          if (retryData != null) {
-            setState(() {
-              _content = retryData.content;
-              _style = retryData.style;
-              _config = retryData.config;
-            });
-          } else {
-            // Final fallback
-            setState(() {
-              _content = const NotificationContent(
-                title: 'Unknown Notification',
-                message: 'Notification data not found.',
-                icon: Icons.error,
-              );
-              _style = const NotificationStyle();
-              _config = const NotificationConfig();
-            });
-          }
-        }
-      });
-    }
-  }
-
-  @override
-  Widget build(final BuildContext context) {
-    // Return empty container if data is not yet loaded
-    if (_content == null || _style == null || _config == null) {
-      return const SizedBox.shrink();
-    }
-
-    return NotificationWrapper(
-      content: _content!,
-      style: _style!,
-      config: _config!,
-      onDismiss: () {
-        EasyInAppNotify.dismiss(widget.notificationId);
-      },
-    );
-  }
 }

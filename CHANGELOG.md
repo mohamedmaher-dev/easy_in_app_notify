@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.1.0] - 2025-09-23
+
+### ✨ Added
+
+- Public API `EasyInAppNotify.registerDismissCallback()` to allow the system to trigger exit animations before cleanup.
+- Comprehensive README documentation for multi-notification behavior and best practices.
+- Rich inline documentation for `NotificationData` explaining the registry, lifecycle, and multi-notify support.
+
+### 🔧 Fixed
+
+- Exit animations now play correctly before a notification is removed (both auto-dismiss and programmatic dismiss).
+- Center position rendering fixed; properly centers with padding and animations.
+- `showInfo` convenience method now applies the correct `NotificationStyle.info()` styling.
+- Removed erroneous `AnimationMixin` usage that caused build failures.
+
+### 🧹 Changed
+
+- Refined animation pipeline with persistent exit animations and AnimatedBuilder-driven rebuilds.
+- Introduced internal callback registry to decouple API dismissal from animation lifecycle.
+
+### 🧪 Notes
+
+- No breaking API changes for consumers. New public method is optional and used internally.
+- Example app updated to reflect v3.1.0.
+
 All notable changes to the Easy In-App Notify package will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
